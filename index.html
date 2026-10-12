@@ -1,0 +1,803 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mais quand ? · L'info qui ne vous fait pas attendre</title>
+<meta name="description" content="Mais quand ? : l'actualité du Sénégal et les dates à retenir (examens, concours, sport, fêtes), avec leur niveau de fiabilité et leurs sources.">
+<meta name="theme-color" content="#14212b">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="canonical" href="https://maisquand.com/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Mais quand ?">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:title" content="Mais quand ? · L'info qui ne vous fait pas attendre">
+<meta property="og:description" content="Mais quand ? : l'actualité du Sénégal et les dates à retenir (examens, concours, sport, fêtes), avec leur niveau de fiabilité et leurs sources.">
+<meta property="og:url" content="https://maisquand.com/">
+<meta property="og:image" content="https://maisquand.com/images/partage.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://maisquand.com/images/partage.jpg">
+<style>:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}*,*::before,*::after{box-sizing:inherit}body{margin:0;font:14px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Literata:opsz,wght@7..72,400;7..72,600&family=IBM+Plex+Mono:wght@500&family=Amiri:wght@400;700&display=swap">
+<style>
+/* Layout : en-tête collant, une grande « à la une » puis une grille d'articles ; vue article dans la même page */
+:root{
+  --bg:#f6f7f9; --surface:#ffffff; --ink:#14212b; --muted:#5b6b78; --line:#dde3e8;
+  --accent:#0b6e8a; --accent-soft:#e1f0f4; --sun:#e2a02b;
+  --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body:"Literata", Georgia, "Times New Roman", serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f171d; --surface:#16222a; --ink:#e6edf2; --muted:#93a4b1; --line:#253540;
+  --accent:#5cc3df; --accent-soft:#16343f; --sun:#f0b84f; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#0f171d; --surface:#16222a; --ink:#e6edf2; --muted:#93a4b1; --line:#253540;
+  --accent:#5cc3df; --accent-soft:#16343f; --sun:#f0b84f; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:1rem;line-height:1.6}
+.wrap{max-width:1080px;margin:0 auto;padding-inline:16px}
+a{color:inherit}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:14px;flex-wrap:wrap}
+.logo{font-family:var(--display);font-weight:800;font-size:1.6rem;letter-spacing:-.02em;text-decoration:none;display:flex;align-items:center;gap:8px}
+.logo{flex-direction:column;align-items:flex-start;gap:0;line-height:1}
+.logo .name{font-size:1.75rem}
+.logo em{font-style:normal;color:var(--sun);display:inline-block;transform:rotate(8deg) translateY(-1px);margin-left:1px}
+.logo .slogan{font-family:var(--mono);font-weight:500;font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-top:6px}
+.date{font-family:var(--mono);font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.search{flex:1 1 220px;max-width:320px}
+.search input{width:100%;padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg)}
+nav{display:flex;gap:6px;overflow-x:auto;padding-bottom:12px;scrollbar-width:none}
+nav button{border:1px solid var(--line);background:transparent;padding:6px 14px;border-radius:999px;cursor:pointer;white-space:nowrap;font-family:var(--display);font-weight:600;font-size:.9rem}
+nav button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
+main{padding-block:28px 48px;display:grid;gap:32px}
+.note{font-family:var(--mono);font-size:.75rem;color:var(--muted);background:var(--accent-soft);padding:8px 12px;border-radius:6px}
+
+.une{display:grid;grid-template-columns:1.3fr 1fr;gap:24px;align-items:center;cursor:pointer;text-decoration:none}
+.une .img{aspect-ratio:16/10}
+.une h2{font-family:var(--display);font-weight:800;font-size:clamp(1.7rem,4vw,2.6rem);line-height:1.1;margin:.3em 0;text-wrap:balance}
+.une p{color:var(--muted);margin:0;max-width:60ch}
+@media (max-width:720px){.une{grid-template-columns:1fr}}
+
+.img{width:100%;max-width:100%;border-radius:10px;position:relative;overflow:hidden}
+.img svg,.img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.img span{z-index:1;text-shadow:0 1px 3px #0009;position:absolute;left:12px;bottom:10px;font-family:var(--mono);font-size:.7rem;color:#fff;text-transform:uppercase;letter-spacing:.08em;opacity:.85}
+.cat{font-family:var(--mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--accent)}
+.meta{font-family:var(--mono);font-size:.72rem;color:var(--muted)}
+
+h3.sec{font-family:var(--display);font-weight:600;font-size:1.1rem;margin:0;padding-bottom:8px;border-bottom:2px solid var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:28px 24px}
+.card{display:grid;gap:8px;text-decoration:none;align-content:start}
+.card .img{aspect-ratio:3/2}
+.card h4{font-family:var(--display);font-weight:600;font-size:1.15rem;line-height:1.25;margin:0;text-wrap:balance}
+.card:hover h4,.une:hover h2{color:var(--accent)}
+.empty{color:var(--muted)}
+
+article{max-width:68ch;margin:0 auto;display:grid;gap:14px}
+article h1{font-family:var(--display);font-weight:800;font-size:clamp(1.9rem,5vw,2.8rem);line-height:1.08;margin:0;text-wrap:balance}
+article .chapo{font-size:1.15rem;color:var(--muted);margin:0}
+article .img{aspect-ratio:16/9}
+article .txt p{margin:0 0 1em}
+.back{justify-self:start;border:none;background:none;color:var(--accent);cursor:pointer;font-family:var(--display);font-weight:600;padding:0}
+
+/* Rappel du jour : bandeau vert et or, même rendu en clair et en sombre */
+.rappel{--rg:#0f4a35;--rg2:#0b3828;--gold:#d8b45a;--cream:#f7f1e1;background:radial-gradient(120% 140% at 100% 0%,#17644a 0%,var(--rg) 45%,var(--rg2) 100%);color:var(--cream);border-radius:14px;padding:28px clamp(18px,4vw,40px);display:grid;grid-template-columns:auto 1fr;gap:20px 36px;text-decoration:none;position:relative;overflow:hidden}
+.rappel::after{content:"";position:absolute;inset:8px;border:1px solid #d8b45a55;border-radius:10px;pointer-events:none}
+.rappel .when{display:grid;align-content:start;justify-items:center;text-align:center;gap:2px;padding:14px 18px;border:1.5px solid var(--gold);border-radius:60px 60px 10px 10px;min-width:120px}
+.rappel .when b{font-family:var(--display);font-size:2.6rem;line-height:1;color:var(--gold)}
+.rappel .when small{font-family:var(--mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.08em}
+.rappel .when hr{width:60%;border:0;border-top:1px solid #d8b45a88;margin:6px 0}
+.rappel .eyebrow{font-family:var(--mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--gold)}
+.rappel h2{font-family:var(--display);font-weight:800;font-size:clamp(1.5rem,3.2vw,2.1rem);margin:.15em 0 .5em;line-height:1.1}
+.ar{font-family:"Amiri","Scheherazade New","Traditional Arabic",serif;direction:rtl;font-size:clamp(1.7rem,4vw,2.4rem);line-height:1.6;color:var(--gold)}
+.rappel .fr{font-style:italic;margin:0}
+.rappel .ref{font-family:var(--mono);font-size:.72rem;opacity:.8}
+.rappel .cols{display:grid;grid-template-columns:1fr 1fr;gap:20px 32px;align-items:start}
+.rappel .cols>div{min-width:0}
+.rappel .more{font-family:var(--display);font-weight:600;color:var(--gold)}
+.rappel:hover .more{text-decoration:underline}
+@media (max-width:720px){.rappel{grid-template-columns:1fr}.rappel .when{justify-self:start;border-radius:10px;grid-auto-flow:column;align-items:baseline;gap:8px;padding:8px 14px}.rappel .when hr{display:none}.rappel .when b{font-size:1.6rem}.rappel .cols{grid-template-columns:1fr}}
+.rp{display:grid;gap:18px}
+.rp section{border:1px solid var(--line);border-radius:12px;padding:18px 20px;background:var(--surface);display:grid;gap:8px}
+.rp section.dark{background:#0f4a35;color:#f7f1e1;border-color:#0f4a35;text-align:center}
+.rp h2{font-family:var(--mono);font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin:0}
+.rp .dark h2{color:#d8b45a}
+.rp blockquote{margin:0;font-size:1.2rem;line-height:1.5}
+.rp .ar{color:var(--accent)}.rp .dark .ar{color:#d8b45a}
+.rp .src{font-family:var(--mono);font-size:.75rem;color:var(--muted)}.rp .dark .src{color:#d8cfb4}
+.vid{margin:0;background:#0d1114;border-radius:12px;padding:12px;display:grid;justify-items:center;gap:8px}
+.vid video{width:100%;max-width:420px;max-height:78vh;border-radius:8px;background:#000;display:block}
+.vid figcaption{font-family:var(--mono);font-size:.72rem;color:#b9c3ca;text-transform:uppercase;letter-spacing:.08em}
+.play{position:absolute;z-index:1;left:12px;bottom:12px;width:44px;height:44px;border-radius:50%;background:#000a;color:#fff;display:grid;place-items:center;font-size:1rem;padding-left:3px;border:2px solid #fff}
+.duo{display:grid;grid-template-columns:1fr 1.25fr;gap:24px}
+@media (max-width:760px){.duo{grid-template-columns:1fr}}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 20px;display:grid;gap:10px;align-content:start;min-width:0}
+.panel .ph{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.panel h3{font-family:var(--display);font-weight:800;font-size:1.25rem;margin:0}
+.panel h3 em{font-style:normal;color:var(--sun)}
+.panel .sub{margin:0;color:var(--muted);font-size:.92rem}
+.panel ul{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.panel .fine{margin:0;font-size:.78rem;color:var(--muted)}
+.sel select{padding:6px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);font-family:var(--display);font-weight:600}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.prieres li{display:flex;justify-content:space-between;align-items:center;padding:8px 10px;border-radius:8px;font-variant-numeric:tabular-nums}
+.prieres li b{font-family:var(--mono);font-size:1.05rem}
+.prieres li.lev{color:var(--muted);font-size:.9rem}
+.prieres li.next{background:var(--accent-soft);color:var(--accent);font-weight:600}
+.dates li{display:grid;grid-template-columns:64px 1fr auto;gap:14px;align-items:center;padding:10px 4px;border-top:1px solid var(--line)}
+.dates li:first-child{border-top:0}
+.dates .cd{display:grid;justify-items:center;background:var(--ink);color:var(--bg);border-radius:10px;padding:6px 0;line-height:1}
+.dates .cd b{font-family:var(--display);font-size:1.4rem;font-variant-numeric:tabular-nums}
+.dates .cd small{font-family:var(--mono);font-size:.62rem;text-transform:uppercase;letter-spacing:.06em;margin-top:3px}
+.dates .dt{display:grid;min-width:0}
+.dates .dt span{font-size:.85rem;color:var(--muted)}
+.dates .tag{font-family:var(--mono);font-size:.66rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);border:1px solid var(--line);padding:3px 8px;border-radius:999px}
+@media (max-width:420px){.dates .tag{display:none}.dates li{grid-template-columns:56px 1fr}}
+.lnk{font-family:var(--display);font-weight:600;color:var(--accent);text-decoration:none;font-size:.92rem}
+.lnk:hover{text-decoration:underline}
+nav .mqbtn{border-color:var(--sun)}
+.share{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding-top:14px;border-top:1px solid var(--line)}
+.share span{font-family:var(--mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-right:4px}
+.share a,.share button{font-family:var(--display);font-weight:600;font-size:.9rem;padding:8px 14px;border-radius:999px;text-decoration:none;border:1px solid var(--line);background:var(--surface);cursor:pointer}
+.share .wa{background:#1f9d55;border-color:#1f9d55;color:#fff}
+.share .fb{background:#2d5fc4;border-color:#2d5fc4;color:#fff}
+.cpin{padding:8px 12px;border:1px solid var(--line);border-radius:8px;min-width:0;flex:1 1 200px}
+.filtres{display:flex;flex-wrap:wrap;gap:6px}
+.filtres button{border:1px solid var(--line);background:var(--surface);padding:6px 12px;border-radius:999px;cursor:pointer;font-family:var(--display);font-weight:600;font-size:.85rem}
+.filtres button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.dates li.vide{display:block;color:var(--muted);border:0}
+.dates .obs{font-style:normal;font-size:.84rem;line-height:1.45;margin-top:6px;padding:6px 10px;border-left:3px solid var(--sun);background:var(--accent-soft);border-radius:0 6px 6px 0}
+.dates .obs b{font-family:var(--mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;font-weight:500;color:var(--accent)}
+.dates li{grid-template-columns:64px 1fr auto}
+.dates .act{display:grid;gap:6px;justify-items:end;align-content:center}
+.suivre{font-family:var(--display);font-weight:600;font-size:.8rem;padding:5px 10px;border-radius:999px;border:1px solid var(--accent);background:transparent;color:var(--accent);cursor:pointer;white-space:nowrap}
+.suivre[aria-pressed="true"]{background:var(--accent);color:var(--surface)}
+.dates .dt .fiab{font-size:.68rem;color:var(--muted)}
+.fiab{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:.68rem;letter-spacing:.03em;color:var(--muted);margin-top:3px}
+.fiab i{width:8px;height:8px;border-radius:50%;flex:none;background:var(--muted)}
+.fiab.haut i{background:#2f9e5b}.fiab.moy i{background:var(--sun)}.fiab.bas i{background:#d9622b}
+.legende{display:flex;flex-wrap:wrap;gap:6px 16px;padding-top:8px;border-top:1px solid var(--line)}
+.mq-hero{display:grid;gap:6px;padding-block:6px 4px}
+.mq-hero h1{font-size:clamp(2rem,5.5vw,3.2rem)}
+.mq-hero .by{margin:0;font-family:var(--mono);font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.mq-intro{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.mq-intro section{min-width:0}
+.mq-intro h2,.h2{font-family:var(--mono);font-size:.74rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin:0 0 6px}
+.h2{margin-top:10px}
+.mq-intro p{margin:0}
+@media (max-width:680px){.mq-intro{grid-template-columns:1fr}}
+.etapes{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:0;counter-reset:e;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface)}
+.etapes li{counter-increment:e;padding:14px 16px;display:grid;gap:4px;align-content:start;border-left:1px solid var(--line);min-width:0}
+.etapes li:first-child{border-left:0}
+.etapes li b{font-family:var(--display);font-size:1.05rem}
+.etapes li b::before{content:counter(e);display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--sun);color:#1d1a10;font-size:.75rem;margin-right:8px;vertical-align:2px}
+.etapes li span{font-size:.88rem;color:var(--muted);line-height:1.45}
+@media (max-width:680px){.etapes{grid-template-columns:1fr 1fr}.etapes li:nth-child(3){border-left:0}.etapes li:nth-child(n+3){border-top:1px solid var(--line)}}
+.ask{background:var(--ink);color:var(--bg);border-radius:14px;padding:20px;display:grid;gap:10px}
+.ask label{font-family:var(--display);font-weight:800;font-size:1.3rem}
+.ask input{width:100%;padding:12px 14px;border-radius:10px;border:0;font-size:1.05rem;background:var(--surface);color:var(--ink)}
+.exemples{font-size:.85rem;display:flex;flex-wrap:wrap;gap:6px;align-items:center;opacity:.95}
+.exemples button{border:1px solid currentColor;background:transparent;color:inherit;border-radius:999px;padding:3px 10px;cursor:pointer;font-family:var(--display);font-weight:600;font-size:.82rem}
+.mes{border-color:var(--sun)}
+@media (max-width:480px){.dates li{grid-template-columns:52px 1fr}.dates .act{grid-column:2;justify-items:start;grid-auto-flow:column;justify-content:start}}
+/* ===== Rubrique Mais quand ? : lignes cliquables, fiches et actualité des dates ===== */
+[hidden]{display:none!important}
+.dates li{position:relative}
+.rowlink{position:absolute;inset:0;z-index:0;border-radius:8px}
+.rowlink:focus-visible{outline:2px solid var(--accent)}
+.dates .act{position:relative;z-index:1}
+.dates li:hover strong{color:var(--accent)}
+.dates .dt strong{font-family:var(--display);font-weight:600;line-height:1.25}
+.majs{display:grid;gap:12px}
+.majc{display:grid;gap:6px;padding:16px 18px;border:1px solid var(--line);border-radius:12px;background:var(--surface);text-decoration:none}
+.majc h4{font-family:var(--display);font-weight:600;font-size:1.12rem;line-height:1.25;margin:0;text-wrap:balance}
+.majc p{margin:0;color:var(--muted);font-size:.92rem}
+.majc:hover h4{color:var(--accent)}
+.lie{font-family:var(--mono);font-size:.72rem;color:var(--accent)}
+.resol{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.resol li{display:grid;grid-template-columns:28px 1fr;gap:10px;padding:12px 14px;border-radius:10px;background:var(--surface);border:1px solid var(--line)}
+.resol .ok{width:24px;height:24px;border-radius:50%;background:#2f9e5b;color:#fff;display:grid;place-items:center;font-size:.8rem}
+.resol strong{font-family:var(--display);font-weight:600;font-size:.98rem;line-height:1.3}
+.resol p{margin:2px 0 4px;font-size:.92rem}
+.srcl{font-family:var(--mono);font-size:.68rem;color:var(--muted)}
+a.back{text-decoration:none}
+.answer{display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px}
+.answer .big{display:grid;justify-items:center;background:var(--ink);color:var(--bg);border-radius:12px;padding:12px 16px;line-height:1;min-width:96px}
+.answer .big b{font-family:var(--display);font-size:2.4rem;font-variant-numeric:tabular-nums}
+.answer .big small{font-family:var(--mono);font-size:.64rem;text-transform:uppercase;letter-spacing:.06em;margin-top:6px}
+.answer .when{margin:0 0 4px;font-family:var(--display);font-weight:600;font-size:1.15rem}
+.answer .when::first-letter{text-transform:uppercase}
+.answer .anote{margin:6px 0 0;color:var(--muted);font-size:.92rem}
+@media (max-width:560px){.answer{grid-template-columns:auto 1fr}.answer .suivre{grid-column:1/-1;justify-self:start}}
+.pobs{margin:0;font-size:.92rem;line-height:1.5;padding:10px 14px;border-left:3px solid var(--sun);background:var(--accent-soft);border-radius:0 8px 8px 0}
+.pobs b{font-family:var(--mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;font-weight:500;color:var(--accent)}
+.blk{display:grid;gap:8px}
+.blk h2{font-family:var(--mono);font-size:.74rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin:0}
+.srcs{margin:0;padding-left:18px;display:grid;gap:4px;font-size:.95rem}
+.srcs a{color:var(--accent)}
+.hist{list-style:none;margin:0;padding:0 0 0 14px;border-left:2px solid var(--line);display:grid;gap:10px}
+.hist li{position:relative;font-size:.95rem}
+.hist li::before{content:"";position:absolute;left:-20px;top:7px;width:10px;height:10px;border-radius:50%;background:var(--sun)}
+.hist span{display:block;font-family:var(--mono);font-size:.7rem;color:var(--muted)}
+.attcard{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center;padding:12px 14px;border:1px solid var(--sun);border-radius:12px;text-decoration:none;background:var(--surface)}
+.attcard .cd{display:grid;justify-items:center;background:var(--ink);color:var(--bg);border-radius:10px;padding:6px 0;line-height:1;width:64px}
+.attcard .cd b{font-family:var(--display);font-size:1.4rem}
+.attcard .cd small{font-family:var(--mono);font-size:.62rem;text-transform:uppercase;letter-spacing:.06em;margin-top:3px}
+.attcard strong{display:block;font-family:var(--display);font-weight:600}
+.attcard .meta{display:block}
+/* ===== Confiance ===== */
+.sait{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:620px){.sait{grid-template-columns:1fr}}
+.sait section{border-radius:12px;padding:14px 16px;border:1px solid var(--line);background:var(--surface);min-width:0}
+.sait .oui{border-top:4px solid #2f9e5b}
+.sait .non{border-top:4px solid var(--sun)}
+.sait h2{font-family:var(--mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;margin:0 0 8px;color:var(--ink)}
+.sait ul{margin:0;padding-left:18px;display:grid;gap:6px;font-size:.95rem;line-height:1.45}
+.sait .oui li::marker{content:"✓  ";color:#2f9e5b}
+.sait .non li::marker{content:"?  ";color:var(--sun);font-weight:700}
+.regle-lien{margin:0;font-size:.85rem;color:var(--muted)}
+.regle-lien a{color:var(--accent)}
+.regles7{margin:0;padding-left:22px;display:grid;gap:14px;line-height:1.55}
+.regles7 b{font-family:var(--display);font-weight:600}
+.regles7 li::marker{font-family:var(--display);font-weight:800;color:var(--sun)}
+.corrs{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.corrs li{border-left:3px solid var(--sun);padding-left:12px}
+.vide-c{background:var(--surface);border:1px dashed var(--line);border-radius:10px;padding:16px;margin:0}
+footer .foot{display:flex;flex-wrap:wrap;gap:16px;margin-top:8px}
+footer .foot a{color:var(--accent);font-family:var(--display);font-weight:600}
+/* ===== Vrai ou faux ? ===== */
+.stamp{display:inline-grid;place-items:center;font-family:var(--display);font-weight:800;font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;padding:5px 10px;border-radius:6px;border:2px solid currentColor;transform:rotate(-3deg);white-space:nowrap;background:var(--surface)}
+.stamp.faux{color:#c8372d}.stamp.vrai{color:#2f9e5b}.stamp.trompeur{color:#d9622b}.stamp.nonverifie{color:var(--muted)}
+.stamp.big{font-size:1.3rem;padding:8px 16px;border-width:3px}
+.vfband{display:grid;gap:12px;padding:20px;border-radius:14px;background:var(--surface);border:1px solid var(--line);border-left:6px solid #c8372d}
+.vfband .ph{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.vfband h3{font-family:var(--display);font-weight:800;font-size:1.25rem;margin:0}
+.vfgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media (max-width:820px){.vfgrid{grid-template-columns:1fr}}
+.vfc{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;padding:14px;border:1px solid var(--line);border-radius:10px;text-decoration:none;background:var(--bg);min-width:0}
+.vfc h4{margin:2px 0 0;font-family:var(--display);font-weight:600;font-size:1rem;line-height:1.3;text-wrap:balance}
+.vfc:hover h4{color:var(--accent)}
+.vflist{display:grid;gap:12px}
+.vfleg{border:0;padding:0}
+.verdict{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center;padding:16px 18px;border-radius:12px;background:var(--surface);border:1px solid var(--line)}
+.verdict.faux{border-left:6px solid #c8372d}.verdict.vrai{border-left:6px solid #2f9e5b}.verdict.trompeur{border-left:6px solid #d9622b}
+.verdict p{margin:0;font-size:1.02rem}
+@media (max-width:520px){.verdict{grid-template-columns:1fr}}
+.pp{margin:0}
+.preuves{margin:0;padding-left:18px;display:grid;gap:6px}
+nav .vfbtn{border-color:#c8372d}
+footer{border-top:1px solid var(--line);padding-block:24px;color:var(--muted);font-size:.85rem}
+@media (prefers-reduced-motion:no-preference){.card .img,.une .img{transition:transform .3s}.card:hover .img,.une:hover .img{transform:scale(1.02)}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="bar">
+      <a class="logo" href="#accueil" id="logo"><span class="name">Mais quand <em>?</em></span><span class="slogan">L'info qui ne vous fait pas attendre</span></a>
+      <div class="search"><input id="q" type="search" placeholder="Rechercher un article…" aria-label="Rechercher"></div>
+      <span class="date" id="today"></span>
+    </div>
+    <nav id="cats" aria-label="Rubriques"></nav>
+  </div>
+</header>
+
+<div class="wrap"><main id="app"></main></div>
+
+<footer><div class="wrap">© 2026 Mais quand ? · L'info qui ne vous fait pas attendre · maisquand.com · Rubrique MaisQuand par Mékan<nav class="foot" aria-label="Informations"><a href="#regles">Nos règles</a><a href="#corrections">Corrections</a><a href="#dates">Mais quand ?</a><a href="#vrai-faux">Vrai ou faux ?</a></nav></div></footer>
+
+<script>
+const ARTICLES = [
+ {id:"a8",sait:["Une conférence de presse s'est tenue le vendredi 9 octobre 2026, à l'appel d'une organisation sénégalaise de solidarité avec la cause palestinienne.","Une intervenante a répondu aux questions de plusieurs médias (voir la vidéo).","La banderole appelait à la « solidarité avec la Palestine » et dénonçait un « génocide à Gaza »."],saitPas:["Le nom exact de l'organisation et celui de l'intervenante.","Le lieu précis de la conférence.","Les actions annoncées à la suite de cette prise de parole."],srcTxt:["Vidéo transmise à la rédaction le 9 octobre 2026"],photo:"images/conference.jpg",video:"images/conference.mp4",pos:"center 35%",cat:"International",titre:"Conférence de presse : des militantes appellent à la solidarité avec la Palestine",chapo:"Face aux micros des médias, une organisation sénégalaise de soutien au peuple palestinien a pris la parole ce vendredi.",date:"2026-10-09",min:3,c:["#1f3b2d","#4a7a5c"],
+  texte:["Une conférence de presse s'est tenue ce vendredi 9 octobre 2026, à l'appel d'une organisation sénégalaise de solidarité avec la cause palestinienne.","Devant une banderole aux couleurs palestiniennes appelant à la « solidarité avec la Palestine » et dénonçant un « génocide à Gaza », une intervenante, keffieh sur les épaules, a répondu aux questions des journalistes de plusieurs médias.","Les organisatrices ont appelé à la mobilisation et au soutien de la population de Gaza. Regardez un extrait de la prise de parole dans la vidéo ci-dessus."]},
+ {id:"a5",srcTxt:["Conseils de la rédaction"],photo:"images/paiement.jpg",cat:"Tech",titre:"Paiement mobile : cinq conseils pour éviter les arnaques",chapo:"Faux SMS, faux agents, codes demandés par téléphone : les bons réflexes à adopter.",date:"2026-10-03",min:5,c:["#1f5a3a","#4fb37e"],
+  texte:["Les arnaques au paiement mobile se multiplient, souvent par SMS ou appel.","Règle n°1 : ne communiquez jamais votre code secret, même à quelqu'un qui se présente comme un agent.","Vérifiez toujours le numéro de l'expéditeur et, en cas de doute, contactez directement le service client officiel."]},
+ {id:"m-joj",sait:["Les Jeux se déroulent du 31 octobre au 13 novembre 2026 (le baseball5 dès le 30 octobre).","La cérémonie d'ouverture a lieu le samedi 31 octobre au stade Abdoulaye Wade de Diamniadio.","Les épreuves se répartissent entre Dakar, Diamniadio et Saly."],saitPas:["Le programme détaillé de la cérémonie d'ouverture.","Les conditions d'accès du public : nous ne les avons pas encore confirmées."],att:"joj",src:["apa"],cat:"Sport",titre:"JOJ Dakar 2026 : la cérémonie d'ouverture fixée au samedi 31 octobre",chapo:"La date et le lieu sont confirmés : les Jeux olympiques de la jeunesse s'ouvriront au stade Abdoulaye Wade de Diamniadio.",date:"2026-10-11",min:2,c:["#0d4f8b","#e2a02b"],
+  texte:["Les Jeux olympiques de la jeunesse se dérouleront du 31 octobre au 13 novembre 2026, soit 14 jours de compétition. Le baseball5 commence dès le 30 octobre.","La cérémonie d'ouverture aura lieu le samedi 31 octobre au stade Abdoulaye Wade de Diamniadio.","Les épreuves se répartissent entre Dakar (Iba Mar Diop, Tour de l'Œuf, Corniche Ouest), Diamniadio (Dakar Arena, centre équestre, Centre des expositions) et Saly pour les sports de plage et nautiques. Le village olympique est installé à l'Université Amadou-Mahtar-Mbow."]},
+ {id:"m-lions",sait:["Le Sénégal a fait 1-1 contre le Mozambique (25 septembre) puis gagné 1-0 en Éthiopie (29 septembre).","Les journées 3 et 4 se jouent pendant la fenêtre du 9 au 17 novembre 2026.","Le groupe J réunit le Sénégal, le Mozambique, le Soudan et l'Éthiopie."],saitPas:["Les jours exacts, l'adversaire et les stades des journées 3 et 4."],att:"lions-nov",src:["can","rts"],cat:"Sport",titre:"Lions : la suite des éliminatoires de la CAN 2027 entre le 9 et le 17 novembre",chapo:"La période est connue, pas encore les jours exacts des matchs.",date:"2026-10-11",min:2,c:["#1f6b3a","#e2a02b"],
+  texte:["Après un nul 1-1 contre le Mozambique le 25 septembre et une victoire 1-0 en Éthiopie le 29 septembre, les Lions disputeront les journées 3 et 4 du groupe J pendant la fenêtre du 9 au 17 novembre 2026.","Le Sénégal partage son groupe avec le Mozambique, le Soudan et l'Éthiopie. Les journées 5 et 6 suivront entre le 22 et le 30 mars 2027.","Dès que la fédération publiera les dates et les lieux, la date passera en fiabilité élevée dans la rubrique « Mais quand ? »."]},
+ {id:"m-examens",sait:["En 2026 : CFEE le 17 juin, second groupe du Bac le 9 juillet, BFEM le 21 juillet.","Les épreuves d'EPS du Bac 2026 se sont tenues de mi à fin mai selon les régions."],saitPas:["Le calendrier officiel 2027, pas encore publié.","Si 2027 suivra exactement le même rythme que 2026."],att:"bac",src:["cfee","bac2","bfem","bac"],cat:"Éducation",titre:"Examens 2027 : ce que l'on peut déjà prévoir",chapo:"Le calendrier officiel n'est pas publié. Voici les dates probables, déduites de 2026.",date:"2026-10-11",min:3,c:["#0b4f6e","#3a8fb7"],
+  texte:["En 2026, le CFEE et l'entrée en sixième ont commencé le 17 juin, le second groupe du Bac le 9 juillet et le BFEM le 21 juillet. Les épreuves d'EPS du Bac s'étaient tenues de mi à fin mai selon les régions.","Si le calendrier suit le même rythme, on peut attendre en 2027 : l'EPS vers le 10 mai, le CFEE vers le 16 juin, les écrits du Bac vers le 29 juin, le BFEM vers le 20 juillet et les résultats définitifs du Bac vers la fin juillet.","Ces dates sont affichées en fiabilité faible dans la rubrique « Mais quand ? ». Elles seront remplacées dès la publication du calendrier officiel par le ministère de l'Éducation nationale et l'Office du Bac."]},
+ {id:"m-police",sait:["Le dépôt des dossiers a lieu en général fin juin.","Le calendrier indicatif place les commissaires fin août, les sous-officiers fin septembre et les agents mi-novembre."],saitPas:["La date exacte du concours des agents en 2026.","La liste des centres d'examen."],att:"police-agents",src:["police"],cat:"Emploi",titre:"Concours de police : les agents attendus vers la mi-novembre",chapo:"Le calendrier indicatif place l'épreuve des agents vers la mi-novembre.",date:"2026-10-11",min:2,c:["#1d2f5c","#5a78b8"],
+  texte:["Pour les concours de la police, le dépôt des dossiers a lieu en général fin juin. Les épreuves suivent : commissaires (Master 2) fin août, sous-officiers (Bac) fin septembre, agents (BFEM) mi-novembre.","Ce calendrier reste indicatif. Les candidats doivent vérifier leur convocation et les communiqués sur fonctionpublique.gouv.sn ou au Journal officiel."]},
+ {id:"a7",rappel:true,cat:"Spiritualité",titre:"Le rappel du jour : le vendredi, le meilleur des jours",chapo:"Un hadith, un verset et une invocation pour vivre pleinement le jour de Joumouʿa.",date:"2026-10-09",hijri:"27 Rabîʿ al-Thânî 1448 H",min:2,c:["#0f4a35","#d8b45a"],
+  hadith:{texte:"Le meilleur jour sur lequel le soleil se soit levé est le vendredi : ce jour-là Adam a été créé, ce jour-là il est entré au Paradis, et ce jour-là il en a été sorti.",ar:"خَيْرُ يَوْمٍ طَلَعَتْ عَلَيْهِ الشَّمْسُ يَوْمُ الْجُمُعَةِ، فِيهِ خُلِقَ آدَمُ، وَفِيهِ أُدْخِلَ الْجَنَّةَ، وَفِيهِ أُخْرِجَ مِنْهَا",source:"Sahih Muslim"},
+  rap:{titre:"Prépare ton vendredi.",texte:"Le grand bain (ghousl), un parfum, tes plus beaux habits, et arrive tôt à la mosquée pour la prière du Joumouʿa. Profite aussi de ce jour pour lire la sourate Al-Kahf."},
+  verset:{ar:"يَا أَيُّهَا الَّذِينَ آمَنُوا إِذَا نُودِيَ لِلصَّلَاةِ مِن يَوْمِ الْجُمُعَةِ فَاسْعَوْا إِلَىٰ ذِكْرِ اللَّهِ وَذَرُوا الْبَيْعَ",fr:"Ô vous qui avez cru ! Quand on appelle à la prière du jour du vendredi, accourez à l'invocation d'Allah et laissez tout négoce.",ref:"Sourate Al-Joumouʿa, 62:9"},
+  retenir:"Le vendredi, multiplie les prières sur le Prophète ﷺ et lis la sourate Al-Kahf.",
+  doua:{ar:"اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ",fr:"Ô Allah, prie sur Muhammad et sur la famille de Muhammad."},
+  texte:[]},
+];
+const CATS = ["Toutes", ...new Set(ARTICLES.map(a=>a.cat))];
+let cat = "Toutes", q = "";
+const $ = s => document.querySelector(s);
+const fmt = d => new Date(d+"T12:00:00").toLocaleDateString("fr-FR",{day:"numeric",month:"long",year:"numeric"});
+const esc = s => s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+/* Illustrations dessinées pour chaque article (viewBox 600×375).
+   Pour utiliser une vraie photo, ajoutez photo:"images/mon-image.jpg" à l'article. */
+const SVG = (inner) => `<svg viewBox="0 0 600 375" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true">${inner}</svg>`;
+const ILLU = {
+ "m-examens": SVG(`<rect width="600" height="375" fill="#f2ead8"/><circle cx="90" cy="70" r="120" fill="#e7dcc3"/>
+   <g transform="translate(150 70) rotate(-6)"><rect width="200" height="250" rx="6" fill="#fff" stroke="#c9bfa8" stroke-width="2"/><rect x="24" y="28" width="120" height="12" rx="6" fill="#0b4f6e"/>${Array.from({length:8},(_,i)=>`<rect x="24" y="${64+i*20}" width="${150-(i%3)*30}" height="7" rx="3" fill="#b9c7cf"/>`).join("")}</g>
+   <g transform="translate(360 90)"><rect width="170" height="170" rx="14" fill="#fff" stroke="#0b4f6e" stroke-width="4"/><rect width="170" height="44" rx="14" fill="#0b4f6e"/><rect y="30" width="170" height="14" fill="#0b4f6e"/>
+   <text x="85" y="31" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="18" fill="#fff">JUIN 2027</text>
+   <text x="85" y="128" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="800" font-size="72" fill="#14212b">29</text>
+   <text x="85" y="156" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="15" fill="#d9622b">≈ estimée</text></g>
+   <rect x="250" y="320" width="150" height="16" rx="8" fill="#e2a02b" transform="rotate(-12 325 328)"/>`),
+ "m-joj": SVG(`<rect width="600" height="375" fill="#0d4f8b"/><rect y="250" width="600" height="125" fill="#2f8f4e"/><ellipse cx="300" cy="300" rx="260" ry="60" fill="none" stroke="#fff" stroke-width="4" opacity=".7"/>
+   <path d="M60 250 Q300 120 540 250" fill="none" stroke="#e2a02b" stroke-width="16"/><path d="M90 250 Q300 150 510 250" fill="none" stroke="#f3d36b" stroke-width="6"/>
+   <g fill="#fff" opacity=".9">${Array.from({length:30},(_,i)=>`<circle cx="${70+i*16}" cy="${245-Math.sin(i/29*Math.PI)*95}" r="4"/>`).join("")}</g>
+   <rect x="292" y="60" width="16" height="70" rx="4" fill="#e9e3d2"/><path d="M300 20 q22 22 0 44 q-22 -22 0 -44" fill="#f39b2b"/><path d="M300 34 q10 12 0 26 q-10 -14 0 -26" fill="#ffd25a"/>
+   <text x="300" y="350" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="800" font-size="40" fill="#fff">31.10.2026</text>`),
+ "m-lions": SVG(`<rect width="600" height="375" fill="#1f6b3a"/>${Array.from({length:6},(_,i)=>`<rect x="${i*100}" width="50" height="375" fill="#237a42"/>`).join("")}
+   <g fill="none" stroke="#e8f3ea" stroke-width="4" opacity=".85"><rect x="30" y="30" width="540" height="315"/><line x1="300" y1="30" x2="300" y2="345"/><circle cx="300" cy="187" r="55"/><rect x="30" y="112" width="70" height="150"/><rect x="500" y="112" width="70" height="150"/></g>
+   <g transform="translate(300 187)"><circle r="26" fill="#fff"/><path d="M0-12l11 8-4 13h-14l-4-13z" fill="#222"/></g>
+   <g font-family="IBM Plex Mono, monospace" font-size="20" fill="#fff"><text x="60" y="70">9 → 17 NOV.</text></g>`),
+ "m-police": SVG(`<rect width="600" height="375" fill="#e9edf5"/><circle cx="470" cy="70" r="120" fill="#d5ddec"/>
+   <g transform="translate(300 190)"><path d="M0-120 l90 34 v60 c0 70-40 112-90 136 c-50-24-90-66-90-136 v-60z" fill="#1d2f5c"/><path d="M0-96 l66 25 v45 c0 54-30 86-66 104 c-36-18-66-50-66-104 v-45z" fill="#2c4785"/>
+   <path d="M0-46 l14 28 31 4-22 22 6 30-29-15-29 15 6-30-22-22 31-4z" fill="#e2a02b"/></g>
+   <g transform="translate(110 250)"><rect x="-50" y="-70" width="100" height="130" rx="8" fill="#fff" stroke="#1d2f5c" stroke-width="3"/><rect x="-34" y="-50" width="68" height="8" rx="4" fill="#5a78b8"/><rect x="-34" y="-32" width="50" height="8" rx="4" fill="#9fb0d6"/><rect x="-34" y="-14" width="60" height="8" rx="4" fill="#9fb0d6"/><path d="M-20 22l12 12 26-26" stroke="#2f9e5b" stroke-width="8" fill="none" stroke-linecap="round"/></g>`),
+ a1: SVG(`<rect width="600" height="375" fill="#5d7a8c"/><rect width="600" height="200" fill="#7f98a8"/>
+   <g fill="#4a6272"><ellipse cx="120" cy="60" rx="110" ry="40"/><ellipse cx="300" cy="45" rx="140" ry="45"/><ellipse cx="500" cy="65" rx="120" ry="42"/></g>
+   <g stroke="#cfe0ea" stroke-width="2" stroke-linecap="round" opacity=".7">${Array.from({length:40},(_,i)=>{const x=(i*53)%600,y=90+(i*37)%150;return `<line x1="${x}" y1="${y}" x2="${x-8}" y2="${y+22}"/>`}).join("")}</g>
+   <rect x="60" y="170" width="130" height="110" fill="#e8d6b8"/><polygon points="50,175 125,120 200,175" fill="#b5523b"/><rect x="110" y="225" width="28" height="55" fill="#6b4a2f"/><rect x="75" y="195" width="24" height="22" fill="#9ec4d6"/>
+   <rect x="380" y="150" width="170" height="130" fill="#f0e2c4"/><rect x="370" y="140" width="190" height="16" fill="#8a8f93"/><rect x="400" y="180" width="30" height="28" fill="#9ec4d6"/><rect x="500" y="180" width="30" height="28" fill="#9ec4d6"/><rect x="450" y="215" width="30" height="65" fill="#6b4a2f"/>
+   <rect x="0" y="262" width="600" height="113" fill="#4f7f91"/>
+   <g stroke="#a9d3e0" stroke-width="3" fill="none" stroke-linecap="round" opacity=".8"><path d="M30 295q20-8 40 0t40 0"/><path d="M250 320q20-8 40 0t40 0"/><path d="M430 300q20-8 40 0t40 0"/><path d="M120 345q20-8 40 0t40 0"/><path d="M480 350q20-8 40 0t40 0"/></g>
+   <g fill="#c9b27a" stroke="#8f7a45" stroke-width="2"><rect x="250" y="248" width="56" height="26" rx="10"/><rect x="300" y="248" width="56" height="26" rx="10"/><rect x="275" y="226" width="56" height="26" rx="10"/></g>`),
+ a2: SVG(`<rect width="600" height="375" fill="#f3e3c3"/>
+   <g>${Array.from({length:8},(_,i)=>`<rect x="${i*75}" y="0" width="75" height="70" fill="${i%2?"#f6f1e4":"#d9822b"}"/>`).join("")}</g>
+   <path d="M0 70 ${Array.from({length:16},(_,i)=>`Q${i*37.5+18.75} 95 ${(i+1)*37.5} 70`).join(" ")}" fill="#d9822b"/>
+   <rect x="40" y="250" width="520" height="125" fill="#8b5a2b"/><rect x="40" y="250" width="520" height="14" fill="#a8703a"/>
+   <g>${Array.from({length:34},(_,i)=>{const row=Math.floor(i/9),col=i%9;const cx=95+col*52+(row%2)*26,cy=235-row*34;if(cy<130)return"";const c=["#9b3d5a","#c7922f","#b04a63","#d6a94a"][(i*7)%4];return `<g><ellipse cx="${cx}" cy="${cy}" rx="27" ry="24" fill="${c}"/><path d="M${cx} ${cy-24}q3-12 0-18" stroke="#6d7d3a" stroke-width="3" fill="none"/><path d="M${cx-10} ${cy-14}q10 14 0 34M${cx+10} ${cy-14}q-10 14 0 34" stroke="#00000022" stroke-width="2" fill="none"/></g>`}).join("")}</g>
+   <g transform="translate(440 120) rotate(6)"><rect width="120" height="70" rx="6" fill="#fffaf0" stroke="#5c3b1e" stroke-width="3"/><text x="60" y="34" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="800" font-size="24" fill="#2b2b2b">500 F</text><text x="60" y="56" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="14" fill="#5c3b1e">le kilo</text></g>`),
+ a5: SVG(`<rect width="600" height="375" fill="#d7efe1"/><circle cx="470" cy="80" r="140" fill="#bfe5cf"/><circle cx="90" cy="330" r="110" fill="#c6e8d4"/>
+   <rect x="215" y="35" width="170" height="320" rx="24" fill="#1f2d27"/><rect x="227" y="60" width="146" height="268" rx="8" fill="#f7fbf8"/><rect x="275" y="45" width="50" height="6" rx="3" fill="#3b4a43"/>
+   <rect x="240" y="78" width="120" height="40" rx="10" fill="#e3f2ea"/><rect x="250" y="90" width="70" height="6" rx="3" fill="#7fae95"/><rect x="250" y="102" width="50" height="6" rx="3" fill="#a9cdb9"/>
+   <rect x="240" y="130" width="120" height="58" rx="10" fill="#fde3e1" stroke="#d9534f" stroke-width="2"/><rect x="250" y="142" width="96" height="6" rx="3" fill="#d9534f"/><rect x="250" y="154" width="80" height="6" rx="3" fill="#e99a97"/><rect x="250" y="166" width="88" height="6" rx="3" fill="#e99a97"/>
+   <g transform="translate(300 255)"><path d="M0-50l42 16v30c0 30-18 52-42 62-24-10-42-32-42-62v-30z" fill="#2f8f5f"/><path d="M-18 6l12 12 26-28" stroke="#fff" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round"/></g>
+   <g transform="translate(430 150)"><circle r="34" fill="#d9534f"/><rect x="-4" y="-20" width="8" height="24" rx="3" fill="#fff"/><circle cy="14" r="5" fill="#fff"/></g>
+   <g transform="translate(150 120)" fill="#2f8f5f"><circle r="26"/><text y="9" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="24" font-weight="500" fill="#fff">****</text></g>`),
+ a6: SVG(`<rect width="600" height="375" fill="#bfe0f2"/><circle cx="520" cy="70" r="38" fill="#f6c443"/>
+   <rect x="0" y="300" width="600" height="75" fill="#d9c08f"/>
+   <rect x="110" y="120" width="380" height="180" fill="#f2e6c9"/><polygon points="95,125 300,50 505,125" fill="#2f6f8f"/>
+   <g fill="#8fc3dc" stroke="#2f6f8f" stroke-width="3">${[140,200,360,420].map(x=>`<rect x="${x}" y="150" width="40" height="40"/><rect x="${x}" y="220" width="40" height="40"/>`).join("")}</g>
+   <rect x="270" y="215" width="60" height="85" fill="#7a4e2c"/><rect x="250" y="140" width="100" height="40" fill="#2f6f8f"/><text x="300" y="167" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="800" font-size="18" fill="#fff">ÉCOLE</text>
+   <line x1="300" y1="50" x2="300" y2="10" stroke="#555" stroke-width="3"/><rect x="300" y="10" width="40" height="13" fill="#00853f"/><rect x="300" y="23" width="40" height="13" fill="#fdef42"/><rect x="300" y="36" width="40" height="13" fill="#e31b23"/>
+   <g transform="translate(80 270)"><rect x="-22" y="-10" width="44" height="52" rx="10" fill="#e2602f"/><rect x="-14" y="8" width="28" height="18" rx="4" fill="#c24c1f"/><path d="M-12-10q12-18 24 0" stroke="#c24c1f" stroke-width="5" fill="none"/></g>
+   <g transform="translate(530 275)"><rect x="-26" y="-4" width="52" height="40" fill="#2f6f8f"/><rect x="-22" y="-14" width="44" height="12" fill="#f6c443"/><rect x="-18" y="-24" width="36" height="12" fill="#e2602f"/></g>`),
+};
+const img = a => `<div class="img" style="background:${a.c[0]}">${a.photo?`<img src="${a.photo}" alt="${esc(a.titre)}" style="object-position:${a.pos||"center"}">`:(ILLU[a.id]||"")}${a.video?`<b class="play" aria-label="Vidéo">▶</b>`:""}</div>`;
+const meta = a => `<span class="meta">${fmt(a.date)} · ${a.min} min de lecture</span>`;
+
+$("#today").textContent = new Date().toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"});
+
+/* Calcul des heures de prière (méthode Ligue islamique mondiale : Fajr 18°, Icha 17°, Asr chaféite). */
+function prayerTimes(date, lat, lng, tz){
+  const dr=Math.PI/180, sin=d=>Math.sin(d*dr), cos=d=>Math.cos(d*dr), tan=d=>Math.tan(d*dr),
+    asin=x=>Math.asin(x)/dr, acos=x=>Math.acos(x)/dr, atan2=(y,x)=>Math.atan2(y,x)/dr, acot=x=>Math.atan(1/x)/dr,
+    fix=(a,b)=>{a=a-b*Math.floor(a/b);return a<0?a+b:a};
+  const y=date.getFullYear(), m=date.getMonth()+1, d=date.getDate();
+  let Y=y,M=m; if(M<=2){Y-=1;M+=12}
+  const A=Math.floor(Y/100),B=2-A+Math.floor(A/4);
+  const JD=Math.floor(365.25*(Y+4716))+Math.floor(30.6001*(M+1))+d+B-1524.5 - lng/(15*24);
+  const sun=jd=>{const D=jd-2451545,g=fix(357.529+0.98560028*D,360),q=fix(280.459+0.98564736*D,360),
+    L=fix(q+1.915*sin(g)+0.020*sin(2*g),360),e=23.439-0.00000036*D,RA=atan2(cos(e)*sin(L),cos(L))/15;
+    return {decl:asin(sin(e)*sin(L)),eqt:q/15-fix(RA,24)}};
+  const mid=t=>fix(12-sun(JD+t).eqt,24);
+  const angleTime=(ang,t,ccw)=>{const dec=sun(JD+t).decl,noon=mid(t),T=acos((-sin(ang)-sin(dec)*sin(lat))/(cos(dec)*cos(lat)))/15;return noon+(ccw?-T:T)};
+  const asr=t=>{const dec=sun(JD+t).decl;return angleTime(-acot(1+tan(Math.abs(lat-dec))),t)};
+  const adj=h=>h+tz-lng/15;
+  const r={fajr:angleTime(18,5/24,true),lever:angleTime(0.833,6/24,true),dhuhr:mid(12/24)+1/60,asr:asr(13/24),maghrib:angleTime(0.833,18/24),isha:angleTime(17,18/24)};
+  for(const k in r){r[k]=adj(r[k])}
+  r.maghrib+=1/60;
+  return r;
+}
+const hhmm=h=>{h=((h%24)+24)%24;let H=Math.floor(h),Mn=Math.round((h-H)*60);if(Mn===60){H=(H+1)%24;Mn=0}return String(H).padStart(2,"0")+":"+String(Mn).padStart(2,"0")};
+
+const VILLES={"Dakar":[14.6928,-17.4467],"Touba":[14.8667,-15.8833],"Thiès":[14.7910,-16.9256],"Saint-Louis":[16.0179,-16.4896],"Kaolack":[14.1520,-16.0726],"Ziguinchor":[12.5681,-16.2719],"Tambacounda":[13.7707,-13.6673]};
+let ville="Dakar"; try{ville=localStorage.getItem("mq-ville")||"Dakar"; if(!VILLES[ville]) ville="Dakar";}catch(e){}
+const PRIERES=[["fajr","Fajr"],["lever","Lever du soleil"],["dhuhr","Dhuhr"],["asr","Asr"],["maghrib","Maghrib"],["isha","Icha"]];
+function prayerPanel(){
+  const now=new Date(), [la,lo]=VILLES[ville], t=prayerTimes(now,la,lo,0);
+  const nowH=now.getUTCHours()+now.getUTCMinutes()/60;
+  const next=PRIERES.find(([k])=>k!=="lever"&&t[k]>nowH);
+  return `<section class="panel prieres" aria-labelledby="pr-t">
+    <div class="ph"><h3 id="pr-t">Heures de prière</h3>
+      <label class="sel"><span class="sr">Ville</span><select id="ville">${Object.keys(VILLES).map(v=>`<option ${v===ville?"selected":""}>${v}</option>`).join("")}</select></label></div>
+    <p class="sub">${now.toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"})}${next?` · prochaine : <b>${next[1]}</b> à ${hhmm(t[next[0]])}`:""}</p>
+    <ul>${PRIERES.map(([k,n])=>`<li class="${next&&next[0]===k?"next":""} ${k==="lever"?"lev":""}"><span>${n}</span><b>${hhmm(t[k])}</b></li>`).join("")}</ul>
+    <p class="fine">Horaires calculés (Ligue islamique mondiale), à titre indicatif. Suivez l'appel de votre mosquée.</p>
+  </section>`;
+}
+document.addEventListener("click",e=>{const b=e.target.closest(".filtres button"); if(!b) return; filtreDate=b.dataset.f; majDates();});
+document.addEventListener("change",e=>{ if(e.target.id==="ville"){ ville=e.target.value; try{localStorage.setItem("mq-ville",ville)}catch(_){} const el=document.querySelector(".prieres"); if(el){el.outerHTML=prayerPanel();} } });
+
+/* ===== Rubrique « Mais quand ? » : les attentes datées, avec fiabilité et sources ===== */
+const SRC={
+ apa:{n:"APANEWS : JOJ Dakar 2026, les chiffres clés",u:"https://fr.apanews.net/senegal/joj-dakar-2026-les-chiffres-cles-avant-le-rendez-vous-olympique/"},
+ biennale:{n:"Le Soleil : la Biennale du 19 novembre au 19 décembre 2026",u:"https://lesoleil.sn/actualites/arts-et-culture/arts-contemporains-africains-la-biennale-prevue-a-dakar-du-19-novembre-au-19-decembre-2026/"},
+ can:{n:"Radiosports : calendrier des éliminatoires CAN 2027",u:"https://radiosports.fr/can-2027-calendrier-resultats.html"},
+ rts:{n:"RTS : le Sénégal dans le groupe J",u:"https://www.rts.sn/actualite/detail/a-la-une/eliminatoires-can-2027-le-senegal-dans-le-groupe-j-avec-le-mozambique-le-soudan-et-lethiopie"},
+ police:{n:"Ndarinfo : calendrier indicatif police et douanes",u:"https://www.ndarinfo.com/tags/concours+douanes+s%C3%A9n%C3%A9gal+2026/"},
+ concours:{n:"Senego : concours de la fonction publique 2026",u:"https://senego.com/dossier/concours-fonction-publique"},
+ bac:{n:"Senego : baccalauréat 2026",u:"https://senego.com/dossier/baccalaureat-senegal"},
+ bac2:{n:"Ndarinfo : second groupe du Bac 2026 le 9 juillet",u:"https://www.ndarinfo.com/Session-2026-L-Office-du-Baccalaureat-fixe-le-demarrage-du-second-groupe-au-jeudi-9-juillet_a45490.html"},
+ cfee:{n:"allAfrica : le CFEE 2026 démarre",u:"https://fr.allafrica.com/stories/202606170326.html"},
+ bfem:{n:"Ndarinfo : BFEM 2026 fixé au 21 juillet",u:"https://www.ndarinfo.com/Examen-du-BFEM-2026-la-date-officielle-des-epreuves-fixee-au-mardi-21-juillet_a44732.html"},
+ campusen:{n:"Senego : Campusen du 17 août au 13 septembre 2026",u:"https://senego.com/campusen-ouvre-du-17-aout-au-13-septembre-pour-les-bacheliers-2026_1995193.html"},
+ fastef:{n:"Guindima : concours FASTEF 2026-2027",u:"https://guindima.sn/news/article/concours-fastef-recrutement-eleves-professeurs-2026-2027/"},
+ ens:{n:"allAfrica : recrutement spécial de 2 527 enseignants",u:"https://fr.allafrica.com/stories/202609130102.html"},
+ gend:{n:"Sencampus : concours gendarmerie 2026",u:"https://www.sencampus.com/concours-gendarmerie-senegal-2026/"},
+ lune:{n:"Calcul astronomique, à confirmer par l'observation du croissant",u:""},
+ fixe:{n:"Date fixe du calendrier national",u:""},
+};
+/* f : niveau de fiabilité — haut (confirmée), moy (estimée ou période connue), bas (déduite des années précédentes) */
+const ATTENTES=[
+ {id:"joj",q:"Quand s'ouvrent les JOJ Dakar 2026 ?",d:"2026-10-31",c:"Sport",f:"haut",fd:"Confirmée par les organisateurs",note:"Cérémonie au stade Abdoulaye Wade (Diamniadio). Jeux jusqu'au 13 novembre.",src:["apa"],hist:[["2026-10-09","Date et lieu de la cérémonie confirmés."]]},
+ {id:"lions-nov",q:"Quand rejouent les Lions ?",d:"2026-11-09",c:"Sport",f:"moy",fd:"Période confirmée, jour à préciser",note:"Éliminatoires CAN 2027, journées 3 et 4, entre le 9 et le 17 novembre.",src:["can","rts"],hist:[["2026-09-29","Victoire 1-0 en Éthiopie (journée 2)."],["2026-09-25","Match nul 1-1 contre le Mozambique (journée 1)."]]},
+ {id:"police-agents",q:"Quand a lieu le concours des agents de police ?",d:"2026-11-16",c:"Concours",f:"bas",fd:"Approximative, d'après le calendrier indicatif",note:"Vers la mi-novembre, niveau BFEM.",obs:"Seuls les candidats inscrits avant fin juin 2026 sont concernés. Surveillez les convocations et la liste des centres.",src:["police"],hist:[["2026-10-09","Attente créée à partir du calendrier indicatif."]]},
+ {id:"dakart",q:"Quand commence le Dak'Art 2026 ?",d:"2026-11-19",c:"Culture",f:"haut",fd:"Confirmée par les organisateurs",note:"Biennale de Dakar, du 19 novembre au 19 décembre.",src:["biennale"],hist:[["2026-01-27","Dates annoncées."]]},
+ {id:"ensae",q:"Quand ouvrent les inscriptions au concours ENSAE ?",d:"2026-12-01",c:"Concours",f:"bas",fd:"Approximative, d'après 2026",note:"Concours ISE. Inscriptions jusqu'à fin janvier, épreuve vers début avril.",src:["concours"],hist:[["2026-10-09","Attente créée : en 2026, inscriptions du 1er décembre au 31 janvier."]]},
+ {id:"ramadan",q:"Quand commence le Ramadan 2027 ?",d:"2027-02-08",c:"Religion",f:"moy",fd:"Estimée d'après le calendrier lunaire",note:"Peut varier d'un jour selon l'observation du croissant.",src:["lune"],hist:[]},
+ {id:"fastef",q:"Quand ouvrent les inscriptions à la FASTEF ?",d:"2027-02-19",c:"Concours",f:"bas",fd:"Approximative, d'après 2026",note:"Recrutement des élèves professeurs.",obs:"En 2026, les candidatures étaient ouvertes du 19 février au 3 avril. Les élèves en Terminale, L3 ou M2 peuvent postuler sous réserve d'obtenir leur diplôme.",src:["fastef"],hist:[]},
+ {id:"korite",q:"Quand est la Korité 2027 ?",d:"2027-03-10",c:"Religion",f:"moy",fd:"Estimée d'après le calendrier lunaire",note:"Aïd el-Fitr.",src:["lune"],hist:[]},
+ {id:"ena",q:"Quand ouvrent les inscriptions à l'ENA ?",d:"2027-03-15",c:"Concours",f:"bas",fd:"Approximative, d'après 2026",note:"6 à 8 semaines avant les épreuves (fin avril, juin et septembre selon les cycles).",src:["concours"],hist:[]},
+ {id:"lions-mars",q:"Quand se joue la suite des éliminatoires de la CAN ?",d:"2027-03-22",c:"Sport",f:"moy",fd:"Période confirmée, jour à préciser",note:"Journées 5 et 6, entre le 22 et le 30 mars.",src:["can"],hist:[]},
+ {id:"independance",q:"Quand est la fête de l'Indépendance ?",d:"2027-04-04",c:"National",f:"haut",fd:"Date fixe",note:"Défilé et jour férié.",src:["fixe"],hist:[]},
+ {id:"douanes",q:"Quand sort l'avis du concours des douanes ?",d:"2027-04-15",c:"Concours",f:"bas",fd:"Approximative : entre avril et juin",obs:"Aucune date fixe : les avis des corps habillés paraissent en général entre avril et juin. Consultez douanes.sn et fonctionpublique.gouv.sn.",src:["police"],hist:[]},
+ {id:"gendarmerie",q:"Quand recrute la gendarmerie (ESOGN, EOGN) ?",d:"2027-05-03",c:"Concours",f:"bas",fd:"Approximative : entre avril et juin",obs:"Aucune date officielle connue. Suivez les annonces sur gendarmerie.sn et dans les médias publics.",src:["gend"],hist:[]},
+ {id:"bac-eps",q:"Quand ont lieu les épreuves d'EPS du Bac ?",d:"2027-05-10",c:"Examen",f:"bas",fd:"Approximative, d'après 2026",note:"De mi à fin mai selon les régions.",src:["bac"],hist:[]},
+ {id:"tabaski",q:"Quand est la Tabaski 2027 ?",d:"2027-05-17",c:"Religion",f:"moy",fd:"Estimée d'après le calendrier lunaire",note:"Aïd el-Kébir.",src:["lune"],hist:[]},
+ {id:"cfee",q:"Quand a lieu le CFEE 2027 ?",d:"2027-06-16",c:"Examen",f:"bas",fd:"Approximative, d'après 2026",note:"Avec l'entrée en sixième. En 2026 : le 17 juin.",src:["cfee"],hist:[]},
+ {id:"can",q:"Quand commence la CAN 2027 ?",d:"2027-06-19",c:"Sport",f:"haut",fd:"Confirmée par la CAF",note:"Kenya, Ouganda, Tanzanie. Finale le 17 juillet.",src:["can"],hist:[]},
+ {id:"police-dossiers",q:"Quand déposer les dossiers pour la police ?",d:"2027-06-28",c:"Concours",f:"bas",fd:"Approximative : fin juin",obs:"Épreuves indicatives : commissaires fin août, sous-officiers fin septembre, agents mi-novembre. Vérifiez au Journal officiel et sur fonctionpublique.gouv.sn.",src:["police"],hist:[]},
+ {id:"bac",q:"Quand commence le Bac 2027 ?",d:"2027-06-29",c:"Examen",f:"bas",fd:"Approximative, d'après 2026",note:"Épreuves écrites du premier groupe, Français et Philosophie en ouverture.",src:["bac","bac2"],hist:[["2026-10-09","Attente créée. Calendrier officiel 2027 pas encore publié."]]},
+ {id:"bfem",q:"Quand a lieu le BFEM 2027 ?",d:"2027-07-20",c:"Examen",f:"bas",fd:"Approximative, d'après 2026",note:"En 2026 : le 21 juillet.",src:["bfem"],hist:[]},
+ {id:"magal",q:"Quand est le Grand Magal de Touba 2027 ?",d:"2027-07-24",c:"Religion",f:"moy",fd:"Estimée d'après le calendrier lunaire",note:"18 Safar.",src:["lune"],hist:[]},
+ {id:"bac-res",q:"Quand tombent les résultats du Bac 2027 ?",d:"2027-07-30",c:"Examen",f:"bas",fd:"Approximative, d'après 2026",note:"Résultats définitifs fin juillet ou début août.",src:["bac"],hist:[]},
+ {id:"gamou",q:"Quand est le Gamou 2027 ?",d:"2027-08-15",c:"Religion",f:"moy",fd:"Estimée d'après le calendrier lunaire",note:"Maouloud, 12 Rabîʿ al-Awwal.",src:["lune"],hist:[]},
+ {id:"campusen",q:"Quand ouvre Campusen pour les bacheliers 2027 ?",d:"2027-08-16",c:"Formation",f:"bas",fd:"Approximative, d'après 2026",note:"Orientation des nouveaux bacheliers, environ 4 semaines.",src:["campusen"],hist:[]},
+ {id:"enseignants",q:"Quand aura lieu le prochain recrutement d'enseignants ?",d:"2027-09-01",c:"Concours",f:"bas",fd:"Approximative : pas de calendrier fixe",obs:"En 2026, un recrutement spécial de 2 527 enseignants a été lancé, avec un dépôt des dossiers jusqu'au 16 septembre. Surveillez les communiqués du ministère de l'Éducation.",src:["ens"],hist:[]},
+];
+const RESOLUES=[
+ {q:"Jusqu'à quand déposer pour le recrutement spécial de 2 527 enseignants ?",r:"Délai prolongé jusqu'au mercredi 16 septembre 2026.",d:"2026-09-16",src:"ens"},
+ {q:"Quand ouvre Campusen pour les bacheliers 2026 ?",r:"Plateforme ouverte du 17 août au 13 septembre 2026.",d:"2026-08-17",src:"campusen"},
+ {q:"Quand a lieu le BFEM 2026 ?",r:"Les épreuves ont commencé le mardi 21 juillet 2026.",d:"2026-07-21",src:"bfem"},
+ {q:"Quand démarre le CFEE 2026 ?",r:"Le 17 juin 2026, avec 306 485 candidats.",d:"2026-06-17",src:"cfee"},
+];
+
+ATTENTES.push(
+ {id:"joj-fin",q:"Quand se terminent les JOJ Dakar 2026 ?",d:"2026-11-13",c:"Sport",f:"haut",fd:"Confirmée par les organisateurs",note:"Après 14 jours de compétition.",src:["apa"],hist:[]},
+ {id:"noel",q:"Quand est Noël ?",d:"2026-12-25",c:"Fête",f:"haut",fd:"Date fixe",note:"Jour férié.",src:["fixe"],hist:[]},
+ {id:"nouvel-an",q:"Quand est le Nouvel An 2027 ?",d:"2027-01-01",c:"Fête",f:"haut",fd:"Date fixe",note:"Jour férié.",src:["fixe"],hist:[]},
+ {id:"ensae-epreuve",q:"Quand a lieu l'épreuve du concours ENSAE ?",d:"2027-04-04",c:"Concours",f:"bas",fd:"Approximative, d'après 2026",note:"En 2026 : le 5 avril.",src:["concours"],hist:[]},
+ {id:"ena-epreuves",q:"Quand commencent les épreuves de l'ENA ?",d:"2027-04-26",c:"Concours",f:"bas",fd:"Approximative, d'après 2026",note:"Autres cycles en juin et septembre.",src:["concours"],hist:[]},
+ {id:"tamkharit",q:"Quand est la Tamkharit 2027 ?",d:"2027-06-16",c:"Religion",f:"moy",fd:"Estimée d'après le calendrier lunaire",note:"Achoura, 10 Muharram.",src:["lune"],hist:[]},
+ {id:"ensept",q:"Quand a lieu le concours de l'ENSEPT ?",d:"2027-08-30",c:"Concours",f:"bas",fd:"Approximative : fin août - septembre",src:["concours"],hist:[]}
+);
+ATTENTES.sort((a,b)=>a.d.localeCompare(b.d));
+
+/* ===== Outils de la rubrique ===== */
+function joursAvant(iso){const a=new Date(iso+"T00:00:00Z"),n=new Date(),b=Date.UTC(n.getUTCFullYear(),n.getUTCMonth(),n.getUTCDate());return Math.round((a-b)/864e5)}
+const aVenir=()=>ATTENTES.filter(x=>joursAvant(x.d)>=0);
+const attById=id=>ATTENTES.find(x=>x.id===id);
+const FLBL={haut:"Fiabilité élevée",moy:"Fiabilité moyenne",bas:"Fiabilité faible"};
+let suivis=[]; try{suivis=JSON.parse(localStorage.getItem("mq-suivis3")||"[]")}catch(e){}
+const estSuivi=x=>suivis.includes(x.id);
+const norm=t=>t.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");
+const MOTS_VIDES=new Set("mais quand quel quelle quels quelles est ce que qui le la les de des du un une a au aux et ou en pour sur date dates jour prochain prochaine il elle on c je l d s ont sort ouvre ouvrent commence a lieu".split(" "));
+function correspond(x,q){const mots=norm(q).split(/[^a-z0-9]+/).filter(m=>m.length>1&&!MOTS_VIDES.has(m));if(!mots.length)return true;const h=norm(x.q+" "+x.c+" "+(x.note||"")+" "+(x.obs||""));return mots.some(m=>h.includes(m.replace(/s$/,"")))}
+const cdBox=x=>{const j=joursAvant(x.d);return `<div class="cd"><b>${j===0?"Auj.":j}</b><small>${j===0?"":j===1?"jour":"jours"}</small></div>`};
+const fiabTag=x=>`<span class="fiab ${x.f}" title="${esc(x.fd)}"><i></i>${FLBL[x.f]} · ${esc(x.fd)}</span>`;
+const btnSuivre=x=>`<button type="button" class="suivre" data-k="${x.id}" aria-pressed="${estSuivi(x)}">${estSuivi(x)?"✓ Suivi":"+ Suivre"}</button>`;
+function dateRow(x,opts={}){return `<li><a class="rowlink" href="#att-${x.id}" aria-label="${esc(x.q)}"></a>${cdBox(x)}<div class="dt"><strong>${esc(x.q)}</strong><span>${fmt(x.d)}${x.note&&!opts.court?" · "+esc(x.note):""}</span>${fiabTag(x)}</div><div class="act"><span class="tag">${x.c}</span>${opts.court?"":btnSuivre(x)}</div></li>`}
+const srcLinks=keys=>keys.map(k=>SRC[k]).map(s=>s.u?`<li><a href="${s.u}" target="_blank" rel="noopener">${esc(s.n)}</a></li>`:`<li>${esc(s.n)}</li>`).join("");
+const articlesDe=id=>ARTICLES.filter(a=>a.att===id);
+
+/* Encadré de la page d'accueil */
+function datesPanel(){
+  return `<section class="panel dates" aria-labelledby="mq-t">
+    <div class="ph"><h3 id="mq-t">Mais quand <em>?</em></h3><a href="#dates" class="lnk">Toutes les dates →</a></div>
+    <p class="sub">Les prochaines dates à retenir</p>
+    <ul>${aVenir().slice(0,4).map(x=>dateRow(x,{court:true})).join("")}</ul>
+  </section>`;
+}
+
+/* Page de la rubrique */
+let filtreDate="Tout", mqQuestion="";
+const FILTRES=["Tout","Examen","Concours","Formation","Sport","Religion","Culture","Fête","National"];
+const LBL={Tout:"Tout",Examen:"Examens",Concours:"Concours",Formation:"Formations",Sport:"Sport",Religion:"Religion",Culture:"Culture","Fête":"Fêtes",National:"National"};
+function majDates(){
+  const liste=aVenir().filter(x=>(filtreDate==="Tout"||x.c===filtreDate)&&correspond(x,mqQuestion)), mes=aVenir().filter(estSuivi);
+  const m=$("#mes"); if(m) m.innerHTML=mes.length?`<ul>${mes.map(x=>dateRow(x)).join("")}</ul>`:`<p class="sub">Vous ne suivez encore aucune attente. Appuyez sur « + Suivre » à côté d'une date pour la retrouver ici à chaque visite.</p>`;
+  const n=$("#mes-n"); if(n) n.textContent=mes.length?`(${mes.length})`:"";
+  const l=$("#liste"); if(l) l.innerHTML=liste.length?liste.map(x=>dateRow(x)).join(""):`<li class="vide">Aucune date ne correspond${mqQuestion?` à « ${esc(mqQuestion)} »`:" à ce filtre"}. Essayez un autre mot : Bac, Tabaski, Lions, police…</li>`;
+  document.querySelectorAll(".filtres button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.f===filtreDate));
+}
+function renderDates(){
+  const lies=ARTICLES.filter(a=>a.att);
+  $("#app").innerHTML=`<article class="mq" style="max-width:780px">
+    <button class="back" type="button" id="back">← Retour aux actualités</button>
+    <div class="mq-hero"><span class="cat">MaisQuand</span><h1>Transformer chaque attente en confiance.</h1><p class="by">Par Mékan</p></div>
+    <div class="mq-intro">
+      <section><h2>Le problème</h2><p>Chaque jour, des millions de personnes attendent un résultat d'examen, une décision administrative ou un événement public. Cette attente est presque toujours accompagnée d'incertitude : informations dispersées, dates rarement fiables, rumeurs qui circulent plus vite que les confirmations. Aujourd'hui, aucun outil ne permet de transformer une recherche ponctuelle en un suivi structuré, dans le temps.</p></section>
+      <section><h2>Notre idée</h2><p>MaisQuand transforme une simple recherche en « attente structurée ». L'utilisateur pose sa question une seule fois ; le système la suit, compare les sources disponibles, évalue leur fiabilité, et ne le prévient que lorsqu'un changement significatif survient, jusqu'à la résolution.</p></section>
+    </div>
+    <ol class="etapes">
+      <li><b>Recherche</b><span>L'utilisateur pose une question simple, en langage naturel.</span></li>
+      <li><b>Attente</b><span>La recherche devient un objet suivi dans le temps, avec un niveau de fiabilité.</span></li>
+      <li><b>Suivi</b><span>Le système surveille l'évolution, sans que l'utilisateur ait à revenir vérifier.</span></li>
+      <li><b>Résolution</b><span>Une notification arrive au bon moment, ni trop tôt ni trop tard.</span></li>
+    </ol>
+    <section class="ask">
+      <label for="mqq">Posez votre question</label>
+      <div class="askrow"><input id="mqq" type="search" placeholder="Ex. : Mais quand c'est le Bac ?" value="${esc(mqQuestion)}" autocomplete="off"></div>
+      <div class="exemples">Exemples : ${["Bac","Tabaski","Lions","Police","Campusen"].map(e=>`<button type="button" data-q="${e}">${e}</button>`).join("")}</div>
+    </section>
+    <section class="panel dates mes"><div class="ph"><h3>Mes attentes suivies <span id="mes-n"></span></h3></div><div id="mes"></div></section>
+    <h2 class="h2">Toutes les attentes</h2>
+    <div class="filtres" role="group" aria-label="Filtrer les dates">${FILTRES.map(f=>`<button type="button" data-f="${f}" aria-pressed="${f===filtreDate}">${LBL[f]}</button>`).join("")}</div>
+    <section class="panel dates"><ul id="liste"></ul>
+    <div class="legende"><span class="fiab haut"><i></i>Élevée : date confirmée</span><span class="fiab moy"><i></i>Moyenne : estimée (calendrier lunaire) ou jour à préciser</span><span class="fiab bas"><i></i>Faible : déduite des années précédentes</span></div>
+    <p class="fine">Touchez une date pour voir ses sources et son historique. Les dates sont remplacées dès qu'une source officielle les confirme. Les alertes automatiques arriveront avec la version en ligne ; pour l'instant, vos attentes suivies sont gardées sur cet appareil.</p></section>
+    ${lies.length?`<h2 class="h2">L'actualité des dates</h2><div class="majs">${lies.map(majCard).join("")}</div>`:""}
+    <h2 class="h2">Résolues récemment</h2>
+    <ul class="resol">${RESOLUES.map(r=>`<li><span class="ok" aria-hidden="true">✓</span><div><strong>${esc(r.q)}</strong><p>${esc(r.r)}</p><a href="${SRC[r.src].u}" target="_blank" rel="noopener" class="srcl">Source : ${esc(SRC[r.src].n)}</a></div></li>`).join("")}</ul>
+  </article>`;
+  $("#back").onclick=()=>{location.hash="accueil"};
+  majDates();
+  window.scrollTo(0,0);
+}
+function majCard(a){const x=attById(a.att);return `<a class="majc" href="#${a.id}"><span class="meta">${fmt(a.date)} · ${a.cat}</span><h4>${esc(a.titre)}</h4><p>${esc(a.chapo)}</p>${x?`<span class="lie">↳ ${esc(x.q)}</span>`:""}</a>`}
+
+/* Fiche d'une date */
+function renderAtt(x){
+  const j=joursAvant(x.d), lies=articlesDe(x.id);
+  $("#app").innerHTML=`<article>
+    <a class="back" href="#dates">← Mais quand ?</a>
+    <span class="cat">${x.c} · Mais quand ?</span>
+    <h1>${esc(x.q)}</h1>
+    <div class="answer">
+      <div class="big"><b>${j<0?"Passée":j===0?"Aujourd'hui":j}</b>${j>0?`<small>${j===1?"jour":"jours"} restants</small>`:""}</div>
+      <div><p class="when">${new Date(x.d+"T12:00:00").toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long",year:"numeric"})}</p>${fiabTag(x)}${x.note?`<p class="anote">${esc(x.note)}</p>`:""}</div>
+      ${btnSuivre(x)}
+    </div>
+    ${x.obs?`<p class="pobs"><b>Observation :</b> ${esc(x.obs)}</p>`:""}
+    <section class="blk"><h2>Sources</h2><ul class="srcs">${srcLinks(x.src)}</ul></section>
+    ${x.hist.length?`<section class="blk"><h2>Historique</h2><ol class="hist">${x.hist.map(([d,t])=>`<li><span>${fmt(d)}</span>${esc(t)}</li>`).join("")}</ol></section>`:""}
+    ${lies.length?`<section class="blk"><h2>Articles liés</h2><div class="majs">${lies.map(majCard).join("")}</div></section>`:""}
+    ${shareBar({titre:x.q,id:"att-"+x.id})}
+  </article>`;
+  window.scrollTo(0,0);
+}
+
+document.addEventListener("input",e=>{ if(e.target.id==="mqq"){ mqQuestion=e.target.value.trim(); majDates(); } });
+document.addEventListener("click",e=>{
+  const ex=e.target.closest(".exemples button"); if(ex){ mqQuestion=ex.dataset.q; $("#mqq").value=mqQuestion; majDates(); return; }
+  const fb=e.target.closest(".filtres button"); if(fb){ filtreDate=fb.dataset.f; majDates(); return; }
+  const sb=e.target.closest(".suivre"); if(sb){ e.preventDefault(); const k=sb.dataset.k; suivis=suivis.includes(k)?suivis.filter(x=>x!==k):[...suivis,k]; try{localStorage.setItem("mq-suivis3",JSON.stringify(suivis))}catch(_){}
+    document.querySelectorAll(`.suivre[data-k="${k}"]`).forEach(b=>{const on=suivis.includes(k);b.setAttribute("aria-pressed",on);b.textContent=on?"✓ Suivi":"+ Suivre"}); majDates(); }
+});
+
+
+/* ===== Confiance : encadré, règles, corrections ===== */
+function saitBox(a){
+  if(!a.sait&&!a.saitPas) return "";
+  return `<div class="sait">
+    ${a.sait?`<section class="oui"><h2>Ce qu'on sait</h2><ul>${a.sait.map(t=>`<li>${esc(t)}</li>`).join("")}</ul></section>`:""}
+    ${a.saitPas?`<section class="non"><h2>Ce qu'on ne sait pas encore</h2><ul>${a.saitPas.map(t=>`<li>${esc(t)}</li>`).join("")}</ul></section>`:""}
+  </div>`;
+}
+const CORRECTIONS=[]; /* {d:"2026-10-12", article:"id", txt:"Ce qui a été corrigé"} */
+function renderRegles(){
+  $("#app").innerHTML=`<article>
+    <button class="back" type="button" id="back">← Retour aux actualités</button>
+    <span class="cat">Mais quand ?</span><h1>Nos règles</h1>
+    <p class="chapo">Mais quand ? est un site d'information sénégalais créé par Mékan. Nous ne cherchons pas à être les plus rapides, mais les plus fiables. Voici les règles que nous nous imposons, pour que vous puissiez nous juger dessus.</p>
+    <ol class="regles7">
+      <li><b>Nous citons toujours nos sources.</b> Chaque article indique d'où vient l'information, avec un lien quand c'est possible.</li>
+      <li><b>Nous séparons ce que l'on sait de ce que l'on ne sait pas encore.</b> Les sujets importants commencent par ces deux encadrés.</li>
+      <li><b>Une rumeur n'est jamais présentée comme un fait.</b> Tant qu'une information n'est pas confirmée, nous le disons.</li>
+      <li><b>Nos titres disent ce que contient l'article.</b> Pas de titre trompeur pour attirer les clics.</li>
+      <li><b>Les dates affichent leur niveau de fiabilité.</b> Dans la rubrique « Mais quand ? », chaque date est confirmée, estimée ou approximative, et nous le montrons.</li>
+      <li><b>Nous corrigeons nos erreurs publiquement.</b> Toute correction importante est signalée dans l'article et listée sur la page Corrections.</li>
+      <li><b>Nous distinguons l'information de l'opinion.</b> Un texte d'opinion est toujours présenté comme tel.</li>
+    </ol>
+    <p><a href="#corrections">Voir les corrections →</a></p>
+  </article>`;
+  $("#back").onclick=()=>{location.hash="accueil"}; window.scrollTo(0,0);
+}
+function renderCorrections(){
+  $("#app").innerHTML=`<article>
+    <button class="back" type="button" id="back">← Retour aux actualités</button>
+    <span class="cat">Mais quand ?</span><h1>Corrections</h1>
+    <p class="chapo">Quand nous nous trompons, nous le disons ici : la date, l'article concerné et ce qui a été corrigé.</p>
+    ${CORRECTIONS.length?`<ul class="corrs">${CORRECTIONS.map(c=>{const a=ARTICLES.find(x=>x.id===c.article);return `<li><span class="meta">${fmt(c.d)}</span>${a?`<a href="#${a.id}">${esc(a.titre)}</a>`:""}<p>${esc(c.txt)}</p></li>`}).join("")}</ul>`:`<p class="vide-c">Aucune correction pour l'instant. Si vous repérez une erreur, signalez-la-nous : elle sera vérifiée, corrigée et listée ici.</p>`}
+    <p><a href="#regles">← Nos règles</a></p>
+  </article>`;
+  $("#back").onclick=()=>{location.hash="accueil"}; window.scrollTo(0,0);
+}
+
+
+/* ===== Vrai ou faux ? : vérification des rumeurs ===== */
+const VERDICTS={faux:"Faux",vrai:"Vrai",trompeur:"Trompeur",nonverifie:"Non vérifié"};
+const VERIFS=[
+ {id:"vf-bfem",verdict:"faux",cat:"Éducation",d:"2026-10-11",att:"bfem",
+  claim:"Des visuels annoncent les dates du BFEM et des examens 2026",
+  circule:"Au printemps 2026, des images présentées comme le calendrier officiel des examens (dont le BFEM) ont circulé sur les réseaux sociaux.",
+  preuves:["Le ministère de l'Éducation nationale a publié un communiqué le mardi 19 mai 2026 : ces publications contiennent des informations inexactes.","Le communiqué donnait alors le CFEE les 17 et 18 juin 2026 et le BFEM à partir du 14 juillet 2026.","La date des épreuves écrites du BFEM a ensuite été fixée au mardi 21 juillet 2026."],
+  conclusion:"Faux. Les visuels ne venaient pas du ministère. Seules les dates publiées sur ses canaux officiels comptent, et elles peuvent encore bouger : c'est pour cela que la rubrique « Mais quand ? » affiche leur fiabilité.",
+  reflexe:"Avant de partager une date d'examen, vérifiez qu'elle vient d'un communiqué du ministère ou de l'Office du Bac.",
+  src:[{n:"PressAfrik : le gouvernement dément les fausses dates du BFEM (19 mai 2026)",u:"https://www.pressafrik.com/Examens-scolaires-2025-2026-le-gouvernement-dement-les-fausses-dates-du-BFEM-circulant-sur-les-reseaux-sociaux_a305675.html"},{n:"Ndarinfo : BFEM 2026 fixé au mardi 21 juillet",u:"https://www.ndarinfo.com/Examen-du-BFEM-2026-la-date-officielle-des-epreuves-fixee-au-mardi-21-juillet_a44732.html"}]},
+ {id:"vf-gendarmerie",verdict:"faux",cat:"Emploi",d:"2026-10-11",att:"gendarmerie",
+  claim:"« Le concours de l'ESOGN est ouvert : appelez ce numéro pour vous inscrire »",
+  circule:"Des publications annoncent l'ouverture du concours de l'École des sous-officiers de la gendarmerie (ESOGN) et invitent à appeler un numéro de téléphone pour connaître la procédure d'inscription. Ce type d'annonce revient régulièrement.",
+  preuves:["Le Haut Commandement de la gendarmerie nationale a démenti ces annonces par un communiqué (octobre 2025), les qualifiant de contenus destinés à tromper les citoyens.","Les concours EOGN et ESOGN ne sont annoncés que par communiqué sur les canaux officiels : le site gendarmerie.sn et la page Facebook officielle de la gendarmerie.","Aucune inscription ne se fait en appelant un numéro trouvé sur les réseaux sociaux."],
+  conclusion:"Faux. Une annonce de concours qui renvoie vers un numéro de téléphone inconnu est une tentative d'arnaque.",
+  reflexe:"Ne payez jamais pour « réserver » une place à un concours. En cas de doute, la gendarmerie indique les numéros gratuits 123 et 800 00 20 20.",
+  src:[{n:"Seneweb : la gendarmerie dément les fausses annonces de recrutement ESOGN",u:"https://www.seneweb.com/en/news/Societe/esogn-2026-la-gendarmerie-nationale-dement-les-fausses-annonces-de-recrutement_n_470240.html"}]},
+ {id:"vf-amulettes",verdict:"faux",cat:"Sport",d:"2026-10-11",
+  claim:"Des amulettes saisies dans les bagages des Lions aux États-Unis, selon le Washington Post",
+  circule:"En juin 2026, une capture d'écran attribuée au Washington Post a circulé sur Facebook : des objets rituels et des amulettes auraient été saisis dans les bagages de l'équipe du Sénégal à son arrivée aux États-Unis pour la Coupe du monde.",
+  preuves:["L'article est introuvable sur le site du Washington Post.","L'adresse web visible sur la capture contient un espace, ce qui est impossible pour une vraie adresse.","Le Washington Post a démenti sur X le 11 juin 2026 : il s'agit d'une image retouchée.","La page qui avait lancé la publication l'a supprimée."],
+  conclusion:"Faux. L'article attribué au Washington Post a été fabriqué.",
+  reflexe:"Une capture d'écran n'est pas une preuve : cherchez l'article sur le site du média cité avant de le partager.",
+  src:[{n:"Africa Check : cet article attribué au Washington Post est faux (18 juin 2026)",u:"https://africacheck.org/fr/fact-checks/meta-programme-fact-checks/coupe-du-monde-2026-faux-article-washington-post-equipe-senegal"}]},
+];
+const vfById=id=>VERIFS.find(v=>v.id===id);
+const stamp=v=>`<span class="stamp ${v.verdict}">${VERDICTS[v.verdict]}</span>`;
+function vfCard(v){return `<a class="vfc" href="#${v.id}">${stamp(v)}<div><span class="meta">${v.cat} · ${fmt(v.d)}</span><h4>${esc(v.claim)}</h4></div></a>`}
+function vfBand(){
+  return `<section class="vfband" aria-labelledby="vf-t">
+    <div class="ph"><h3 id="vf-t">Vrai ou faux ?</h3><a class="lnk" href="#vrai-faux">Toutes les vérifications →</a></div>
+    <p class="sub">Les rumeurs qui circulent sur WhatsApp et les réseaux, vérifiées avec leurs sources.</p>
+    <div class="vfgrid">${VERIFS.slice(0,3).map(vfCard).join("")}</div>
+  </section>`;
+}
+function renderVF(){
+  $("#app").innerHTML=`<article style="max-width:780px">
+    <button class="back" type="button" id="back">← Retour aux actualités</button>
+    <span class="cat">Vrai ou faux ?</span><h1>Les rumeurs vérifiées</h1>
+    <p class="chapo">Une information vous semble douteuse ? Nous la vérifions, nous montrons comment, et nous citons nos sources.</p>
+    <div class="legende vfleg">${Object.keys(VERDICTS).map(k=>`<span class="stamp ${k}">${VERDICTS[k]}</span>`).join("")}</div>
+    <p class="fine">Faux : contredit par des preuves. Trompeur : en partie vrai, mais présenté de façon à induire en erreur. Non vérifié : impossible à confirmer ou à démentir pour l'instant. Vrai : confirmé par des sources fiables.</p>
+    <div class="vflist">${VERIFS.map(vfCard).join("")}</div>
+  </article>`;
+  $("#back").onclick=()=>{location.hash="accueil"}; window.scrollTo(0,0);
+}
+function renderVFOne(v){
+  const x=v.att&&typeof attById==="function"?attById(v.att):null;
+  $("#app").innerHTML=`<article>
+    <a class="back" href="#vrai-faux">← Vrai ou faux ?</a>
+    <span class="cat">Vrai ou faux ? · ${v.cat}</span>
+    <h1>${esc(v.claim)}</h1>
+    <div class="verdict ${v.verdict}"><span class="stamp ${v.verdict} big">${VERDICTS[v.verdict]}</span><p>${esc(v.conclusion)}</p></div>
+    <span class="meta">Vérification publiée le ${fmt(v.d)}</span>
+    <section class="blk"><h2>Ce qui circule</h2><p class="pp">${esc(v.circule)}</p></section>
+    <section class="blk"><h2>Ce que nous avons vérifié</h2><ul class="preuves">${v.preuves.map(t=>`<li>${esc(t)}</li>`).join("")}</ul></section>
+    <p class="pobs"><b>Le bon réflexe :</b> ${esc(v.reflexe)}</p>
+    ${x?`<a class="attcard" href="#att-${x.id}">${cdBox(x)}<div><span class="meta">Mais quand ? · date suivie</span><strong>${esc(x.q)}</strong>${fiabTag(x)}</div></a>`:""}
+    <section class="blk"><h2>Sources</h2><ul class="srcs">${v.src.map(s=>`<li><a href="${s.u}" target="_blank" rel="noopener">${esc(s.n)}</a></li>`).join("")}</ul></section>
+    <p class="regle-lien">Comment nous travaillons : <a href="#regles">nos règles</a> · <a href="#corrections">corrections</a></p>
+    ${shareBar({titre:VERDICTS[v.verdict]+" : "+v.claim,id:v.id})}
+  </article>`;
+  window.scrollTo(0,0);
+}
+
+/* Partage */
+const lienArticle=a=>"https://maisquand.com/#"+a.id;
+function shareBar(a){
+  const url=lienArticle(a), txt=a.titre+" — Mais quand ?";
+  return `<div class="share"><span>Partager</span>
+    <a class="wa" href="https://wa.me/?text=${encodeURIComponent(txt+"\n"+url)}" target="_blank" rel="noopener">WhatsApp</a>
+    <a class="fb" href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}" target="_blank" rel="noopener">Facebook</a>
+    <button type="button" class="cp" data-url="${url}">Copier le lien</button></div>`;
+}
+document.addEventListener("click",e=>{const b=e.target.closest(".cp"); if(!b) return;
+  const done=()=>{b.textContent="Lien copié"; setTimeout(()=>b.textContent="Copier le lien",2000)};
+  try{navigator.clipboard.writeText(b.dataset.url).then(done,()=>{prompt0(b)})}catch(_){prompt0(b)}});
+function prompt0(b){b.outerHTML=`<input class="cpin" readonly value="${b.dataset.url}" onfocus="this.select()">`}
+
+function renderCats(){
+  const onDates=location.hash==="#dates"||location.hash.startsWith("#att-");
+  const onVF=location.hash==="#vrai-faux"||location.hash.startsWith("#vf-");
+  $("#cats").innerHTML = CATS.map(c=>`<button type="button" aria-pressed="${!onDates&&!onVF&&c===cat}" data-c="${c}">${c}</button>`).join("")+`<button type="button" class="vfbtn" aria-pressed="${onVF}" data-r="vrai-faux">Vrai ou faux ?</button>`+`<button type="button" class="mqbtn" aria-pressed="${onDates}" data-r="dates">Mais quand ?</button>`;
+}
+$("#cats").addEventListener("click",e=>{
+  const b=e.target.closest("button"); if(!b) return;
+  if(b.dataset.r){ location.hash=b.dataset.r; return; }
+  cat=b.dataset.c; location.hash="accueil"; renderCats(); renderHome();
+});
+$("#q").addEventListener("input",e=>{q=e.target.value.trim().toLowerCase(); if(location.hash.length>1 && location.hash!=="#accueil") location.hash="accueil"; renderHome();});
+
+function rappelBand(r){
+  return `<a class="rappel" href="#${r.id}">
+    <div class="when"><small>${new Date(r.date+"T12:00:00").toLocaleDateString("fr-FR",{weekday:"long"})}</small><b>${new Date(r.date+"T12:00:00").getDate()}</b><small>${new Date(r.date+"T12:00:00").toLocaleDateString("fr-FR",{month:"long",year:"numeric"})}</small><hr><small>${r.hijri}</small></div>
+    <div style="min-width:0">
+      <span class="eyebrow">Le rappel du jour · Spiritualité</span>
+      <h2>${esc(r.rap.titre)}</h2>
+      <div class="cols">
+        <div><div class="ar" lang="ar" style="font-size:clamp(1.3rem,2.6vw,1.7rem)">${r.verset.ar}</div><p class="fr">« ${esc(r.verset.fr)} »</p><span class="ref">${r.verset.ref}</span></div>
+        <div><p class="fr">« ${esc(r.hadith.texte)} »</p><span class="ref">${r.hadith.source}</span><p style="margin:14px 0 0"><span class="more">Lire le rappel complet →</span></p></div>
+      </div>
+    </div>
+  </a>`;
+}
+function renderHome(){
+  const list = ARTICLES.filter(a=>(cat==="Toutes"||a.cat===cat) && (!q || (a.titre+" "+a.chapo+" "+(a.rap?a.rap.texte+a.hadith.texte:"")).toLowerCase().includes(q)));
+  if(!list.length){ $("#app").innerHTML=`<p class="empty">Aucun article ne correspond à votre recherche.</p>`; return; }
+  const rap = list.find(a=>a.rappel);
+  const others = list.filter(a=>!a.rappel);
+  const [first,...rest0]=others;
+  const rest=[...rest0].sort((x,y)=>y.date.localeCompare(x.date));
+  $("#app").innerHTML = `
+    ${first?`<a class="une" href="#${first.id}">
+      ${img(first)}
+      <div><span class="cat">À la une · ${first.cat}</span><h2>${esc(first.titre)}</h2><p>${esc(first.chapo)}</p><p style="margin-top:10px">${meta(first)}</p></div>
+    </a>`:""}
+    ${rap?rappelBand(rap):""}
+    ${cat==="Toutes"&&!q?`<div class="duo">${prayerPanel()}${datesPanel()}</div>`:""}
+    ${cat==="Toutes"&&!q?vfBand():""}
+    ${rest.length?`<h3 class="sec">${cat==="Toutes"?"Dernières actualités":cat}</h3>
+    <div class="grid">${rest.map(a=>`<a class="card" href="#${a.id}">${img(a)}<span class="cat">${a.cat}</span><h4>${esc(a.titre)}</h4>${meta(a)}</a>`).join("")}</div>`:""}`;
+}
+
+function renderArticle(a){
+  if(a.rappel){
+    $("#app").innerHTML = `<article>
+      <button class="back" type="button" id="back">← Retour aux actualités</button>
+      <span class="cat">${a.cat} · Le rappel du jour</span><h1>${esc(a.titre)}</h1><p class="chapo">${esc(a.chapo)}</p>
+      <span class="meta">${fmt(a.date)} · ${a.hijri}</span>
+      <div class="rp">
+        <section><h2>Le hadith</h2><p style="margin:0">Le Messager d'Allah ﷺ a dit :</p><blockquote>« ${esc(a.hadith.texte)} »</blockquote><div class="ar" lang="ar" style="font-size:1.5rem">${a.hadith.ar}</div><span class="src">${a.hadith.source}</span></section>
+        <section><h2>Le rappel</h2><strong style="font-size:1.15rem">${esc(a.rap.titre)}</strong><p style="margin:0">${esc(a.rap.texte)}</p></section>
+        <section class="dark"><h2>Le verset du jour</h2><div class="ar" lang="ar">${a.verset.ar}</div><blockquote>« ${esc(a.verset.fr)} »</blockquote><span class="src">${a.verset.ref}</span></section>
+        <section><h2>À retenir</h2><p style="margin:0;font-size:1.1rem">${esc(a.retenir)}</p></section>
+        <section><h2>Douʿâ</h2><div class="ar" lang="ar">${a.doua.ar}</div><blockquote>« ${esc(a.doua.fr)} »</blockquote></section>
+      </div>
+      ${shareBar(a)}
+    </article>`;
+    $("#back").onclick=()=>{location.hash="accueil"};
+    window.scrollTo(0,0); return;
+  }
+  $("#app").innerHTML = `<article>
+    <button class="back" type="button" id="back">← Retour aux actualités</button>
+    <span class="cat">${a.cat}</span><h1>${esc(a.titre)}</h1><p class="chapo">${esc(a.chapo)}</p>${meta(a)}
+    ${saitBox(a)}
+    ${a.video?`<figure class="vid"><video controls playsinline preload="metadata" poster="${a.photo}" src="${a.video}"></video><figcaption>Vidéo · ${fmt(a.date)}</figcaption></figure>`:img(a)}<div class="txt">${a.texte.map(p=>`<p>${esc(p)}</p>`).join("")}</div>
+    ${a.att&&attById(a.att)?(x=>`<a class="attcard" href="#att-${x.id}">${cdBox(x)}<div><span class="meta">Mais quand ? · date suivie</span><strong>${esc(x.q)}</strong>${fiabTag(x)}</div></a>`)(attById(a.att)):""}
+    ${(a.src||a.srcTxt)?`<section class="blk"><h2>Sources</h2><ul class="srcs">${a.src?srcLinks(a.src):""}${(a.srcTxt||[]).map(t=>`<li>${esc(t)}</li>`).join("")}</ul></section>`:""}
+    <p class="regle-lien">Comment nous travaillons : <a href="#regles">nos règles</a> · <a href="#corrections">corrections</a></p>
+    ${shareBar(a)}
+  </article>`;
+  $("#back").onclick=()=>{location.hash="accueil"};
+  window.scrollTo(0,0);
+}
+
+function route(){
+  renderCats();
+  if(location.hash==="#dates") return renderDates();
+  if(location.hash==="#regles") return renderRegles();
+  if(location.hash==="#vrai-faux") return renderVF();
+  if(location.hash.startsWith("#vf-")){ const v=vfById(location.hash.slice(1)); if(v) return renderVFOne(v); }
+  if(location.hash==="#corrections") return renderCorrections();
+  if(location.hash.startsWith("#att-")){ const x=attById(location.hash.slice(5)); if(x) return renderAtt(x); }
+  const a = ARTICLES.find(x=>"#"+x.id===location.hash);
+  a ? renderArticle(a) : renderHome();
+}
+window.addEventListener("hashchange",route);
+renderCats(); route();
+</script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+MAIS QUAND ? · Mise en ligne de maisquand.com
+==============================================
+
+CONTENU DU DOSSIER
+------------------
+index.html            La page du site (tout le site est dans ce fichier)
+images/               Photos, vidéo et image de partage (partage.jpg)
+favicon.svg           Icône de l'onglet du navigateur
+apple-touch-icon.png  Icône quand on ajoute le site à l'écran d'accueil d'un téléphone
+robots.txt            Autorise Google à référencer le site
+sitemap.xml           Plan du site pour Google
+LISEZ-MOI.txt         Ce mode d'emploi (il n'est pas nécessaire en ligne)
+
+Important : gardez cette organisation. index.html doit rester à la racine,
+à côté du dossier images/.
+
+
+ÉTAPE 1 · Mettre le site en ligne avec Netlify (gratuit)
+--------------------------------------------------------
+1. Décompressez l'archive sur votre ordinateur. Vous obtenez un dossier
+   « maisquand-en-ligne ».
+2. Allez sur https://app.netlify.com et créez un compte gratuit
+   (avec votre adresse e-mail ou un compte GitHub).
+3. Ouvrez https://app.netlify.com/drop
+4. Glissez-déposez le dossier « maisquand-en-ligne » entier dans la zone
+   prévue. Après quelques secondes, le site est en ligne à une adresse
+   provisoire du type https://nom-au-hasard.netlify.app
+5. Ouvrez cette adresse et vérifiez que tout s'affiche (photos, vidéo,
+   rubrique Mais quand ?).
+6. Dans les réglages du site (Site configuration > Change site name),
+   vous pouvez renommer l'adresse provisoire, par exemple
+   maisquand.netlify.app
+
+
+ÉTAPE 2 · Brancher votre nom de domaine maisquand.com
+-----------------------------------------------------
+1. Dans Netlify, ouvrez votre site puis « Domain management »
+   > « Add a domain ».
+2. Saisissez maisquand.com et validez.
+3. Netlify vous propose deux façons de faire. La plus simple :
+   - soit « Netlify DNS » : Netlify vous donne 4 serveurs de noms
+     (du type dns1.p0X.nsone.net). Allez chez le registraire où vous avez
+     acheté maisquand.com, rubrique « Serveurs DNS » / « Nameservers »,
+     et remplacez les serveurs actuels par ceux de Netlify ;
+   - soit garder les DNS de votre registraire : ajoutez chez lui les
+     enregistrements que Netlify affiche à l'écran (en général un
+     enregistrement A pour maisquand.com et un CNAME pour www vers votre
+     adresse .netlify.app). Recopiez exactement les valeurs données par
+     Netlify.
+4. Patientez : la connexion prend de quelques minutes à 24 heures.
+5. Netlify installe ensuite automatiquement le cadenas https
+   (rubrique « HTTPS », bouton « Verify DNS configuration » puis
+   « Provision certificate » si ce n'est pas automatique).
+
+
+ÉTAPE 3 · Mettre à jour le site
+-------------------------------
+Quand vous ajoutez un article ou une date :
+1. Demandez à Claude le nouveau fichier index.html (ou la nouvelle archive).
+2. Dans Netlify, ouvrez votre site > onglet « Deploys ».
+3. Glissez-déposez à nouveau le dossier complet dans la zone
+   « Drag and drop your site output folder here ».
+L'ancienne version est remplacée en quelques secondes. Netlify garde
+l'historique : vous pouvez revenir à une version précédente en un clic.
+
+
+À VÉRIFIER AVANT D'ANNONCER LE SITE
+-----------------------------------
+- Le rappel du jour est daté du vendredi 9 octobre : pensez à le mettre
+  à jour, ou à le retirer s'il n'est pas actualisé chaque jour.
+- L'article sur la conférence de presse attend encore le nom de
+  l'intervenante, de l'organisation et du lieu.
+- Les dates « approximatives » et « estimées » de la rubrique Mais quand ?
+  doivent être remplacées dès que les dates officielles sont publiées.
+- Testez l'aperçu de partage : envoyez le lien https://maisquand.com
+  dans une discussion WhatsApp. Le titre, la description et l'image
+  partage.jpg doivent s'afficher.
+- Les attentes suivies (« + Suivre ») sont enregistrées sur l'appareil
+  de chaque lecteur. Les alertes automatiques demanderont plus tard un
+  serveur.
