@@ -59,6 +59,8 @@ header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var
 nav{display:flex;gap:6px;overflow-x:auto;padding-bottom:12px;scrollbar-width:none}
 nav button{border:1px solid var(--line);background:transparent;padding:6px 14px;border-radius:999px;cursor:pointer;white-space:nowrap;font-family:var(--display);font-weight:600;font-size:.9rem}
 nav button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+/* Sur ordinateur, pas de glissement au doigt : les rubriques passent à la ligne au lieu de sortir du cadre. */
+@media (min-width:721px){nav#cats{flex-wrap:wrap;overflow-x:visible}}
 
 main{padding-block:28px 48px;display:grid;gap:32px}
 .note{font-family:var(--mono);font-size:.75rem;color:var(--muted);background:var(--accent-soft);padding:8px 12px;border-radius:6px}
