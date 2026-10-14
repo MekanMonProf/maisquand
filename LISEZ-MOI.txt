@@ -73,6 +73,44 @@ automatiquement par GitHub Pages en une à deux minutes. Si la page ne
 change pas, rechargez-la avec Ctrl + F5.
 
 
+ÉTAPE 4 · Publier un article vous-même
+--------------------------------------
+La page https://maisquand.com/redaction.html permet d'écrire et de
+publier un article sans toucher au code. Elle n'est liée nulle part sur
+le site et Google ne la référence pas.
+
+Une seule fois, créez votre clé GitHub (5 minutes) :
+1. Connecté à GitHub, ouvrez
+   https://github.com/settings/personal-access-tokens/new
+2. « Token name » : Rédaction Mais quand
+   « Expiration » : 1 an (notez la date : il faudra en créer une
+   nouvelle à l'expiration).
+3. « Repository access » : « Only select repositories », puis
+   choisissez MekanMonProf/maisquand.
+4. « Permissions » > « Repository permissions » > « Contents » :
+   « Read and write ». Ne cochez rien d'autre.
+5. « Generate token », puis copiez la clé (elle commence par
+   github_pat_). GitHub ne la montre qu'une fois.
+6. Sur redaction.html, collez-la et cliquez sur « Se connecter ».
+   La clé reste enregistrée sur cet appareil ; « Se déconnecter »
+   l'efface.
+
+Ne donnez jamais cette clé à personne et ne la collez pas ailleurs.
+Si vous pensez qu'elle a fuité, supprimez-la sur
+https://github.com/settings/personal-access-tokens puis créez-en une
+nouvelle.
+
+Pour publier :
+- remplissez le titre, le chapô, la catégorie et le texte (une ligne
+  vide entre deux paragraphes) ; la photo, les encadrés « Ce qu'on
+  sait » et les sources sont facultatifs ;
+- « Aperçu » montre l'article avant publication ;
+- « Publier » le met en tête de l'accueil, en ligne une à deux minutes
+  plus tard.
+- « Mes publications » liste les articles publiés depuis cette page ;
+  « Retirer » enlève un article du site en cas d'erreur.
+
+
 À VÉRIFIER AVANT D'ANNONCER LE SITE
 -----------------------------------
 - Le rappel du jour est daté du vendredi 9 octobre : pensez à le mettre
