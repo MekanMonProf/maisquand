@@ -15,53 +15,62 @@ Important : gardez cette organisation. index.html doit rester à la racine,
 à côté du dossier images/.
 
 
-ÉTAPE 1 · Mettre le site en ligne avec Netlify (gratuit)
---------------------------------------------------------
-1. Décompressez l'archive sur votre ordinateur. Vous obtenez un dossier
-   « maisquand-en-ligne ».
-2. Allez sur https://app.netlify.com et créez un compte gratuit
-   (avec votre adresse e-mail ou un compte GitHub).
-3. Ouvrez https://app.netlify.com/drop
-4. Glissez-déposez le dossier « maisquand-en-ligne » entier dans la zone
-   prévue. Après quelques secondes, le site est en ligne à une adresse
-   provisoire du type https://nom-au-hasard.netlify.app
-5. Ouvrez cette adresse et vérifiez que tout s'affiche (photos, vidéo,
-   rubrique Mais quand ?).
-6. Dans les réglages du site (Site configuration > Change site name),
-   vous pouvez renommer l'adresse provisoire, par exemple
-   maisquand.netlify.app
+HÉBERGEMENT : GITHUB PAGES (gratuit, sans crédits)
+=================================================
+Le site est publié par GitHub Pages à partir de la branche main du dépôt
+github.com/MekanMonProf/maisquand. Netlify n'est plus utilisé : son offre
+gratuite suspendait les mises en ligne une fois les crédits épuisés.
+
+Deux fichiers servent à GitHub Pages, ne les supprimez pas :
+CNAME       Le nom de domaine du site (maisquand.com)
+.nojekyll   Demande à GitHub de publier les fichiers tels quels
 
 
-ÉTAPE 2 · Brancher votre nom de domaine maisquand.com
------------------------------------------------------
-1. Dans Netlify, ouvrez votre site puis « Domain management »
-   > « Add a domain ».
-2. Saisissez maisquand.com et validez.
-3. Netlify vous propose deux façons de faire. La plus simple :
-   - soit « Netlify DNS » : Netlify vous donne 4 serveurs de noms
-     (du type dns1.p0X.nsone.net). Allez chez le registraire où vous avez
-     acheté maisquand.com, rubrique « Serveurs DNS » / « Nameservers »,
-     et remplacez les serveurs actuels par ceux de Netlify ;
-   - soit garder les DNS de votre registraire : ajoutez chez lui les
-     enregistrements que Netlify affiche à l'écran (en général un
-     enregistrement A pour maisquand.com et un CNAME pour www vers votre
-     adresse .netlify.app). Recopiez exactement les valeurs données par
-     Netlify.
-4. Patientez : la connexion prend de quelques minutes à 24 heures.
-5. Netlify installe ensuite automatiquement le cadenas https
-   (rubrique « HTTPS », bouton « Verify DNS configuration » puis
-   « Provision certificate » si ce n'est pas automatique).
+ÉTAPE 1 · Activer GitHub Pages (une seule fois)
+-----------------------------------------------
+1. Connectez-vous à GitHub (bouton « Sign in », pas « Sign up »).
+2. Ouvrez https://github.com/MekanMonProf/maisquand/settings/pages
+3. « Source » : choisissez « Deploy from a branch ».
+4. « Branch » : choisissez « main » et le dossier « / (root) »,
+   puis « Save ».
+5. « Custom domain » : vérifiez que maisquand.com est inscrit
+   (sinon, saisissez-le et cliquez sur « Save »).
+Après une minute, le site répond aussi à l'adresse
+https://mekanmonprof.github.io/maisquand/ (avant le changement de DNS,
+cette adresse peut renvoyer vers maisquand.com).
+
+
+ÉTAPE 2 · Faire pointer maisquand.com vers GitHub
+-------------------------------------------------
+Les enregistrements DNS se modifient là où ils sont gérés aujourd'hui :
+- si vous aviez choisi « Netlify DNS » : dans Netlify, « Domains »
+  > maisquand.com > « DNS settings » (ou remettez les serveurs DNS
+  d'origine chez votre registraire et faites la suite chez lui) ;
+- sinon : chez le registraire où vous avez acheté maisquand.com.
+
+Supprimez les anciens enregistrements A et CNAME qui pointent vers
+Netlify, puis ajoutez :
+
+  Type   Nom                 Valeur
+  A      maisquand.com (@)   185.199.108.153
+  A      maisquand.com (@)   185.199.109.153
+  A      maisquand.com (@)   185.199.110.153
+  A      maisquand.com (@)   185.199.111.153
+  CNAME  www                 mekanmonprof.github.io
+
+Patientez : la bascule prend de quelques minutes à 24 heures.
+Revenez ensuite sur la page de l'étape 1 : quand GitHub indique que le
+DNS est correct, cochez « Enforce HTTPS » (le cadenas).
+
+Une fois maisquand.com servi par GitHub, vous pouvez supprimer le
+projet dans Netlify.
 
 
 ÉTAPE 3 · Mettre à jour le site
 -------------------------------
-Quand vous ajoutez un article ou une date :
-1. Demandez à Claude le nouveau fichier index.html (ou la nouvelle archive).
-2. Dans Netlify, ouvrez votre site > onglet « Deploys ».
-3. Glissez-déposez à nouveau le dossier complet dans la zone
-   « Drag and drop your site output folder here ».
-L'ancienne version est remplacée en quelques secondes. Netlify garde
-l'historique : vous pouvez revenir à une version précédente en un clic.
+Toute modification fusionnée dans la branche main est publiée
+automatiquement par GitHub Pages en une à deux minutes. Si la page ne
+change pas, rechargez-la avec Ctrl + F5.
 
 
 À VÉRIFIER AVANT D'ANNONCER LE SITE
