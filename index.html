@@ -256,6 +256,22 @@ a.back{text-decoration:none}
 .corrs li{border-left:3px solid var(--sun);padding-left:12px}
 .vide-c{background:var(--surface);border:1px dashed var(--line);border-radius:10px;padding:16px;margin:0}
 footer .foot{display:flex;flex-wrap:wrap;gap:16px;margin-top:8px}
+/* Partenaires : toujours signalés comme tels, à part de l'information */
+.parts{display:grid;gap:12px;padding:20px;border-radius:14px;background:var(--surface);border:1px dashed var(--line)}
+.parts .ph{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.parts .tag{font-family:var(--mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.parts .lnk{font-family:var(--display);font-weight:600;color:var(--accent);font-size:.9rem}
+.partgrid{display:grid;gap:12px}
+@media (min-width:721px){.partgrid{grid-template-columns:1fr 1fr}}
+.partc{display:grid;grid-template-columns:56px 1fr;gap:14px;align-items:center;padding:14px;border-radius:10px;background:var(--bg);border:1px solid var(--line);text-decoration:none}
+.partc:hover{border-color:var(--accent)}
+.partc .lg{width:56px;height:56px;border-radius:10px;background:#fff;display:grid;place-items:center;overflow:hidden;font-family:var(--display);font-weight:800;font-size:1.4rem;color:#14212b}
+.partc .lg img{display:block;max-width:100%;max-height:100%;width:auto;height:auto;padding:4px}
+.partc h4{font-family:var(--display);font-weight:800;margin:0;font-size:1.05rem}
+.partc p{margin:2px 0 0;color:var(--muted);font-size:.9rem;line-height:1.45}
+.partc .url{font-family:var(--mono);font-size:.72rem;color:var(--accent)}
+.offre{display:grid;gap:12px;padding:0;margin:0;list-style:none}
+.offre li{padding:14px 16px;border-radius:10px;background:var(--surface);border:1px solid var(--line)}
 footer .foot a{color:var(--accent);font-family:var(--display);font-weight:600}
 /* ===== Vrai ou faux ? ===== */
 .stamp{display:inline-grid;place-items:center;font-family:var(--display);font-weight:800;font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;padding:5px 10px;border-radius:6px;border:2px solid currentColor;transform:rotate(-3deg);white-space:nowrap;background:var(--surface)}
@@ -303,7 +319,7 @@ footer{border-top:1px solid var(--line);padding-block:24px;color:var(--muted);fo
 
 <div class="wrap"><main id="app"></main></div>
 
-<footer><div class="wrap">© 2026 Mais quand ? · L'info qui ne vous fait pas attendre · maisquand.com · Rubrique MaisQuand par KemanHicks · Dernière mise à jour : 14 octobre 2026<nav class="foot" aria-label="Informations"><a href="#regles">Nos règles</a><a href="#corrections">Corrections</a><a href="#dates">Mais quand ?</a><a href="#vrai-faux">Vrai ou faux ?</a></nav></div></footer>
+<footer><div class="wrap">© 2026 Mais quand ? · L'info qui ne vous fait pas attendre · maisquand.com · Rubrique MaisQuand par KemanHicks · Dernière mise à jour : 14 octobre 2026<nav class="foot" aria-label="Informations"><a href="#regles">Nos règles</a><a href="#corrections">Corrections</a><a href="#dates">Mais quand ?</a><a href="#vrai-faux">Vrai ou faux ?</a><a href="#annoncer">Annoncer chez nous</a></nav></div></footer>
 
 <script>
 const ARTICLES = [
@@ -710,6 +726,7 @@ function renderRegles(){
       <li><b>Les dates affichent leur niveau de fiabilité.</b> Dans la rubrique « Mais quand ? », chaque date est confirmée, estimée ou approximative, et nous le montrons.</li>
       <li><b>Nous corrigeons nos erreurs publiquement.</b> Toute correction importante est signalée dans l'article et listée sur la page Corrections.</li>
       <li><b>Nous distinguons l'information de l'opinion.</b> Un texte d'opinion est toujours présenté comme tel.</li>
+      <li><b>Les contenus payés sont toujours signalés.</b> Un partenaire ou un annonceur est présenté comme tel, et il n'intervient pas dans nos articles.</li>
     </ol>
     <p><a href="#corrections">Voir les corrections →</a></p>
   </article>`;
@@ -755,6 +772,56 @@ const VERIFS=[
 const vfById=id=>VERIFS.find(v=>v.id===id);
 const stamp=v=>`<span class="stamp ${v.verdict}">${VERDICTS[v.verdict]}</span>`;
 function vfCard(v){return `<a class="vfc" href="#${v.id}">${stamp(v)}<div><span class="meta">${v.cat} · ${fmt(v.d)}</span><h4>${esc(v.claim)}</h4></div></a>`}
+/* ===== Partenaires =====
+   Pour ajouter un partenaire : copier un bloc. logo est facultatif (sinon, l'initiale s'affiche
+   sur la couleur indiquée). lien remplace l'adresse affichée, pour un lien trop long.
+   texte : une phrase, écrite ou validée par le partenaire. */
+const PARTENAIRES = [
+ {nom:"Waqf Dolel Xamxam", url:"https://www.waqfdolelxamxam.sn/", logo:"images/partenaires/waqf-dolel-xamxam.png",
+  texte:"Finance les daaras et l'éducation gratuite, des petites classes jusqu'au doctorat."},
+ {nom:"BarakaSouq", url:"https://barakasouq.com/", logo:"images/partenaires/barakasouq.png",
+  texte:"Boutique en ligne : maison et électroménager, bébé, mode, beauté et high-tech, au même endroit."},
+ {nom:"Taaral Boutique", url:"https://whatsapp.com/channel/0029VbDbk3x65yD4t29VJW3J", lien:"Chaîne WhatsApp", logo:"images/partenaires/taaral-boutique.png",
+  texte:"Mode féminine pudique : robes longues, hijabs, parfums et accessoires."},
+ {nom:"Ndougalma", url:"https://whatsapp.com/channel/0029Vb9VDnQ1NCrVwZspDe0X", lien:"Chaîne WhatsApp", logo:"images/partenaires/ndougalma.png",
+  texte:"Fruits, légumes frais et produits du quotidien, à Dakar et Touba."},
+];
+/* Coordonnées pour les annonceurs. Laissées vides, la page le dit sans afficher de numéro. */
+const CONTACT_PUB = {whatsapp:"", email:""};
+const hote = u => u.replace(/^https?:\/\/(www\.)?/,"").replace(/\/$/,"");
+function partCard(p){
+  return `<a class="partc" href="${p.url}" target="_blank" rel="sponsored noopener">
+    <span class="lg"${!p.logo&&p.couleur?` style="background:${p.couleur};color:#fff"`:""}>${p.logo?`<img src="${p.logo}" alt="" loading="lazy">`:esc(p.nom.charAt(0))}</span>
+    <span><h4>${esc(p.nom)}</h4>${p.texte?`<p>${esc(p.texte)}</p>`:""}<span class="url">${esc(p.lien||hote(p.url))} ↗</span></span>
+  </a>`;
+}
+function partBand(){
+  if(!PARTENAIRES.length) return "";
+  return `<aside class="parts" aria-label="Nos partenaires">
+    <div class="ph"><span class="tag">Partenaires · contenu non rédactionnel</span><a class="lnk" href="#annoncer">Annoncer chez nous →</a></div>
+    <div class="partgrid">${PARTENAIRES.map(partCard).join("")}</div>
+  </aside>`;
+}
+function renderAnnoncer(){
+  const c=CONTACT_PUB, wa=c.whatsapp.replace(/[^0-9]/g,"");
+  const contact = wa||c.email
+    ? `<p>${wa?`WhatsApp : <a href="https://wa.me/${wa}">${esc(c.whatsapp)}</a>`:""}${wa&&c.email?" · ":""}${c.email?`E-mail : <a href="mailto:${esc(c.email)}">${esc(c.email)}</a>`:""}</p>`
+    : `<p class="empty">Les coordonnées pour les annonceurs seront bientôt indiquées ici.</p>`;
+  $("#app").innerHTML=`<article>
+    <button class="back" type="button" id="back">← Retour aux actualités</button>
+    <span class="cat">Mais quand ?</span><h1>Annoncer chez nous</h1>
+    <p class="chapo">Mais quand ? vit aussi grâce à ses partenaires. Nous leur réservons une place visible, sans jamais la confondre avec l'information.</p>
+    <ul class="offre">
+      <li><b>Un emplacement partenaire sur la page d'accueil</b>, avec votre logo, une phrase et un lien vers votre site.</li>
+      <li><b>Un contenu sponsorisé</b>, toujours marqué comme tel et rangé dans la rubrique qui lui correspond.</li>
+    </ul>
+    <p>Un partenaire ne relit pas nos articles et n'influence pas notre traitement de l'information. C'est l'une de <a href="#regles">nos règles</a>.</p>
+    <h3 class="sec">Nous contacter</h3>
+    ${contact}
+    ${PARTENAIRES.length?`<h3 class="sec">Ils nous font confiance</h3><div class="partgrid">${PARTENAIRES.map(partCard).join("")}</div>`:""}
+  </article>`;
+  $("#back").onclick=()=>{location.hash="accueil"}; window.scrollTo(0,0);
+}
 function vfBand(){
   return `<section class="vfband" aria-labelledby="vf-t">
     <div class="ph"><h3 id="vf-t">Vrai ou faux ?</h3><a class="lnk" href="#vrai-faux">Toutes les vérifications →</a></div>
@@ -846,6 +913,7 @@ function renderHome(){
     ${rap?rappelBand(rap):""}
     ${cat==="Toutes"&&!q?`<div class="duo">${prayerPanel()}${datesPanel()}</div>`:""}
     ${cat==="Toutes"&&!q?vfBand():""}
+    ${cat==="Toutes"&&!q?partBand():""}
     ${rest.length?`<h3 class="sec">${cat==="Toutes"?"Dernières actualités":cat}</h3>
     <div class="grid">${rest.map(a=>`<a class="card" href="#${a.id}">${img(a)}<span class="cat">${a.cat}</span><h4>${esc(a.titre)}</h4>${meta(a)}</a>`).join("")}</div>`:""}`;
 }
@@ -888,6 +956,7 @@ function route(){
   renderCats();
   if(location.hash==="#dates") return renderDates();
   if(location.hash==="#regles") return renderRegles();
+  if(location.hash==="#annoncer") return renderAnnoncer();
   if(location.hash==="#vrai-faux") return renderVF();
   if(location.hash.startsWith("#vf-")){ const v=vfById(location.hash.slice(1)); if(v) return renderVFOne(v); }
   if(location.hash==="#corrections") return renderCorrections();
