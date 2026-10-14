@@ -376,7 +376,12 @@ const ARTICLES = [
   doua:{ar:"اللَّهُمَّ أَلِّفْ بَيْنَ قُلُوبِنَا، وَأَصْلِحْ ذَاتَ بَيْنِنَا",fr:"Ô Allah, unis nos cœurs et répare ce qui est entre nous."},
   texte:[]},
 ];
-const CATS = ["Toutes", ...new Set(ARTICLES.map(a=>a.cat))];
+/* Les rubriques du menu, dans l'ordre. Un article garde sa catégorie (Santé, Météo…),
+   affichée sur sa carte ; RANGE dit dans quelle rubrique il se classe.
+   Une catégorie absente de RANGE ne crée pas de rubrique : l'article n'apparaît que dans « Toutes ». */
+const CATS = ["Toutes","Éducation","Société","Spiritualité","Emploi","Sport","Monde & Tech"];
+const RANGE = {"Santé":"Société","Météo":"Société","International":"Monde & Tech","Tech":"Monde & Tech"};
+const rubrique = a => RANGE[a.cat] || a.cat;
 let cat = "Toutes", q = "";
 const $ = s => document.querySelector(s);
 const fmt = d => new Date(d+"T12:00:00").toLocaleDateString("fr-FR",{day:"numeric",month:"long",year:"numeric"});
@@ -827,7 +832,7 @@ function rappelBand(r){
   </a>`;
 }
 function renderHome(){
-  const list = ARTICLES.filter(a=>(cat==="Toutes"||a.cat===cat) && (!q || (a.titre+" "+a.chapo+" "+(a.rap?a.rap.texte+a.hadith.texte:"")).toLowerCase().includes(q)));
+  const list = ARTICLES.filter(a=>(cat==="Toutes"||rubrique(a)===cat) && (!q || (a.titre+" "+a.chapo+" "+(a.rap?a.rap.texte+a.hadith.texte:"")).toLowerCase().includes(q)));
   if(!list.length){ $("#app").innerHTML=`<p class="empty">Aucun article ne correspond à votre recherche.</p>`; return; }
   const rap = list.find(a=>a.rappel);
   const others = list.filter(a=>!a.rappel);
