@@ -261,7 +261,8 @@ footer .foot{display:flex;flex-wrap:wrap;gap:16px;margin-top:8px}
 .parts .ph{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
 .parts .tag{font-family:var(--mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
 .parts .lnk{font-family:var(--display);font-weight:600;color:var(--accent);font-size:.9rem}
-.partgrid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.partgrid{display:grid;gap:12px}
+@media (min-width:721px){.partgrid{grid-template-columns:1fr 1fr}}
 .partc{display:grid;grid-template-columns:56px 1fr;gap:14px;align-items:center;padding:14px;border-radius:10px;background:var(--bg);border:1px solid var(--line);text-decoration:none}
 .partc:hover{border-color:var(--accent)}
 .partc .lg{width:56px;height:56px;border-radius:10px;background:#fff;display:grid;place-items:center;overflow:hidden;font-family:var(--display);font-weight:800;font-size:1.4rem;color:#14212b}
@@ -772,20 +773,26 @@ const vfById=id=>VERIFS.find(v=>v.id===id);
 const stamp=v=>`<span class="stamp ${v.verdict}">${VERDICTS[v.verdict]}</span>`;
 function vfCard(v){return `<a class="vfc" href="#${v.id}">${stamp(v)}<div><span class="meta">${v.cat} · ${fmt(v.d)}</span><h4>${esc(v.claim)}</h4></div></a>`}
 /* ===== Partenaires =====
-   Pour ajouter un partenaire : copier un bloc. logo est facultatif (sinon, l'initiale s'affiche).
+   Pour ajouter un partenaire : copier un bloc. logo est facultatif (sinon, l'initiale s'affiche
+   sur la couleur indiquée). lien remplace l'adresse affichée, pour un lien trop long.
    texte : une phrase, écrite ou validée par le partenaire. */
 const PARTENAIRES = [
  {nom:"Waqf Dolel Xamxam", url:"https://www.waqfdolelxamxam.sn/", logo:"images/partenaires/waqf-dolel-xamxam.png",
   texte:"Finance les daaras et l'éducation gratuite, des petites classes jusqu'au doctorat."},
- {nom:"Baraka Souq", url:"https://barakasouq.com/", texte:""},
+ {nom:"BarakaSouq", url:"https://barakasouq.com/", couleur:"#1f7a4d",
+  texte:"Boutique en ligne : maison et électroménager, bébé, mode, beauté et high-tech, au même endroit."},
+ {nom:"Taaral Boutique", url:"https://whatsapp.com/channel/0029VbDbk3x65yD4t29VJW3J", lien:"Chaîne WhatsApp", couleur:"#b8457a",
+  texte:"Mode féminine pudique : robes longues, hijabs, parfums et accessoires."},
+ {nom:"Ndougalma", url:"https://whatsapp.com/channel/0029Vb9VDnQ1NCrVwZspDe0X", lien:"Chaîne WhatsApp", couleur:"#c96a1b",
+  texte:"Fruits, légumes frais et produits du quotidien, à Dakar et Touba."},
 ];
 /* Coordonnées pour les annonceurs. Laissées vides, la page le dit sans afficher de numéro. */
 const CONTACT_PUB = {whatsapp:"", email:""};
 const hote = u => u.replace(/^https?:\/\/(www\.)?/,"").replace(/\/$/,"");
 function partCard(p){
   return `<a class="partc" href="${p.url}" target="_blank" rel="sponsored noopener">
-    <span class="lg">${p.logo?`<img src="${p.logo}" alt="" loading="lazy">`:esc(p.nom.charAt(0))}</span>
-    <span><h4>${esc(p.nom)}</h4>${p.texte?`<p>${esc(p.texte)}</p>`:""}<span class="url">${esc(hote(p.url))} ↗</span></span>
+    <span class="lg"${!p.logo&&p.couleur?` style="background:${p.couleur};color:#fff"`:""}>${p.logo?`<img src="${p.logo}" alt="" loading="lazy">`:esc(p.nom.charAt(0))}</span>
+    <span><h4>${esc(p.nom)}</h4>${p.texte?`<p>${esc(p.texte)}</p>`:""}<span class="url">${esc(p.lien||hote(p.url))} ↗</span></span>
   </a>`;
 }
 function partBand(){
