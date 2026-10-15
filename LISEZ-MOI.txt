@@ -109,8 +109,11 @@ Pour publier :
   convient). Elles s'affichent sous le texte. En modification, les
   vidéos déjà en ligne sont gardées et les nouvelles s'ajoutent ;
 - « Aperçu » montre l'article avant publication ;
-- « Publier » le met en tête de l'accueil, en ligne une à deux minutes
-  plus tard.
+- « Publier » le met en ligne une à deux minutes plus tard. La case
+  « Mettre à la une » (cochée par défaut) le place en grand en haut de
+  l'accueil ; décochée, l'article est publié juste en dessous et la une
+  actuelle ne bouge pas. En modification, la case « Remettre cet article
+  à la une » fait remonter un article publié plus tôt.
 - « Mes publications » liste les articles publiés depuis cette page.
   « Modifier » remplit le formulaire avec l'article : corrigez, puis
   « Enregistrer les modifications ». L'adresse de l'article ne change

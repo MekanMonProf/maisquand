@@ -96,6 +96,7 @@ button:disabled{opacity:.5;cursor:wait}
           <label>Sources<textarea id="sources" placeholder="Une source par ligne. Ex. : Communiqué du ministère de l'Éducation, 14 octobre 2026"></textarea><small>Règle n° 1 : nous citons toujours nos sources.</small></label>
         </div>
       </details>
+      <label style="display:flex;gap:8px;align-items:center;font-weight:400"><input type="checkbox" id="une" checked style="width:auto"> <span id="libelle-une">Mettre à la une <small>(décochée : l'article est publié juste en dessous, la une actuelle ne bouge pas)</small></span></label>
       <div id="options-modif" hidden style="display:grid;gap:8px">
         <label style="display:flex;gap:8px;align-items:center;font-weight:400"><input type="checkbox" id="garder-photo-non" style="width:auto"> Retirer la photo actuelle</label>
         <label style="display:flex;gap:8px;align-items:center;font-weight:400"><input type="checkbox" id="retirer-videos" style="width:auto"> Retirer les vidéos actuelles</label>
@@ -252,6 +253,7 @@ function modeNouveau(){
   enCours = null;
   $("#form").reset(); $("#date").value = new Date().toLocaleDateString("sv-SE");
   $("#titre-form").textContent = "Nouvel article"; $("#publier").textContent = "Publier sur maisquand.com";
+  $("#une").checked = true; $("#libelle-une").innerHTML = "Mettre à la une <small>(décochée : l'article est publié juste en dessous, la une actuelle ne bouge pas)</small>";
   $("#bandeau-modif").hidden = true; $("#options-modif").hidden = true;
   $("#aide-photo").textContent = "Réduite automatiquement avant l'envoi.";
   $("#aide-videos").textContent = "Jusqu'à 3 vidéos MP4, 25 Mo maximum chacune. Elles s'affichent sous le texte.";
@@ -268,6 +270,7 @@ function modeModification(a){
   $("#sources").value = (a.srcTxt || []).join("\n");
   if (a.sait || a.saitPas || a.srcTxt) $("details").open = true;
   $("#titre-form").textContent = "Modifier l'article"; $("#publier").textContent = "Enregistrer les modifications";
+  $("#une").checked = false; $("#libelle-une").innerHTML = "Remettre cet article à la une <small>(sinon, il garde sa place)</small>";
   $("#bandeau-modif").hidden = false; $("#options-modif").hidden = false;
   $("#garder-photo-non").parentElement.hidden = !a.photo;
   $("#aide-photo").textContent = a.photo ? "Laissez vide pour garder la photo actuelle." : "Réduite automatiquement avant l'envoi.";
@@ -290,6 +293,23 @@ $("#voir").onclick = async () => {
       .map(u => `<video controls playsinline preload="metadata" src="${u}" style="width:100%;max-width:320px;border-radius:10px;background:#000"></video>`).join("")}`;
   ap.scrollIntoView({behavior:"smooth"});
 };
+
+/* ===== Place dans la liste =====
+   La une est le premier article de ARTICLES qui n'est pas le rappel du jour. Les articles
+   commencent par une ligne « {…» et s'arrêtent avant le suivant ou avant « ]; ». */
+function blocsArticles(lignesIdx){
+  const i0 = lignesIdx.findIndex(l => l.includes(MARQUE));
+  const fin = lignesIdx.findIndex((l, i) => i > i0 && /^\];/.test(l));
+  const debuts = []; for (let i = i0 + 1; i < fin; i++) if (lignesIdx[i].startsWith(" {")) debuts.push(i);
+  return { i0, blocs: debuts.map((d, k) => ({ debut: d, fin: k + 1 < debuts.length ? debuts[k + 1] : fin })) };
+}
+/* Où insérer une ligne : en tête (à la une) ou juste après l'article actuellement à la une. */
+function positionInsertion(lignesIdx, aLaUne){
+  const { i0, blocs } = blocsArticles(lignesIdx);
+  if (aLaUne) return i0 + 1;
+  const une = blocs.find(b => !/\brappel"?\s*:\s*true/.test(lignesIdx.slice(b.debut, b.fin).join("\n")));
+  return une ? une.fin : i0 + 1;
+}
 
 /* ===== Publication ===== */
 $("#form").onsubmit = async e => {
@@ -320,18 +340,19 @@ $("#form").onsubmit = async e => {
     message(m, "info", "Ajout de l'article…");
     /* Une ligne par article publié d'ici : facile à retrouver pour le retirer.
        « < » est échappé pour qu'aucun texte ne puisse fermer la balise <script>. */
-    const ligne = "\n " + JSON.stringify(article).replace(/</g, "\\u003c") + ",";
+    const ligne = " " + JSON.stringify(article).replace(/</g, "\\u003c") + ",", aLaUne = $("#une").checked;
     for (let essai = 0; ; essai++) {
-      const j = texte.indexOf(MARQUE) + MARQUE.length;
+      const lignesIdx = texte.split("\n");
+      lignesIdx.splice(positionInsertion(lignesIdx, aLaUne), 0, ligne);
       try {
-        await ecrireFichier("index.html", texteVersB64(texte.slice(0, j) + ligne + texte.slice(j)), `Article : ${a.titre}`, sha);
+        await ecrireFichier("index.html", texteVersB64(lignesIdx.join("\n")), `Article : ${a.titre}`, sha);
         break;
       } catch (err) {
         if (err.status !== 409 || essai >= 2) throw err;  // modifié entre-temps : on relit et on recommence
         ({ sha, texte } = await lireIndex());
       }
     }
-    message(m, "ok", `Publié ! L'article sera en ligne dans une à deux minutes, en tête de l'accueil :<br><a href="${SITE}#${id}" target="_blank" rel="noopener">${SITE}#${id}</a><br><small>Si la page ne change pas, rechargez-la avec Ctrl + F5.</small>`);
+    message(m, "ok", `Publié ! L'article sera en ligne dans une à deux minutes, ${aLaUne ? "à la une" : "juste sous la une"} :<br><a href="${SITE}#${id}" target="_blank" rel="noopener">${SITE}#${id}</a><br><small>Si la page ne change pas, rechargez-la avec Ctrl + F5.</small>`);
     modeNouveau();
     chargerListe();
   } catch (err) {
@@ -365,7 +386,8 @@ async function enregistrerModification(a){
     const { sha, texte } = await lireIndex();
     const lignesIdx = texte.split("\n"), i = lignesIdx.findIndex(l => l.startsWith(` {"id":"${id}"`));
     if (i < 0) throw new Error("cet article n'est plus sur le site (il a peut-être été retiré).");
-    lignesIdx[i] = nouvelle;
+    if ($("#une").checked) { lignesIdx.splice(i, 1); lignesIdx.splice(positionInsertion(lignesIdx, true), 0, nouvelle); }
+    else lignesIdx[i] = nouvelle;
     try { await ecrireFichier("index.html", texteVersB64(lignesIdx.join("\n")), `Modifie l'article : ${a.titre}`, sha); break; }
     catch (err) { if (err.status !== 409 || essai >= 2) throw err; }
   }
