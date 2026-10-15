@@ -114,7 +114,11 @@ Pour publier :
   l'accueil ; décochée, l'article est publié juste en dessous et la une
   actuelle ne bouge pas. En modification, la case « Remettre cet article
   à la une » fait remonter un article publié plus tôt.
-- « Mes publications » liste les articles publiés depuis cette page.
+- « Tous les articles » liste tous les articles du site, dans l'ordre
+  de l'accueil, avec une recherche. Le rappel du jour ne peut qu'être
+  retiré. Les éléments que le formulaire n'affiche pas (liens de
+  sources, conseils, lien vers une date « Mais quand ? »…) sont
+  conservés lors d'une modification.
   « Modifier » remplit le formulaire avec l'article : corrigez, puis
   « Enregistrer les modifications ». L'adresse de l'article ne change
   pas ; sans nouvelle photo, l'ancienne est gardée. La case « Afficher

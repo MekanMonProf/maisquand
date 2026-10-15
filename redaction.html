@@ -54,6 +54,7 @@ button:disabled{opacity:.5;cursor:wait}
 .liste{list-style:none;margin:0;padding:0;display:grid;gap:8px}
 .liste li{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:10px}
 .liste a{color:var(--accent)}
+.badge{display:inline-block;font-family:var(--mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;padding:2px 8px;border-radius:999px;background:var(--accent-soft);color:var(--accent);margin-left:6px;vertical-align:middle}
 [hidden]{display:none!important}
 </style>
 </head>
@@ -75,7 +76,7 @@ button:disabled{opacity:.5;cursor:wait}
   <div id="v-redaction" hidden>
     <form class="carte" id="form">
       <h2 id="titre-form">Nouvel article</h2>
-      <div class="msg info" id="bandeau-modif" hidden>Vous modifiez un article publié. Son adresse ne change pas. <button type="button" class="second" id="annuler-modif" style="margin-left:8px;padding:4px 12px;font-size:.85rem">Annuler la modification</button></div>
+      <div class="msg info" id="bandeau-modif" hidden>Vous modifiez un article publié. Son adresse ne change pas.<span id="conserves"></span> <button type="button" class="second" id="annuler-modif" style="margin-left:8px;padding:4px 12px;font-size:.85rem">Annuler la modification</button></div>
       <label>Titre<input id="titre" required maxlength="140" placeholder="Ce que dit l'article, sans exagérer"><small>Règle n° 4 : le titre dit ce que contient l'article.</small></label>
       <label>Chapô<textarea id="chapo" required maxlength="300" style="min-height:70px" placeholder="Une ou deux phrases qui résument l'essentiel."></textarea></label>
       <div class="deux">
@@ -111,8 +112,9 @@ button:disabled{opacity:.5;cursor:wait}
     </form>
 
     <section class="carte">
-      <h2>Mes publications</h2>
-      <p class="aide" style="margin:0">Les articles publiés depuis cette page. « Retirer » enlève l'article du site (la photo reste dans le dossier images).</p>
+      <h2>Tous les articles</h2>
+      <p class="aide" style="margin:0">Tous les articles du site, dans l'ordre de l'accueil. « Retirer » enlève l'article du site (ses photos et vidéos restent stockées).</p>
+      <input id="recherche" type="search" placeholder="Rechercher un article (titre, rubrique, date)…" aria-label="Rechercher un article">
       <ul class="liste" id="liste"><li class="aide">Chargement…</li></ul>
     </section>
 
@@ -259,8 +261,13 @@ function modeNouveau(){
   $("#aide-videos").textContent = "Jusqu'à 3 vidéos MP4, 25 Mo maximum chacune. Elles s'affichent sous le texte.";
   $("#apercu").hidden = true; $("#compte").textContent = "";
 }
+/* Éléments d'anciens articles que le formulaire n'affiche pas : ils sont conservés tels quels. */
+const AUTRES = { src: "les liens vers les sources", att: "le lien vers une date « Mais quand ? »", conseils: "la liste de conseils",
+  apres: "le texte qui suit les conseils", cta: "le bouton d'action", video: "la vidéo en tête d'article" };
 function modeModification(a){
   enCours = a;
+  const autres = Object.keys(AUTRES).filter(k => a[k]).map(k => AUTRES[k]);
+  $("#conserves").textContent = autres.length ? ` Cet article contient aussi ${autres.join(", ")} : ces éléments ne s'affichent pas ici, mais ils sont conservés.` : "";
   $("#form").reset();
   $("#titre").value = a.titre || ""; $("#chapo").value = a.chapo || "";
   if (!CATEGORIES[a.cat]) $("#cat").insertAdjacentHTML("beforeend", `<option>${esc(a.cat)}</option>`);
@@ -364,8 +371,14 @@ $("#form").onsubmit = async e => {
    La ligne de l'article est remplacée sur place : même identifiant, donc même adresse,
    et même position dans la liste. */
 async function enregistrerModification(a){
-  const m = $("#msg"), id = enCours.id, article = { id, ...a };
-  if (enCours.photo && !$("#garder-photo-non").checked) article.photo = enCours.photo;
+  /* On part de l'article tel qu'il est en ligne, pour garder ce que le formulaire ne gère pas,
+     puis on applique le formulaire. Un champ vidé dans le formulaire disparaît. */
+  const m = $("#msg"), id = enCours.id, article = { ...enCours, ...a, id };
+  for (const k of ["sait", "saitPas", "srcTxt"]) if (!a[k]) delete article[k];
+  if (enCours.cat === a.cat && enCours.c) article.c = enCours.c;
+  if (JSON.stringify(enCours.texte) === JSON.stringify(a.texte)) article.min = enCours.min;
+  delete article.videos; delete article.maj;
+  if ($("#garder-photo-non").checked) { delete article.photo; delete article.pos; }
   const gardees = enCours.videos && !$("#retirer-videos").checked ? enCours.videos : [];
   const vids = videosChoisies(gardees.length);
   if ($("#signaler-maj").checked) article.maj = new Date().toLocaleDateString("sv-SE");
@@ -396,7 +409,7 @@ async function enregistrerModification(a){
   chargerListe();
 }
 
-/* ===== Mes publications ===== */
+/* ===== Tous les articles ===== */
 const RE_LIGNE = /^ (\{"id":"([^"]+)".*\}),$/gm;
 let publications = {};
 async function chargerListe(){
@@ -404,10 +417,17 @@ async function chargerListe(){
   try {
     const { texte } = await lireIndex(), items = []; publications = {};
     for (const r of texte.matchAll(RE_LIGNE)) { try { const x = JSON.parse(r[1]); items.push(x); publications[x.id] = x; } catch (e) {} }
-    ul.innerHTML = items.length ? items.map(x => `<li><span><a href="${SITE}#${esc(x.id)}" target="_blank" rel="noopener">${esc(x.titre)}</a><br><span class="compte">${esc(x.date)} · ${esc(x.cat)}</span></span><span class="actions"><button type="button" class="second" data-modifier="${esc(x.id)}" style="padding:6px 14px;font-size:.85rem">Modifier</button><button type="button" class="danger" data-id="${esc(x.id)}">Retirer</button></span></li>`).join("")
-      : `<li class="aide">Aucun article publié depuis cette page pour l'instant.</li>`;
+    const une = items.find(x => !x.rappel);
+    ul.innerHTML = items.length ? items.map(x => `<li data-cherche="${esc((x.titre + " " + x.cat + " " + x.date).toLowerCase())}"><span><a href="${SITE}#${esc(x.id)}" target="_blank" rel="noopener">${esc(x.titre)}</a>${x === une ? `<span class="badge">À la une</span>` : ""}${x.rappel ? `<span class="badge">Rappel du jour</span>` : ""}<br><span class="compte">${esc(x.date)} · ${esc(x.cat)}</span></span><span class="actions">${x.rappel ? "" : `<button type="button" class="second" data-modifier="${esc(x.id)}" style="padding:6px 14px;font-size:.85rem">Modifier</button>`}<button type="button" class="danger" data-id="${esc(x.id)}">Retirer</button></span></li>`).join("")
+      : `<li class="aide">Aucun article.</li>`;
+    filtrer();
   } catch (e) { ul.innerHTML = `<li class="aide">Liste indisponible : ${esc(e.message)}</li>`; }
 }
+function filtrer(){
+  const q = $("#recherche").value.trim().toLowerCase();
+  document.querySelectorAll("#liste li[data-cherche]").forEach(li => { li.hidden = !!q && !li.dataset.cherche.includes(q); });
+}
+$("#recherche").oninput = filtrer;
 $("#liste").onclick = async e => {
   const mb = e.target.closest("button[data-modifier]");
   if (mb) { const x = publications[mb.dataset.modifier]; if (x) modeModification(x); return; }
