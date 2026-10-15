@@ -114,6 +114,11 @@ Pour publier :
   l'accueil ; décochée, l'article est publié juste en dessous et la une
   actuelle ne bouge pas. En modification, la case « Remettre cet article
   à la une » fait remonter un article publié plus tôt.
+- « Rappel du jour le … » : cochez la case et choisissez une date. Ce
+  jour-là (heure de Dakar), l'article s'affiche dans le grand bandeau
+  vert « Le rappel du jour », puis il revient dans la liste. Une seule
+  date par article ; si un autre article était déjà prévu ce jour-là,
+  il est libéré.
 - « Tous les articles » liste tous les articles du site, dans l'ordre
   de l'accueil, avec une recherche. Le rappel du jour ne peut qu'être
   retiré. Les éléments que le formulaire n'affiche pas (liens de

@@ -97,6 +97,11 @@ button:disabled{opacity:.5;cursor:wait}
           <label>Sources<textarea id="sources" placeholder="Une source par ligne. Ex. : Communiqué du ministère de l'Éducation, 14 octobre 2026"></textarea><small>Règle n° 1 : nous citons toujours nos sources.</small></label>
         </div>
       </details>
+      <div style="display:flex;gap:8px 12px;align-items:center;flex-wrap:wrap">
+        <label style="display:flex;gap:8px;align-items:center;font-weight:400"><input type="checkbox" id="rappel-coche" style="width:auto"> Rappel du jour le</label>
+        <input type="date" id="rappel-date" style="width:auto" aria-label="Date du rappel du jour">
+        <small class="aide">Ce jour-là, l'article s'affiche dans le grand bandeau vert « Le rappel du jour », puis il revient dans la liste.</small>
+      </div>
       <label style="display:flex;gap:8px;align-items:center;font-weight:400"><input type="checkbox" id="une" checked style="width:auto"> <span id="libelle-une">Mettre à la une <small>(décochée : l'article est publié juste en dessous, la une actuelle ne bouge pas)</small></span></label>
       <div id="options-modif" hidden style="display:grid;gap:8px">
         <label style="display:flex;gap:8px;align-items:center;font-weight:400"><input type="checkbox" id="garder-photo-non" style="width:auto"> Retirer la photo actuelle</label>
@@ -255,6 +260,7 @@ function modeNouveau(){
   enCours = null;
   $("#form").reset(); $("#date").value = new Date().toLocaleDateString("sv-SE");
   $("#titre-form").textContent = "Nouvel article"; $("#publier").textContent = "Publier sur maisquand.com";
+  $("#rappel-coche").checked = false; $("#rappel-date").value = "";
   $("#une").checked = true; $("#libelle-une").innerHTML = "Mettre à la une <small>(décochée : l'article est publié juste en dessous, la une actuelle ne bouge pas)</small>";
   $("#bandeau-modif").hidden = true; $("#options-modif").hidden = true;
   $("#aide-photo").textContent = "Réduite automatiquement avant l'envoi.";
@@ -277,6 +283,7 @@ function modeModification(a){
   $("#sources").value = (a.srcTxt || []).join("\n");
   if (a.sait || a.saitPas || a.srcTxt) $("details").open = true;
   $("#titre-form").textContent = "Modifier l'article"; $("#publier").textContent = "Enregistrer les modifications";
+  $("#rappel-coche").checked = !!a.rappelDu; $("#rappel-date").value = a.rappelDu || "";
   $("#une").checked = false; $("#libelle-une").innerHTML = "Remettre cet article à la une <small>(sinon, il garde sa place)</small>";
   $("#bandeau-modif").hidden = false; $("#options-modif").hidden = false;
   $("#garder-photo-non").parentElement.hidden = !a.photo;
@@ -288,6 +295,7 @@ function modeModification(a){
   $("#form").scrollIntoView({behavior:"smooth"});
 }
 $("#annuler-modif").onclick = modeNouveau;
+$("#rappel-date").onchange = () => { if ($("#rappel-date").value) $("#rappel-coche").checked = true; };
 
 $("#voir").onclick = async () => {
   const a = lireFormulaire(), f = $("#photo").files[0], ap = $("#apercu");
@@ -318,6 +326,23 @@ function positionInsertion(lignesIdx, aLaUne){
   return une ? une.fin : i0 + 1;
 }
 
+/* ===== Rappel du jour =====
+   Un seul article par date : celui qu'on désigne libère la date chez les autres. */
+function rappelChoisi(){
+  if (!$("#rappel-coche").checked) return null;
+  const d = $("#rappel-date").value;
+  if (!d) throw new Error("choisissez la date du rappel du jour, ou décochez la case.");
+  return d;
+}
+function libererRappel(lignesIdx, date, saufId){
+  if (!date) return;
+  lignesIdx.forEach((l, i) => {
+    if (!l.startsWith(' {"id":') || l.startsWith(` {"id":"${saufId}"`)) return;
+    try { const x = JSON.parse(l.slice(1, -1)); if (x.rappelDu === date) { delete x.rappelDu; lignesIdx[i] = " " + JSON.stringify(x).replace(/</g, "\\u003c") + ","; } } catch (e) {}
+  });
+}
+const dateLisible = d => new Date(d + "T12:00:00").toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" });
+
 /* ===== Publication ===== */
 $("#form").onsubmit = async e => {
   e.preventDefault();
@@ -333,7 +358,8 @@ $("#form").onsubmit = async e => {
     let id = slug(a.titre), n = 2;
     while (texte.includes(`id:"${id}"`) || texte.includes(`"id":"${id}"`)) id = `${slug(a.titre)}-${n++}`;
     const article = { id, ...a };
-    const vids = videosChoisies();
+    const vids = videosChoisies(), rd = rappelChoisi();
+    if (rd) article.rappelDu = rd;
 
     const f = $("#photo").files[0];
     if (f) {
@@ -350,6 +376,7 @@ $("#form").onsubmit = async e => {
     const ligne = " " + JSON.stringify(article).replace(/</g, "\\u003c") + ",", aLaUne = $("#une").checked;
     for (let essai = 0; ; essai++) {
       const lignesIdx = texte.split("\n");
+      libererRappel(lignesIdx, rd, id);
       lignesIdx.splice(positionInsertion(lignesIdx, aLaUne), 0, ligne);
       try {
         await ecrireFichier("index.html", texteVersB64(lignesIdx.join("\n")), `Article : ${a.titre}`, sha);
@@ -359,7 +386,7 @@ $("#form").onsubmit = async e => {
         ({ sha, texte } = await lireIndex());
       }
     }
-    message(m, "ok", `Publié ! L'article sera en ligne dans une à deux minutes, ${aLaUne ? "à la une" : "juste sous la une"} :<br><a href="${SITE}#${id}" target="_blank" rel="noopener">${SITE}#${id}</a><br><small>Si la page ne change pas, rechargez-la avec Ctrl + F5.</small>`);
+    message(m, "ok", `Publié ! L'article sera en ligne dans une à deux minutes, ${aLaUne ? "à la une" : "juste sous la une"}${rd ? `, et sera le rappel du jour le ${dateLisible(rd)}` : ""} :<br><a href="${SITE}#${id}" target="_blank" rel="noopener">${SITE}#${id}</a><br><small>Si la page ne change pas, rechargez-la avec Ctrl + F5.</small>`);
     modeNouveau();
     chargerListe();
   } catch (err) {
@@ -380,7 +407,8 @@ async function enregistrerModification(a){
   delete article.videos; delete article.maj;
   if ($("#garder-photo-non").checked) { delete article.photo; delete article.pos; }
   const gardees = enCours.videos && !$("#retirer-videos").checked ? enCours.videos : [];
-  const vids = videosChoisies(gardees.length);
+  const vids = videosChoisies(gardees.length), rd = rappelChoisi();
+  if (rd) article.rappelDu = rd; else delete article.rappelDu;
   if ($("#signaler-maj").checked) article.maj = new Date().toLocaleDateString("sv-SE");
   else if (enCours.maj) article.maj = enCours.maj;
   const f = $("#photo").files[0];
@@ -401,6 +429,7 @@ async function enregistrerModification(a){
     if (i < 0) throw new Error("cet article n'est plus sur le site (il a peut-être été retiré).");
     if ($("#une").checked) { lignesIdx.splice(i, 1); lignesIdx.splice(positionInsertion(lignesIdx, true), 0, nouvelle); }
     else lignesIdx[i] = nouvelle;
+    libererRappel(lignesIdx, rd, id);
     try { await ecrireFichier("index.html", texteVersB64(lignesIdx.join("\n")), `Modifie l'article : ${a.titre}`, sha); break; }
     catch (err) { if (err.status !== 409 || essai >= 2) throw err; }
   }
@@ -418,7 +447,7 @@ async function chargerListe(){
     const { texte } = await lireIndex(), items = []; publications = {};
     for (const r of texte.matchAll(RE_LIGNE)) { try { const x = JSON.parse(r[1]); items.push(x); publications[x.id] = x; } catch (e) {} }
     const une = items.find(x => !x.rappel);
-    ul.innerHTML = items.length ? items.map(x => `<li data-cherche="${esc((x.titre + " " + x.cat + " " + x.date).toLowerCase())}"><span><a href="${SITE}#${esc(x.id)}" target="_blank" rel="noopener">${esc(x.titre)}</a>${x === une ? `<span class="badge">À la une</span>` : ""}${x.rappel ? `<span class="badge">Rappel du jour</span>` : ""}<br><span class="compte">${esc(x.date)} · ${esc(x.cat)}</span></span><span class="actions">${x.rappel ? "" : `<button type="button" class="second" data-modifier="${esc(x.id)}" style="padding:6px 14px;font-size:.85rem">Modifier</button>`}<button type="button" class="danger" data-id="${esc(x.id)}">Retirer</button></span></li>`).join("")
+    ul.innerHTML = items.length ? items.map(x => `<li data-cherche="${esc((x.titre + " " + x.cat + " " + x.date).toLowerCase())}"><span><a href="${SITE}#${esc(x.id)}" target="_blank" rel="noopener">${esc(x.titre)}</a>${x === une ? `<span class="badge">À la une</span>` : ""}${x.rappel ? `<span class="badge">Rappel du jour</span>` : ""}${x.rappelDu ? `<span class="badge">Rappel du ${esc(dateLisible(x.rappelDu))}</span>` : ""}<br><span class="compte">${esc(x.date)} · ${esc(x.cat)}</span></span><span class="actions">${x.rappel ? "" : `<button type="button" class="second" data-modifier="${esc(x.id)}" style="padding:6px 14px;font-size:.85rem">Modifier</button>`}<button type="button" class="danger" data-id="${esc(x.id)}">Retirer</button></span></li>`).join("")
       : `<li class="aide">Aucun article.</li>`;
     filtrer();
   } catch (e) { ul.innerHTML = `<li class="aide">Liste indisponible : ${esc(e.message)}</li>`; }
