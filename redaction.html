@@ -87,6 +87,7 @@ button:disabled{opacity:.5;cursor:wait}
         <label>Photo (facultative)<input id="photo" type="file" accept="image/*"><small id="aide-photo">Réduite automatiquement avant l'envoi.</small></label>
         <label>Crédit ou légende de la photo<input id="credit" placeholder="Ex. : Photo d'illustration"></label>
       </div>
+      <label>Vidéos (facultatives)<input id="videos" type="file" accept="video/mp4,video/webm" multiple><small id="aide-videos">Jusqu'à 3 vidéos MP4, 25 Mo maximum chacune. Elles s'affichent sous le texte.</small></label>
       <details>
         <summary style="cursor:pointer;font-family:var(--display);font-weight:600">Encadrés et sources (facultatif)</summary>
         <div style="display:grid;gap:16px;margin-top:14px">
@@ -95,8 +96,10 @@ button:disabled{opacity:.5;cursor:wait}
           <label>Sources<textarea id="sources" placeholder="Une source par ligne. Ex. : Communiqué du ministère de l'Éducation, 14 octobre 2026"></textarea><small>Règle n° 1 : nous citons toujours nos sources.</small></label>
         </div>
       </details>
+      <label style="display:flex;gap:8px;align-items:center;font-weight:400"><input type="checkbox" id="une" checked style="width:auto"> <span id="libelle-une">Mettre à la une <small>(décochée : l'article est publié juste en dessous, la une actuelle ne bouge pas)</small></span></label>
       <div id="options-modif" hidden style="display:grid;gap:8px">
         <label style="display:flex;gap:8px;align-items:center;font-weight:400"><input type="checkbox" id="garder-photo-non" style="width:auto"> Retirer la photo actuelle</label>
+        <label style="display:flex;gap:8px;align-items:center;font-weight:400"><input type="checkbox" id="retirer-videos" style="width:auto"> Retirer les vidéos actuelles</label>
         <label style="display:flex;gap:8px;align-items:center;font-weight:400"><input type="checkbox" id="signaler-maj" checked style="width:auto"> Afficher « mis à jour le … » sous l'article <small>(décochez pour une simple faute de frappe)</small></label>
       </div>
       <div class="actions">
@@ -130,6 +133,7 @@ const CATEGORIES = {
   "Sport":["#1f6b3a","#e2a02b"], "International":["#3d4a5c","#8fa3bf"], "Tech":["#23395b","#4fb3bf"]
 };
 
+const VIDEOS_MAX = 3, VIDEO_MO_MAX = 25;
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 let cle = null;
@@ -210,6 +214,28 @@ function reduirePhoto(fichier){
   });
 }
 
+/* Vérifie les vidéos choisies avant tout envoi. dejaLa : vidéos gardées d'une version précédente. */
+function videosChoisies(dejaLa = 0){
+  const fichiers = [...$("#videos").files];
+  if (dejaLa + fichiers.length > VIDEOS_MAX) throw new Error(`${VIDEOS_MAX} vidéos au maximum par article${dejaLa ? ` (${dejaLa} déjà en ligne)` : ""}.`);
+  for (const f of fichiers) {
+    if (!/^video\/(mp4|webm)$/.test(f.type)) throw new Error(`« ${f.name} » n'est pas une vidéo MP4.`);
+    if (f.size > VIDEO_MO_MAX * 1024 * 1024) throw new Error(`« ${f.name} » fait ${Math.round(f.size/1048576)} Mo : ${VIDEO_MO_MAX} Mo au maximum. Envoyez-la d'abord sur WhatsApp pour la compresser, puis réessayez.`);
+  }
+  return fichiers;
+}
+function octetsVersB64(o){ let s = ""; for (let i = 0; i < o.length; i += 0x8000) s += String.fromCharCode.apply(null, o.subarray(i, i + 0x8000)); return btoa(s); }
+async function envoyerVideos(fichiers, id, titre, m){
+  const chemins = [], t = Date.now().toString(36);
+  for (let i = 0; i < fichiers.length; i++) {
+    const f = fichiers[i], ext = f.type === "video/webm" ? "webm" : "mp4", chemin = `videos/${id}-${t}-${i+1}.${ext}`;
+    message(m, "info", `Envoi de la vidéo ${i+1} sur ${fichiers.length} (${Math.round(f.size/1048576)} Mo)… Cela peut prendre une minute.`);
+    await ecrireFichier(chemin, octetsVersB64(new Uint8Array(await f.arrayBuffer())), `Vidéo : ${titre}`);
+    chemins.push(chemin);
+  }
+  return chemins;
+}
+
 function lireFormulaire(){
   const v = id => $("#"+id).value.trim();
   const texte = paragraphes($("#texte").value);
@@ -227,8 +253,10 @@ function modeNouveau(){
   enCours = null;
   $("#form").reset(); $("#date").value = new Date().toLocaleDateString("sv-SE");
   $("#titre-form").textContent = "Nouvel article"; $("#publier").textContent = "Publier sur maisquand.com";
+  $("#une").checked = true; $("#libelle-une").innerHTML = "Mettre à la une <small>(décochée : l'article est publié juste en dessous, la une actuelle ne bouge pas)</small>";
   $("#bandeau-modif").hidden = true; $("#options-modif").hidden = true;
   $("#aide-photo").textContent = "Réduite automatiquement avant l'envoi.";
+  $("#aide-videos").textContent = "Jusqu'à 3 vidéos MP4, 25 Mo maximum chacune. Elles s'affichent sous le texte.";
   $("#apercu").hidden = true; $("#compte").textContent = "";
 }
 function modeModification(a){
@@ -242,9 +270,13 @@ function modeModification(a){
   $("#sources").value = (a.srcTxt || []).join("\n");
   if (a.sait || a.saitPas || a.srcTxt) $("details").open = true;
   $("#titre-form").textContent = "Modifier l'article"; $("#publier").textContent = "Enregistrer les modifications";
+  $("#une").checked = false; $("#libelle-une").innerHTML = "Remettre cet article à la une <small>(sinon, il garde sa place)</small>";
   $("#bandeau-modif").hidden = false; $("#options-modif").hidden = false;
   $("#garder-photo-non").parentElement.hidden = !a.photo;
   $("#aide-photo").textContent = a.photo ? "Laissez vide pour garder la photo actuelle." : "Réduite automatiquement avant l'envoi.";
+  const nv = (a.videos || []).length;
+  $("#retirer-videos").parentElement.hidden = !nv;
+  $("#aide-videos").textContent = nv ? `${nv} vidéo${nv>1?"s":""} déjà en ligne, gardée${nv>1?"s":""}. Les nouvelles s'ajoutent à la suite (${VIDEOS_MAX} au total, 25 Mo maximum chacune).` : "Jusqu'à 3 vidéos MP4, 25 Mo maximum chacune. Elles s'affichent sous le texte.";
   $("#apercu").hidden = true; message($("#msg"), "", "");
   $("#form").scrollIntoView({behavior:"smooth"});
 }
@@ -256,9 +288,28 @@ $("#voir").onclick = async () => {
   else if (enCours && enCours.photo && !$("#garder-photo-non").checked) photo = SITE + enCours.photo;
   ap.hidden = false;
   ap.innerHTML = `<span class="cat">${esc(a.cat)} · aperçu</span><h3>${esc(a.titre||"(titre)")}</h3><p class="chapo">${esc(a.chapo||"(chapô)")}</p>
-    ${photo?`<img src="${photo}" alt="">`:""}${a.texte.map(p=>`<p>${esc(p)}</p>`).join("")}`;
+    ${photo?`<img src="${photo}" alt="">`:""}${a.texte.map(p=>`<p>${esc(p)}</p>`).join("")}
+    ${[...(enCours && enCours.videos && !$("#retirer-videos").checked ? enCours.videos.map(v => SITE + v) : []), ...[...$("#videos").files].map(f => URL.createObjectURL(f))]
+      .map(u => `<video controls playsinline preload="metadata" src="${u}" style="width:100%;max-width:320px;border-radius:10px;background:#000"></video>`).join("")}`;
   ap.scrollIntoView({behavior:"smooth"});
 };
+
+/* ===== Place dans la liste =====
+   La une est le premier article de ARTICLES qui n'est pas le rappel du jour. Les articles
+   commencent par une ligne « {…» et s'arrêtent avant le suivant ou avant « ]; ». */
+function blocsArticles(lignesIdx){
+  const i0 = lignesIdx.findIndex(l => l.includes(MARQUE));
+  const fin = lignesIdx.findIndex((l, i) => i > i0 && /^\];/.test(l));
+  const debuts = []; for (let i = i0 + 1; i < fin; i++) if (lignesIdx[i].startsWith(" {")) debuts.push(i);
+  return { i0, blocs: debuts.map((d, k) => ({ debut: d, fin: k + 1 < debuts.length ? debuts[k + 1] : fin })) };
+}
+/* Où insérer une ligne : en tête (à la une) ou juste après l'article actuellement à la une. */
+function positionInsertion(lignesIdx, aLaUne){
+  const { i0, blocs } = blocsArticles(lignesIdx);
+  if (aLaUne) return i0 + 1;
+  const une = blocs.find(b => !/\brappel"?\s*:\s*true/.test(lignesIdx.slice(b.debut, b.fin).join("\n")));
+  return une ? une.fin : i0 + 1;
+}
 
 /* ===== Publication ===== */
 $("#form").onsubmit = async e => {
@@ -275,6 +326,7 @@ $("#form").onsubmit = async e => {
     let id = slug(a.titre), n = 2;
     while (texte.includes(`id:"${id}"`) || texte.includes(`"id":"${id}"`)) id = `${slug(a.titre)}-${n++}`;
     const article = { id, ...a };
+    const vids = videosChoisies();
 
     const f = $("#photo").files[0];
     if (f) {
@@ -283,22 +335,24 @@ $("#form").onsubmit = async e => {
       await ecrireFichier(chemin, data.split(",")[1], `Photo : ${a.titre}`);
       article.photo = chemin;
     }
+    if (vids.length) article.videos = await envoyerVideos(vids, id, a.titre, m);
 
     message(m, "info", "Ajout de l'article…");
     /* Une ligne par article publié d'ici : facile à retrouver pour le retirer.
        « < » est échappé pour qu'aucun texte ne puisse fermer la balise <script>. */
-    const ligne = "\n " + JSON.stringify(article).replace(/</g, "\\u003c") + ",";
+    const ligne = " " + JSON.stringify(article).replace(/</g, "\\u003c") + ",", aLaUne = $("#une").checked;
     for (let essai = 0; ; essai++) {
-      const j = texte.indexOf(MARQUE) + MARQUE.length;
+      const lignesIdx = texte.split("\n");
+      lignesIdx.splice(positionInsertion(lignesIdx, aLaUne), 0, ligne);
       try {
-        await ecrireFichier("index.html", texteVersB64(texte.slice(0, j) + ligne + texte.slice(j)), `Article : ${a.titre}`, sha);
+        await ecrireFichier("index.html", texteVersB64(lignesIdx.join("\n")), `Article : ${a.titre}`, sha);
         break;
       } catch (err) {
         if (err.status !== 409 || essai >= 2) throw err;  // modifié entre-temps : on relit et on recommence
         ({ sha, texte } = await lireIndex());
       }
     }
-    message(m, "ok", `Publié ! L'article sera en ligne dans une à deux minutes, en tête de l'accueil :<br><a href="${SITE}#${id}" target="_blank" rel="noopener">${SITE}#${id}</a><br><small>Si la page ne change pas, rechargez-la avec Ctrl + F5.</small>`);
+    message(m, "ok", `Publié ! L'article sera en ligne dans une à deux minutes, ${aLaUne ? "à la une" : "juste sous la une"} :<br><a href="${SITE}#${id}" target="_blank" rel="noopener">${SITE}#${id}</a><br><small>Si la page ne change pas, rechargez-la avec Ctrl + F5.</small>`);
     modeNouveau();
     chargerListe();
   } catch (err) {
@@ -312,6 +366,8 @@ $("#form").onsubmit = async e => {
 async function enregistrerModification(a){
   const m = $("#msg"), id = enCours.id, article = { id, ...a };
   if (enCours.photo && !$("#garder-photo-non").checked) article.photo = enCours.photo;
+  const gardees = enCours.videos && !$("#retirer-videos").checked ? enCours.videos : [];
+  const vids = videosChoisies(gardees.length);
   if ($("#signaler-maj").checked) article.maj = new Date().toLocaleDateString("sv-SE");
   else if (enCours.maj) article.maj = enCours.maj;
   const f = $("#photo").files[0];
@@ -322,13 +378,16 @@ async function enregistrerModification(a){
     await ecrireFichier(chemin, data.split(",")[1], `Photo : ${a.titre}`);
     article.photo = chemin;
   }
+  const nouvelles = vids.length ? await envoyerVideos(vids, id, a.titre, m) : [];
+  if (gardees.length || nouvelles.length) article.videos = [...gardees, ...nouvelles];
   message(m, "info", "Mise à jour de l'article…");
   const nouvelle = " " + JSON.stringify(article).replace(/</g, "\\u003c") + ",";
   for (let essai = 0; ; essai++) {
     const { sha, texte } = await lireIndex();
     const lignesIdx = texte.split("\n"), i = lignesIdx.findIndex(l => l.startsWith(` {"id":"${id}"`));
     if (i < 0) throw new Error("cet article n'est plus sur le site (il a peut-être été retiré).");
-    lignesIdx[i] = nouvelle;
+    if ($("#une").checked) { lignesIdx.splice(i, 1); lignesIdx.splice(positionInsertion(lignesIdx, true), 0, nouvelle); }
+    else lignesIdx[i] = nouvelle;
     try { await ecrireFichier("index.html", texteVersB64(lignesIdx.join("\n")), `Modifie l'article : ${a.titre}`, sha); break; }
     catch (err) { if (err.status !== 409 || essai >= 2) throw err; }
   }
