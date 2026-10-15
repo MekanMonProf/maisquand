@@ -479,7 +479,7 @@ const ILLU = {
    <g transform="translate(530 275)"><rect x="-26" y="-4" width="52" height="40" fill="#2f6f8f"/><rect x="-22" y="-14" width="44" height="12" fill="#f6c443"/><rect x="-18" y="-24" width="36" height="12" fill="#e2602f"/></g>`),
 };
 const img = a => `<div class="img" style="background:${a.c[0]}">${a.photo?`<img src="${a.photo}" alt="${esc(a.titre)}" style="object-position:${a.pos||"center"}">`:(ILLU[a.id]||"")}${a.video?`<b class="play" aria-label="Vidéo">▶</b>`:""}</div>`;
-const meta = a => `<span class="meta">${fmt(a.date)} · ${a.min} min de lecture</span>`;
+const meta = (a, maj) => `<span class="meta">${fmt(a.date)} · ${a.min} min de lecture${maj&&a.maj?` · mis à jour le ${fmt(a.maj)}`:""}</span>`;
 
 $("#today").textContent = new Date().toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"});
 
@@ -940,7 +940,7 @@ function renderArticle(a){
   }
   $("#app").innerHTML = `<article>
     <button class="back" type="button" id="back">← Retour aux actualités</button>
-    <span class="cat">${a.cat}</span><h1>${esc(a.titre)}</h1><p class="chapo">${esc(a.chapo)}</p>${meta(a)}
+    <span class="cat">${a.cat}</span><h1>${esc(a.titre)}</h1><p class="chapo">${esc(a.chapo)}</p>${meta(a,true)}
     ${saitBox(a)}
     ${a.video?`<figure class="vid"><video controls playsinline preload="metadata" poster="${a.photo}" src="${a.video}"></video><figcaption>Vidéo · ${fmt(a.date)}</figcaption></figure>`:img(a)}<div class="txt">${a.texte.map(p=>`<p>${esc(p)}</p>`).join("")}</div>
     ${a.conseils?`<ol class="conseils">${a.conseils.map(([t,d])=>`<li><strong>${esc(t)}</strong><p>${esc(d)}</p></li>`).join("")}</ol>`:""}${a.apres?`<div class="txt">${a.apres.map(p=>`<p>${esc(p)}</p>`).join("")}</div>`:""}
