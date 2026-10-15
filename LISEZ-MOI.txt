@@ -104,6 +104,10 @@ Pour publier :
 - remplissez le titre, le chapô, la catégorie et le texte (une ligne
   vide entre deux paragraphes) ; la photo, les encadrés « Ce qu'on
   sait » et les sources sont facultatifs ;
+- vidéos : jusqu'à 3 par article, au format MP4, 25 Mo maximum
+  chacune (une vidéo envoyée par WhatsApp est déjà compressée et
+  convient). Elles s'affichent sous le texte. En modification, les
+  vidéos déjà en ligne sont gardées et les nouvelles s'ajoutent ;
 - « Aperçu » montre l'article avant publication ;
 - « Publier » le met en tête de l'accueil, en ligne une à deux minutes
   plus tard.

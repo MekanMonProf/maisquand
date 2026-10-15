@@ -119,6 +119,8 @@ article .txt p{margin:0 0 1em}
 .rp .src{font-family:var(--mono);font-size:.75rem;color:var(--muted)}.rp .dark .src{color:#d8cfb4}
 .vid{margin:0;background:#0d1114;border-radius:12px;padding:12px;display:grid;justify-items:center;gap:8px}
 .vid video{width:100%;max-width:420px;max-height:78vh;border-radius:8px;background:#000;display:block}
+.vids{display:grid;gap:12px}
+@media (min-width:720px){.vids{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}}
 .vid figcaption{font-family:var(--mono);font-size:.72rem;color:#b9c3ca;text-transform:uppercase;letter-spacing:.08em}
 .play{position:absolute;z-index:1;left:12px;bottom:12px;width:44px;height:44px;border-radius:50%;background:#000a;color:#fff;display:grid;place-items:center;font-size:1rem;padding-left:3px;border:2px solid #fff}
 .duo{display:grid;grid-template-columns:1fr 1.25fr;gap:24px}
@@ -478,7 +480,7 @@ const ILLU = {
    <g transform="translate(80 270)"><rect x="-22" y="-10" width="44" height="52" rx="10" fill="#e2602f"/><rect x="-14" y="8" width="28" height="18" rx="4" fill="#c24c1f"/><path d="M-12-10q12-18 24 0" stroke="#c24c1f" stroke-width="5" fill="none"/></g>
    <g transform="translate(530 275)"><rect x="-26" y="-4" width="52" height="40" fill="#2f6f8f"/><rect x="-22" y="-14" width="44" height="12" fill="#f6c443"/><rect x="-18" y="-24" width="36" height="12" fill="#e2602f"/></g>`),
 };
-const img = a => `<div class="img" style="background:${a.c[0]}">${a.photo?`<img src="${a.photo}" alt="${esc(a.titre)}" style="object-position:${a.pos||"center"}">`:(ILLU[a.id]||"")}${a.video?`<b class="play" aria-label="Vidéo">▶</b>`:""}</div>`;
+const img = a => `<div class="img" style="background:${a.c[0]}">${a.photo?`<img src="${a.photo}" alt="${esc(a.titre)}" style="object-position:${a.pos||"center"}">`:(ILLU[a.id]||"")}${(a.video||a.videos)?`<b class="play" aria-label="Vidéo">▶</b>`:""}</div>`;
 const meta = (a, maj) => `<span class="meta">${fmt(a.date)} · ${a.min} min de lecture${maj&&a.maj?` · mis à jour le ${fmt(a.maj)}`:""}</span>`;
 
 $("#today").textContent = new Date().toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"});
@@ -943,6 +945,7 @@ function renderArticle(a){
     <span class="cat">${a.cat}</span><h1>${esc(a.titre)}</h1><p class="chapo">${esc(a.chapo)}</p>${meta(a,true)}
     ${saitBox(a)}
     ${a.video?`<figure class="vid"><video controls playsinline preload="metadata" poster="${a.photo}" src="${a.video}"></video><figcaption>Vidéo · ${fmt(a.date)}</figcaption></figure>`:img(a)}<div class="txt">${a.texte.map(p=>`<p>${esc(p)}</p>`).join("")}</div>
+    ${a.videos?`<div class="vids">${a.videos.map((v,i)=>`<figure class="vid"><video controls playsinline preload="metadata" src="${v}"></video><figcaption>Vidéo ${a.videos.length>1?i+1+" ":""}· ${fmt(a.date)}</figcaption></figure>`).join("")}</div>`:""}
     ${a.conseils?`<ol class="conseils">${a.conseils.map(([t,d])=>`<li><strong>${esc(t)}</strong><p>${esc(d)}</p></li>`).join("")}</ol>`:""}${a.apres?`<div class="txt">${a.apres.map(p=>`<p>${esc(p)}</p>`).join("")}</div>`:""}
     ${a.cta?`<a class="cta" href="${a.cta.u}" target="_blank" rel="noopener">${esc(a.cta.t)} →</a>`:""}
     ${a.att&&attById(a.att)?(x=>`<a class="attcard" href="#att-${x.id}">${cdBox(x)}<div><span class="meta">Mais quand ? · date suivie</span><strong>${esc(x.q)}</strong>${fiabTag(x)}</div></a>`)(attById(a.att)):""}
