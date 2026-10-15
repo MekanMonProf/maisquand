@@ -107,7 +107,12 @@ Pour publier :
 - « Aperçu » montre l'article avant publication ;
 - « Publier » le met en tête de l'accueil, en ligne une à deux minutes
   plus tard.
-- « Mes publications » liste les articles publiés depuis cette page ;
+- « Mes publications » liste les articles publiés depuis cette page.
+  « Modifier » remplit le formulaire avec l'article : corrigez, puis
+  « Enregistrer les modifications ». L'adresse de l'article ne change
+  pas ; sans nouvelle photo, l'ancienne est gardée. La case « Afficher
+  mis à jour le … » ajoute cette mention sous l'article (décochez-la
+  pour une simple faute de frappe).
   « Retirer » enlève un article du site en cas d'erreur.
 
 
