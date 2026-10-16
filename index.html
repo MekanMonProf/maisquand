@@ -305,6 +305,7 @@ nav .vfbtn{border-color:#c8372d}
 .conseils p{margin:0;line-height:1.5}
 footer{border-top:1px solid var(--line);padding-block:24px;color:var(--muted);font-size:.85rem}
 @media (prefers-reduced-motion:no-preference){.card .img,.une .img{transition:transform .3s}.card:hover .img,.une:hover .img{transform:scale(1.02)}}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 </style>
 </head>
 <body>
@@ -806,7 +807,9 @@ function renderVFOne(v){
 }
 
 /* Partage */
-const lienArticle=a=>"https://maisquand.com/#"+a.id;
+/* Adresse publique d'une page : chaque article, vérification et date a sa propre page
+   (/a/…, /v/…, /d/…), générée à chaque mise à jour par outils/pages.mjs. */
+const lienArticle=a=>"https://maisquand.com/"+(a.id.startsWith("att-")?"d/"+a.id.slice(4):a.id.startsWith("vf-")?"v/"+a.id:"a/"+a.id)+"/";
 function shareBar(a){
   const url=lienArticle(a), txt=a.titre+" — Mais quand ?";
   return `<div class="share"><span>Partager</span>
@@ -820,8 +823,8 @@ document.addEventListener("click",e=>{const b=e.target.closest(".cp"); if(!b) re
 function prompt0(b){b.outerHTML=`<input class="cpin" readonly value="${b.dataset.url}" onfocus="this.select()">`}
 
 function renderCats(){
-  const onDates=location.hash==="#dates"||location.hash.startsWith("#att-");
-  const onVF=location.hash==="#vrai-faux"||location.hash.startsWith("#vf-");
+  const k=cleRoute(), onDates=k==="#dates"||k.startsWith("#att-");
+  const onVF=k==="#vrai-faux"||k.startsWith("#vf-");
   $("#cats").innerHTML = CATS.map(c=>`<button type="button" aria-pressed="${!onDates&&!onVF&&c===cat}" data-c="${c}">${c}</button>`).join("")+`<button type="button" class="vfbtn" aria-pressed="${onVF}" data-r="vrai-faux">Vrai ou faux ?</button>`+`<button type="button" class="mqbtn" aria-pressed="${onDates}" data-r="dates">Mais quand ?</button>`;
 }
 $("#cats").addEventListener("click",e=>{
@@ -829,7 +832,7 @@ $("#cats").addEventListener("click",e=>{
   if(b.dataset.r){ location.hash=b.dataset.r; return; }
   cat=b.dataset.c; location.hash="accueil"; renderCats(); renderHome();
 });
-$("#q").addEventListener("input",e=>{q=e.target.value.trim().toLowerCase(); if(location.hash.length>1 && location.hash!=="#accueil") location.hash="accueil"; renderHome();});
+$("#q").addEventListener("input",e=>{q=e.target.value.trim().toLowerCase(); if(cleRoute() && cleRoute()!=="#accueil") location.hash="accueil"; renderHome();});
 
 function rappelBand(r){
   /* Un article ordinaire peut aussi servir de rappel du jour, à la date de son champ rappelDu. */
@@ -858,7 +861,7 @@ function renderHome(){
   const others = list.filter(a=>a!==rap);
   const [first,...rest0]=others;
   const rest=[...rest0].sort((x,y)=>y.date.localeCompare(x.date));
-  $("#app").innerHTML = `
+  $("#app").innerHTML = `<h1 class="sr-only">Mais quand ? L'actualité du Sénégal et les dates à retenir</h1>
     ${first?`<a class="une" href="#${first.id}">
       ${img(first)}
       <div><span class="cat">À la une · ${first.cat}</span><h2>${esc(first.titre)}</h2><p>${esc(first.chapo)}</p><p style="margin-top:10px">${meta(first)}</p></div>
@@ -906,17 +909,22 @@ function renderArticle(a){
   window.scrollTo(0,0);
 }
 
+/* Page demandée : l'ancre (#…) si elle existe, sinon l'adresse /a/…, /v/… ou /d/… */
+const cheminCle=(()=>{const m=location.pathname.match(/^\/(a|v|d)\/([a-z0-9-]+)\/?$/);return m?(m[1]==="d"?"#att-":"#")+m[2]:""})();
+const cleRoute=()=>location.hash.length>1?location.hash:cheminCle;
+const TITRE_SITE="Mais quand ? · L'info qui ne vous fait pas attendre";
 function route(){
   renderCats();
-  if(location.hash==="#dates") return renderDates();
-  if(location.hash==="#regles") return renderRegles();
-  if(location.hash==="#annoncer") return renderAnnoncer();
-  if(location.hash==="#vrai-faux") return renderVF();
-  if(location.hash.startsWith("#vf-")){ const v=vfById(location.hash.slice(1)); if(v) return renderVFOne(v); }
-  if(location.hash==="#corrections") return renderCorrections();
-  if(location.hash.startsWith("#att-")){ const x=attById(location.hash.slice(5)); if(x) return renderAtt(x); }
-  const a = ARTICLES.find(x=>"#"+x.id===location.hash);
-  a ? renderArticle(a) : renderHome();
+  const k=cleRoute(), titre=t=>{document.title=t?t+" · Mais quand ?":TITRE_SITE};
+  if(k==="#dates"){ titre("Les dates à retenir"); return renderDates(); }
+  if(k==="#regles"){ titre("Nos règles"); return renderRegles(); }
+  if(k==="#annoncer"){ titre("Annoncer chez nous"); return renderAnnoncer(); }
+  if(k==="#vrai-faux"){ titre("Vrai ou faux ?"); return renderVF(); }
+  if(k.startsWith("#vf-")){ const v=vfById(k.slice(1)); if(v){ titre(VERDICTS[v.verdict]+" : "+v.claim); return renderVFOne(v); } }
+  if(k==="#corrections"){ titre("Corrections"); return renderCorrections(); }
+  if(k.startsWith("#att-")){ const x=attById(k.slice(5)); if(x){ titre(x.q); return renderAtt(x); } }
+  const a = ARTICLES.find(x=>"#"+x.id===k);
+  titre(a&&a.titre); a ? renderArticle(a) : renderHome();
 }
 window.addEventListener("hashchange",route);
 renderCats(); route();

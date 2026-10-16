@@ -30,10 +30,10 @@ CNAME       Le nom de domaine du site (maisquand.com)
 -----------------------------------------------
 1. Connectez-vous à GitHub (bouton « Sign in », pas « Sign up »).
 2. Ouvrez https://github.com/MekanMonProf/maisquand/settings/pages
-3. « Source » : choisissez « Deploy from a branch ».
-4. « Branch » : choisissez « main » et le dossier « / (root) »,
-   puis « Save ».
-5. « Custom domain » : vérifiez que maisquand.com est inscrit
+3. « Source » : choisissez « GitHub Actions ». Le site est alors
+   publié par le fichier .github/workflows/pages.yml, qui crée aussi
+   une vraie page par article (voir ÉTAPE 3).
+4. « Custom domain » : vérifiez que maisquand.com est inscrit
    (sinon, saisissez-le et cliquez sur « Save »).
 Après une minute, le site répond aussi à l'adresse
 https://mekanmonprof.github.io/maisquand/ (avant le changement de DNS,
@@ -68,9 +68,20 @@ projet dans Netlify.
 
 ÉTAPE 3 · Mettre à jour le site
 -------------------------------
-Toute modification fusionnée dans la branche main est publiée
-automatiquement par GitHub Pages en une à deux minutes. Si la page ne
-change pas, rechargez-la avec Ctrl + F5.
+Toute modification fusionnée dans la branche main (ou enregistrée depuis
+l'administration) est publiée automatiquement en une à deux minutes.
+Si la page ne change pas, rechargez-la avec Ctrl + F5.
+
+À chaque publication, le programme outils/pages.mjs crée une vraie page
+pour chaque article (maisquand.com/a/…), chaque vérification
+(maisquand.com/v/…) et chaque date (maisquand.com/d/…), avec son titre,
+son résumé et sa photo : ce sont ces adresses que Google référence et
+que WhatsApp affiche avec un aperçu. Il met aussi à jour le plan du
+site (sitemap.xml). Le bouton « Partager » des articles utilise ces
+adresses ; les anciennes adresses en # fonctionnent toujours.
+Suivi des publications : https://github.com/MekanMonProf/maisquand/actions
+(une coche verte = en ligne ; une croix rouge = échec, rien n'a changé
+sur le site).
 
 
 ÉTAPE 4 · Publier un article vous-même

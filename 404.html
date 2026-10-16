@@ -1,0 +1,10 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="robots" content="noindex">
+<title>Mais quand ?</title>
+<script>
+/* Secours : si une page /a/…, /v/… ou /d/… n'existe pas (encore), on ouvre la même page
+   dans le site principal. Remplacée par une page complète lors de la publication automatique. */
+var m = location.pathname.match(/^\/(a|v|d)\/([a-z0-9-]+)\/?$/);
+location.replace("/" + (m ? (m[1] === "d" ? "#att-" : "#") + m[2] : ""));
+</script></head>
+<body><p><a href="/">Mais quand ? : retour à l'accueil</a></p></body></html>
