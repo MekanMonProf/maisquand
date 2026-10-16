@@ -321,7 +321,7 @@ footer{border-top:1px solid var(--line);padding-block:24px;color:var(--muted);fo
 
 <div class="wrap"><main id="app"></main></div>
 
-<footer><div class="wrap">© 2026 Mais quand ? · L'info qui ne vous fait pas attendre · maisquand.com · Rubrique MaisQuand par KemanHicks · Dernière mise à jour : 14 octobre 2026<nav class="foot" aria-label="Informations"><a href="#regles">Nos règles</a><a href="#corrections">Corrections</a><a href="#dates">Mais quand ?</a><a href="#vrai-faux">Vrai ou faux ?</a><a href="#annoncer">Annoncer chez nous</a></nav></div></footer>
+<footer><div class="wrap">© 2026 Mais quand ? · L'info qui ne vous fait pas attendre · maisquand.com · Rubrique MaisQuand par KemanHicks · Dernière mise à jour : <span id="maj-site">14 octobre 2026</span><nav class="foot" aria-label="Informations"><a href="#regles">Nos règles</a><a href="#corrections">Corrections</a><a href="#dates">Mais quand ?</a><a href="#vrai-faux">Vrai ou faux ?</a><a href="#annoncer">Annoncer chez nous</a></nav></div></footer>
 
 <script>
 const ARTICLES = [
@@ -435,6 +435,8 @@ const ILLU = {
    <g transform="translate(530 275)"><rect x="-26" y="-4" width="52" height="40" fill="#2f6f8f"/><rect x="-22" y="-14" width="44" height="12" fill="#f6c443"/><rect x="-18" y="-24" width="36" height="12" fill="#e2602f"/></g>`),
 };
 const img = a => `<div class="img" style="background:${a.c[0]}">${a.photo?`<img src="${a.photo}" alt="${esc(a.titre)}" style="object-position:${a.pos||"center"}">`:(ILLU[a.id]||"")}${(a.video||a.videos)?`<b class="play" aria-label="Vidéo">▶</b>`:""}</div>`;
+/* Date « Dernière mise à jour » du pied de page : l'article le plus récent (ou sa modification) */
+{ const d = ARTICLES.flatMap(a=>[a.date,a.maj]).filter(Boolean).sort().pop(); if(d) $("#maj-site").textContent = fmt(d); }
 const meta = (a, maj) => `<span class="meta">${fmt(a.date)} · ${a.min} min de lecture${maj&&a.maj?` · mis à jour le ${fmt(a.maj)}`:""}</span>`;
 
 $("#today").textContent = new Date().toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"});
