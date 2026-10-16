@@ -131,6 +131,18 @@ Pour publier :
   pour une simple faute de frappe).
   « Retirer » enlève un article du site en cas d'erreur.
 
+Pour les rumeurs (rubrique « Vrai ou faux ? ») : ouvrez
+https://maisquand.com/verifications.html (ou le lien « Vrai ou faux ? »
+en haut de la page Rédaction). Même clé, même fonctionnement :
+- écrivez la rumeur telle qu'elle circule, choisissez le verdict (Faux,
+  Trompeur, Vrai, Non vérifié), puis remplissez « Ce qui circule »,
+  les preuves (une par ligne), la conclusion, le bon réflexe et les
+  sources (une par ligne, avec le lien https://… à la fin de la ligne) ;
+- « Mettre en tête » (cochée par défaut) place la vérification en
+  premier ; les 3 premières s'affichent sur la page d'accueil.
+  Décochée, elle se place juste après ces trois-là ;
+- « Toutes les vérifications » permet de les modifier ou de les retirer.
+
 
 À VÉRIFIER AVANT D'ANNONCER LE SITE
 -----------------------------------
