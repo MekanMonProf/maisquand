@@ -512,52 +512,52 @@ const SRC={
  lune:{n:"Calcul astronomique, à confirmer par l'observation du croissant",u:""},
  fixe:{n:"Date fixe du calendrier national",u:""},
 };
-/* f : niveau de fiabilité — haut (confirmée), moy (estimée ou période connue), bas (déduite des années précédentes) */
+/* Une date par ligne, gérée depuis admin/dates.html.
+   f : niveau de fiabilité — haut (confirmée), moy (estimée ou période connue), bas (déduite des années précédentes) */
 const ATTENTES=[
- {id:"greve-ddd",q:"Quand a lieu la grève de Dakar Dem Dikk ?",d:"2026-10-21",c:"National",f:"moy",fd:"Annoncée par les syndicats, peut encore être levée",note:"72 heures, du mercredi 21 au vendredi 23 octobre.",obs:"La grève sera déclenchée si les autorités ne répondent pas aux revendications d'ici là. Une négociation peut la suspendre : nous mettrons la date à jour dès qu'une décision sera annoncée.",src:["ddd","fsdt"],hist:[["2026-10-12","Grève de 72 heures annoncée à Dakar Dem Dikk."],["2026-09-23","Le FSDT appelle à une grève générale nationale les 21, 22 et 23 octobre."]]},
- {id:"joj",q:"Quand s'ouvrent les JOJ Dakar 2026 ?",d:"2026-10-31",c:"Sport",f:"haut",fd:"Confirmée par les organisateurs",note:"Cérémonie au stade Abdoulaye Wade (Diamniadio). Jeux jusqu'au 13 novembre.",src:["apa"],hist:[["2026-10-09","Date et lieu de la cérémonie confirmés."]]},
- {id:"lions-nov",q:"Quand rejouent les Lions ?",d:"2026-11-09",c:"Sport",f:"moy",fd:"Période confirmée, jour à préciser",note:"Éliminatoires CAN 2027, journées 3 et 4, entre le 9 et le 17 novembre.",src:["can","rts"],hist:[["2026-09-29","Victoire 1-0 en Éthiopie (journée 2)."],["2026-09-25","Match nul 1-1 contre le Mozambique (journée 1)."]]},
- {id:"police-agents",q:"Quand a lieu le concours des agents de police ?",d:"2026-11-16",c:"Concours",f:"bas",fd:"Approximative, d'après le calendrier indicatif",note:"Vers la mi-novembre, niveau BFEM.",obs:"Seuls les candidats inscrits avant fin juin 2026 sont concernés. Surveillez les convocations et la liste des centres.",src:["police"],hist:[["2026-10-09","Attente créée à partir du calendrier indicatif."]]},
- {id:"dakart",q:"Quand commence le Dak'Art 2026 ?",d:"2026-11-19",c:"Culture",f:"haut",fd:"Confirmée par les organisateurs",note:"Biennale de Dakar, du 19 novembre au 19 décembre.",src:["biennale"],hist:[["2026-01-27","Dates annoncées."]]},
- {id:"ensae",q:"Quand ouvrent les inscriptions au concours ENSAE ?",d:"2026-12-01",c:"Concours",f:"bas",fd:"Approximative, d'après 2026",note:"Concours ISE. Inscriptions jusqu'à fin janvier, épreuve vers début avril.",src:["concours"],hist:[["2026-10-09","Attente créée : en 2026, inscriptions du 1er décembre au 31 janvier."]]},
- {id:"ramadan",q:"Quand commence le Ramadan 2027 ?",d:"2027-02-08",c:"Religion",f:"moy",fd:"Estimée d'après le calendrier lunaire",note:"Peut varier d'un jour selon l'observation du croissant.",src:["lune"],hist:[]},
- {id:"fastef",q:"Quand ouvrent les inscriptions à la FASTEF ?",d:"2027-02-19",c:"Concours",f:"bas",fd:"Approximative, d'après 2026",note:"Recrutement des élèves professeurs.",obs:"En 2026, les candidatures étaient ouvertes du 19 février au 3 avril. Les élèves en Terminale, L3 ou M2 peuvent postuler sous réserve d'obtenir leur diplôme.",src:["fastef"],hist:[]},
- {id:"korite",q:"Quand est la Korité 2027 ?",d:"2027-03-10",c:"Religion",f:"moy",fd:"Estimée d'après le calendrier lunaire",note:"Aïd el-Fitr.",src:["lune"],hist:[]},
- {id:"ena",q:"Quand ouvrent les inscriptions à l'ENA ?",d:"2027-03-15",c:"Concours",f:"bas",fd:"Approximative, d'après 2026",note:"6 à 8 semaines avant les épreuves (fin avril, juin et septembre selon les cycles).",src:["concours"],hist:[]},
- {id:"lions-mars",q:"Quand se joue la suite des éliminatoires de la CAN ?",d:"2027-03-22",c:"Sport",f:"moy",fd:"Période confirmée, jour à préciser",note:"Journées 5 et 6, entre le 22 et le 30 mars.",src:["can"],hist:[]},
- {id:"independance",q:"Quand est la fête de l'Indépendance ?",d:"2027-04-04",c:"National",f:"haut",fd:"Date fixe",note:"Défilé et jour férié.",src:["fixe"],hist:[]},
- {id:"douanes",q:"Quand sort l'avis du concours des douanes ?",d:"2027-04-15",c:"Concours",f:"bas",fd:"Approximative : entre avril et juin",obs:"Aucune date fixe : les avis des corps habillés paraissent en général entre avril et juin. Consultez douanes.sn et fonctionpublique.gouv.sn.",src:["police"],hist:[]},
- {id:"gendarmerie",q:"Quand recrute la gendarmerie (ESOGN, EOGN) ?",d:"2027-05-03",c:"Concours",f:"bas",fd:"Approximative : entre avril et juin",obs:"Aucune date officielle connue. Suivez les annonces sur gendarmerie.sn et dans les médias publics.",src:["gend"],hist:[]},
- {id:"bac-eps",q:"Quand ont lieu les épreuves d'EPS du Bac ?",d:"2027-05-10",c:"Examen",f:"bas",fd:"Approximative, d'après 2026",note:"De mi à fin mai selon les régions.",src:["bac"],hist:[]},
- {id:"tabaski",q:"Quand est la Tabaski 2027 ?",d:"2027-05-17",c:"Religion",f:"moy",fd:"Estimée d'après le calendrier lunaire",note:"Aïd el-Kébir.",src:["lune"],hist:[]},
- {id:"cfee",q:"Quand a lieu le CFEE 2027 ?",d:"2027-06-16",c:"Examen",f:"bas",fd:"Approximative, d'après 2026",note:"Avec l'entrée en sixième. En 2026 : le 17 juin.",src:["cfee"],hist:[]},
- {id:"can",q:"Quand commence la CAN 2027 ?",d:"2027-06-19",c:"Sport",f:"haut",fd:"Confirmée par la CAF",note:"Kenya, Ouganda, Tanzanie. Finale le 17 juillet.",src:["can"],hist:[]},
- {id:"police-dossiers",q:"Quand déposer les dossiers pour la police ?",d:"2027-06-28",c:"Concours",f:"bas",fd:"Approximative : fin juin",obs:"Épreuves indicatives : commissaires fin août, sous-officiers fin septembre, agents mi-novembre. Vérifiez au Journal officiel et sur fonctionpublique.gouv.sn.",src:["police"],hist:[]},
- {id:"bac",q:"Quand commence le Bac 2027 ?",d:"2027-06-29",c:"Examen",f:"bas",fd:"Approximative, d'après 2026",note:"Épreuves écrites du premier groupe, Français et Philosophie en ouverture.",src:["bac","bac2"],hist:[["2026-10-09","Attente créée. Calendrier officiel 2027 pas encore publié."]]},
- {id:"bfem",q:"Quand a lieu le BFEM 2027 ?",d:"2027-07-20",c:"Examen",f:"bas",fd:"Approximative, d'après 2026",note:"En 2026 : le 21 juillet.",src:["bfem"],hist:[]},
- {id:"magal",q:"Quand est le Grand Magal de Touba 2027 ?",d:"2027-07-24",c:"Religion",f:"moy",fd:"Estimée d'après le calendrier lunaire",note:"18 Safar.",src:["lune"],hist:[]},
- {id:"bac-res",q:"Quand tombent les résultats du Bac 2027 ?",d:"2027-07-30",c:"Examen",f:"bas",fd:"Approximative, d'après 2026",note:"Résultats définitifs fin juillet ou début août.",src:["bac"],hist:[]},
- {id:"gamou",q:"Quand est le Gamou 2027 ?",d:"2027-08-15",c:"Religion",f:"moy",fd:"Estimée d'après le calendrier lunaire",note:"Maouloud, 12 Rabîʿ al-Awwal.",src:["lune"],hist:[]},
- {id:"campusen",q:"Quand ouvre Campusen pour les bacheliers 2027 ?",d:"2027-08-16",c:"Formation",f:"bas",fd:"Approximative, d'après 2026",note:"Orientation des nouveaux bacheliers, environ 4 semaines.",src:["campusen"],hist:[]},
- {id:"enseignants",q:"Quand aura lieu le prochain recrutement d'enseignants ?",d:"2027-09-01",c:"Concours",f:"bas",fd:"Approximative : pas de calendrier fixe",obs:"En 2026, un recrutement spécial de 2 527 enseignants a été lancé, avec un dépôt des dossiers jusqu'au 16 septembre. Surveillez les communiqués du ministère de l'Éducation.",src:["ens"],hist:[]},
+ {"q":"Quand a lieu la grève de Dakar Dem Dikk ?","id":"greve-ddd","d":"2026-10-21","c":"National","f":"moy","fd":"Annoncée par les syndicats, peut encore être levée","note":"72 heures, du mercredi 21 au vendredi 23 octobre.","obs":"La grève sera déclenchée si les autorités ne répondent pas aux revendications d'ici là. Une négociation peut la suspendre : nous mettrons la date à jour dès qu'une décision sera annoncée.","src":[{"n":"SenePlus : Dakar Dem Dikk, une grève de 72 heures annoncée du 21 au 23 octobre","u":"https://www.seneplus.com/article/dakar-dem-dikk-une-greve-de-72-heures-annoncee-du-21-au-23-octobre"},{"n":"PressAfrik : le FSDT appelle les travailleurs à l'arrêt les 21, 22 et 23 octobre","u":"https://www.pressafrik.com/Greve-generale-Trop-c-est-trop--le-front-syndical-appelle-les-travailleurs-a-l-arret-les-21-22-et-23-octobre_a312059.html"}],"hist":[["2026-10-12","Grève de 72 heures annoncée à Dakar Dem Dikk."],["2026-09-23","Le FSDT appelle à une grève générale nationale les 21, 22 et 23 octobre."]]},
+ {"q":"Quand s'ouvrent les JOJ Dakar 2026 ?","id":"joj","d":"2026-10-31","c":"Sport","f":"haut","fd":"Confirmée par les organisateurs","note":"Cérémonie au stade Abdoulaye Wade (Diamniadio). Jeux jusqu'au 13 novembre.","src":[{"n":"APANEWS : JOJ Dakar 2026, les chiffres clés","u":"https://fr.apanews.net/senegal/joj-dakar-2026-les-chiffres-cles-avant-le-rendez-vous-olympique/"}],"hist":[["2026-10-09","Date et lieu de la cérémonie confirmés."]]},
+ {"q":"Quand rejouent les Lions ?","id":"lions-nov","d":"2026-11-09","c":"Sport","f":"moy","fd":"Période confirmée, jour à préciser","note":"Éliminatoires CAN 2027, journées 3 et 4, entre le 9 et le 17 novembre.","src":[{"n":"Radiosports : calendrier des éliminatoires CAN 2027","u":"https://radiosports.fr/can-2027-calendrier-resultats.html"},{"n":"RTS : le Sénégal dans le groupe J","u":"https://www.rts.sn/actualite/detail/a-la-une/eliminatoires-can-2027-le-senegal-dans-le-groupe-j-avec-le-mozambique-le-soudan-et-lethiopie"}],"hist":[["2026-09-29","Victoire 1-0 en Éthiopie (journée 2)."],["2026-09-25","Match nul 1-1 contre le Mozambique (journée 1)."]]},
+ {"q":"Quand se terminent les JOJ Dakar 2026 ?","id":"joj-fin","d":"2026-11-13","c":"Sport","f":"haut","fd":"Confirmée par les organisateurs","note":"Après 14 jours de compétition.","src":[{"n":"APANEWS : JOJ Dakar 2026, les chiffres clés","u":"https://fr.apanews.net/senegal/joj-dakar-2026-les-chiffres-cles-avant-le-rendez-vous-olympique/"}],"hist":[]},
+ {"q":"Quand a lieu le concours des agents de police ?","id":"police-agents","d":"2026-11-16","c":"Concours","f":"bas","fd":"Approximative, d'après le calendrier indicatif","note":"Vers la mi-novembre, niveau BFEM.","obs":"Seuls les candidats inscrits avant fin juin 2026 sont concernés. Surveillez les convocations et la liste des centres.","src":[{"n":"Ndarinfo : calendrier indicatif police et douanes","u":"https://www.ndarinfo.com/tags/concours+douanes+s%C3%A9n%C3%A9gal+2026/"}],"hist":[["2026-10-09","Attente créée à partir du calendrier indicatif."]]},
+ {"q":"Quand commence le Dak'Art 2026 ?","id":"dakart","d":"2026-11-19","c":"Culture","f":"haut","fd":"Confirmée par les organisateurs","note":"Biennale de Dakar, du 19 novembre au 19 décembre.","src":[{"n":"Le Soleil : la Biennale du 19 novembre au 19 décembre 2026","u":"https://lesoleil.sn/actualites/arts-et-culture/arts-contemporains-africains-la-biennale-prevue-a-dakar-du-19-novembre-au-19-decembre-2026/"}],"hist":[["2026-01-27","Dates annoncées."]]},
+ {"q":"Quand ouvrent les inscriptions au concours ENSAE ?","id":"ensae","d":"2026-12-01","c":"Concours","f":"bas","fd":"Approximative, d'après 2026","note":"Concours ISE. Inscriptions jusqu'à fin janvier, épreuve vers début avril.","src":[{"n":"Senego : concours de la fonction publique 2026","u":"https://senego.com/dossier/concours-fonction-publique"}],"hist":[["2026-10-09","Attente créée : en 2026, inscriptions du 1er décembre au 31 janvier."]]},
+ {"q":"Quand est Noël ?","id":"noel","d":"2026-12-25","c":"Fête","f":"haut","fd":"Date fixe","note":"Jour férié.","src":[{"n":"Date fixe du calendrier national","u":""}],"hist":[]},
+ {"q":"Quand est le Nouvel An 2027 ?","id":"nouvel-an","d":"2027-01-01","c":"Fête","f":"haut","fd":"Date fixe","note":"Jour férié.","src":[{"n":"Date fixe du calendrier national","u":""}],"hist":[]},
+ {"q":"Quand commence le Ramadan 2027 ?","id":"ramadan","d":"2027-02-08","c":"Religion","f":"moy","fd":"Estimée d'après le calendrier lunaire","note":"Peut varier d'un jour selon l'observation du croissant.","src":[{"n":"Calcul astronomique, à confirmer par l'observation du croissant","u":""}],"hist":[]},
+ {"q":"Quand ouvrent les inscriptions à la FASTEF ?","id":"fastef","d":"2027-02-19","c":"Concours","f":"bas","fd":"Approximative, d'après 2026","note":"Recrutement des élèves professeurs.","obs":"En 2026, les candidatures étaient ouvertes du 19 février au 3 avril. Les élèves en Terminale, L3 ou M2 peuvent postuler sous réserve d'obtenir leur diplôme.","src":[{"n":"Guindima : concours FASTEF 2026-2027","u":"https://guindima.sn/news/article/concours-fastef-recrutement-eleves-professeurs-2026-2027/"}],"hist":[]},
+ {"q":"Quand est la Korité 2027 ?","id":"korite","d":"2027-03-10","c":"Religion","f":"moy","fd":"Estimée d'après le calendrier lunaire","note":"Aïd el-Fitr.","src":[{"n":"Calcul astronomique, à confirmer par l'observation du croissant","u":""}],"hist":[]},
+ {"q":"Quand ouvrent les inscriptions à l'ENA ?","id":"ena","d":"2027-03-15","c":"Concours","f":"bas","fd":"Approximative, d'après 2026","note":"6 à 8 semaines avant les épreuves (fin avril, juin et septembre selon les cycles).","src":[{"n":"Senego : concours de la fonction publique 2026","u":"https://senego.com/dossier/concours-fonction-publique"}],"hist":[]},
+ {"q":"Quand se joue la suite des éliminatoires de la CAN ?","id":"lions-mars","d":"2027-03-22","c":"Sport","f":"moy","fd":"Période confirmée, jour à préciser","note":"Journées 5 et 6, entre le 22 et le 30 mars.","src":[{"n":"Radiosports : calendrier des éliminatoires CAN 2027","u":"https://radiosports.fr/can-2027-calendrier-resultats.html"}],"hist":[]},
+ {"q":"Quand est la fête de l'Indépendance ?","id":"independance","d":"2027-04-04","c":"National","f":"haut","fd":"Date fixe","note":"Défilé et jour férié.","src":[{"n":"Date fixe du calendrier national","u":""}],"hist":[]},
+ {"q":"Quand a lieu l'épreuve du concours ENSAE ?","id":"ensae-epreuve","d":"2027-04-04","c":"Concours","f":"bas","fd":"Approximative, d'après 2026","note":"En 2026 : le 5 avril.","src":[{"n":"Senego : concours de la fonction publique 2026","u":"https://senego.com/dossier/concours-fonction-publique"}],"hist":[]},
+ {"q":"Quand sort l'avis du concours des douanes ?","id":"douanes","d":"2027-04-15","c":"Concours","f":"bas","fd":"Approximative : entre avril et juin","obs":"Aucune date fixe : les avis des corps habillés paraissent en général entre avril et juin. Consultez douanes.sn et fonctionpublique.gouv.sn.","src":[{"n":"Ndarinfo : calendrier indicatif police et douanes","u":"https://www.ndarinfo.com/tags/concours+douanes+s%C3%A9n%C3%A9gal+2026/"}],"hist":[]},
+ {"q":"Quand commencent les épreuves de l'ENA ?","id":"ena-epreuves","d":"2027-04-26","c":"Concours","f":"bas","fd":"Approximative, d'après 2026","note":"Autres cycles en juin et septembre.","src":[{"n":"Senego : concours de la fonction publique 2026","u":"https://senego.com/dossier/concours-fonction-publique"}],"hist":[]},
+ {"q":"Quand recrute la gendarmerie (ESOGN, EOGN) ?","id":"gendarmerie","d":"2027-05-03","c":"Concours","f":"bas","fd":"Approximative : entre avril et juin","obs":"Aucune date officielle connue. Suivez les annonces sur gendarmerie.sn et dans les médias publics.","src":[{"n":"Sencampus : concours gendarmerie 2026","u":"https://www.sencampus.com/concours-gendarmerie-senegal-2026/"}],"hist":[]},
+ {"q":"Quand ont lieu les épreuves d'EPS du Bac ?","id":"bac-eps","d":"2027-05-10","c":"Examen","f":"bas","fd":"Approximative, d'après 2026","note":"De mi à fin mai selon les régions.","src":[{"n":"Senego : baccalauréat 2026","u":"https://senego.com/dossier/baccalaureat-senegal"}],"hist":[]},
+ {"q":"Quand est la Tabaski 2027 ?","id":"tabaski","d":"2027-05-17","c":"Religion","f":"moy","fd":"Estimée d'après le calendrier lunaire","note":"Aïd el-Kébir.","src":[{"n":"Calcul astronomique, à confirmer par l'observation du croissant","u":""}],"hist":[]},
+ {"q":"Quand a lieu le CFEE 2027 ?","id":"cfee","d":"2027-06-16","c":"Examen","f":"bas","fd":"Approximative, d'après 2026","note":"Avec l'entrée en sixième. En 2026 : le 17 juin.","src":[{"n":"allAfrica : le CFEE 2026 démarre","u":"https://fr.allafrica.com/stories/202606170326.html"}],"hist":[]},
+ {"q":"Quand est la Tamkharit 2027 ?","id":"tamkharit","d":"2027-06-16","c":"Religion","f":"moy","fd":"Estimée d'après le calendrier lunaire","note":"Achoura, 10 Muharram.","src":[{"n":"Calcul astronomique, à confirmer par l'observation du croissant","u":""}],"hist":[]},
+ {"q":"Quand commence la CAN 2027 ?","id":"can","d":"2027-06-19","c":"Sport","f":"haut","fd":"Confirmée par la CAF","note":"Kenya, Ouganda, Tanzanie. Finale le 17 juillet.","src":[{"n":"Radiosports : calendrier des éliminatoires CAN 2027","u":"https://radiosports.fr/can-2027-calendrier-resultats.html"}],"hist":[]},
+ {"q":"Quand déposer les dossiers pour la police ?","id":"police-dossiers","d":"2027-06-28","c":"Concours","f":"bas","fd":"Approximative : fin juin","obs":"Épreuves indicatives : commissaires fin août, sous-officiers fin septembre, agents mi-novembre. Vérifiez au Journal officiel et sur fonctionpublique.gouv.sn.","src":[{"n":"Ndarinfo : calendrier indicatif police et douanes","u":"https://www.ndarinfo.com/tags/concours+douanes+s%C3%A9n%C3%A9gal+2026/"}],"hist":[]},
+ {"q":"Quand commence le Bac 2027 ?","id":"bac","d":"2027-06-29","c":"Examen","f":"bas","fd":"Approximative, d'après 2026","note":"Épreuves écrites du premier groupe, Français et Philosophie en ouverture.","src":[{"n":"Senego : baccalauréat 2026","u":"https://senego.com/dossier/baccalaureat-senegal"},{"n":"Ndarinfo : second groupe du Bac 2026 le 9 juillet","u":"https://www.ndarinfo.com/Session-2026-L-Office-du-Baccalaureat-fixe-le-demarrage-du-second-groupe-au-jeudi-9-juillet_a45490.html"}],"hist":[["2026-10-09","Attente créée. Calendrier officiel 2027 pas encore publié."]]},
+ {"q":"Quand a lieu le BFEM 2027 ?","id":"bfem","d":"2027-07-20","c":"Examen","f":"bas","fd":"Approximative, d'après 2026","note":"En 2026 : le 21 juillet.","src":[{"n":"Ndarinfo : BFEM 2026 fixé au 21 juillet","u":"https://www.ndarinfo.com/Examen-du-BFEM-2026-la-date-officielle-des-epreuves-fixee-au-mardi-21-juillet_a44732.html"}],"hist":[]},
+ {"q":"Quand est le Grand Magal de Touba 2027 ?","id":"magal","d":"2027-07-24","c":"Religion","f":"moy","fd":"Estimée d'après le calendrier lunaire","note":"18 Safar.","src":[{"n":"Calcul astronomique, à confirmer par l'observation du croissant","u":""}],"hist":[]},
+ {"q":"Quand tombent les résultats du Bac 2027 ?","id":"bac-res","d":"2027-07-30","c":"Examen","f":"bas","fd":"Approximative, d'après 2026","note":"Résultats définitifs fin juillet ou début août.","src":[{"n":"Senego : baccalauréat 2026","u":"https://senego.com/dossier/baccalaureat-senegal"}],"hist":[]},
+ {"q":"Quand est le Gamou 2027 ?","id":"gamou","d":"2027-08-15","c":"Religion","f":"moy","fd":"Estimée d'après le calendrier lunaire","note":"Maouloud, 12 Rabîʿ al-Awwal.","src":[{"n":"Calcul astronomique, à confirmer par l'observation du croissant","u":""}],"hist":[]},
+ {"q":"Quand ouvre Campusen pour les bacheliers 2027 ?","id":"campusen","d":"2027-08-16","c":"Formation","f":"bas","fd":"Approximative, d'après 2026","note":"Orientation des nouveaux bacheliers, environ 4 semaines.","src":[{"n":"Senego : Campusen du 17 août au 13 septembre 2026","u":"https://senego.com/campusen-ouvre-du-17-aout-au-13-septembre-pour-les-bacheliers-2026_1995193.html"}],"hist":[]},
+ {"q":"Quand a lieu le concours de l'ENSEPT ?","id":"ensept","d":"2027-08-30","c":"Concours","f":"bas","fd":"Approximative : fin août - septembre","src":[{"n":"Senego : concours de la fonction publique 2026","u":"https://senego.com/dossier/concours-fonction-publique"}],"hist":[]},
+ {"q":"Quand aura lieu le prochain recrutement d'enseignants ?","id":"enseignants","d":"2027-09-01","c":"Concours","f":"bas","fd":"Approximative : pas de calendrier fixe","obs":"En 2026, un recrutement spécial de 2 527 enseignants a été lancé, avec un dépôt des dossiers jusqu'au 16 septembre. Surveillez les communiqués du ministère de l'Éducation.","src":[{"n":"allAfrica : recrutement spécial de 2 527 enseignants","u":"https://fr.allafrica.com/stories/202609130102.html"}],"hist":[]},
 ];
+/* Attentes résolues, les plus récentes en premier (admin/dates.html, bouton « Résolue »). */
 const RESOLUES=[
- {q:"Quand reprennent les cours après le report de la rentrée ?",r:"Lundi 12 octobre 2026, partout au Sénégal, après un report d'une semaine dû aux inondations.",d:"2026-10-12",src:"rentree"},
- {q:"Jusqu'à quand déposer pour le recrutement spécial de 2 527 enseignants ?",r:"Délai prolongé jusqu'au mercredi 16 septembre 2026.",d:"2026-09-16",src:"ens"},
- {q:"Quand ouvre Campusen pour les bacheliers 2026 ?",r:"Plateforme ouverte du 17 août au 13 septembre 2026.",d:"2026-08-17",src:"campusen"},
- {q:"Quand a lieu le BFEM 2026 ?",r:"Les épreuves ont commencé le mardi 21 juillet 2026.",d:"2026-07-21",src:"bfem"},
- {q:"Quand démarre le CFEE 2026 ?",r:"Le 17 juin 2026, avec 306 485 candidats.",d:"2026-06-17",src:"cfee"},
+ {"r":"Lundi 12 octobre 2026, partout au Sénégal, après un report d'une semaine dû aux inondations.","q":"Quand reprennent les cours après le report de la rentrée ?","d":"2026-10-12","src":{"n":"allAfrica / Le Soleil : le démarrage des cours reporté au 12 octobre","u":"https://fr.allafrica.com/stories/202610060577.html"}},
+ {"r":"Délai prolongé jusqu'au mercredi 16 septembre 2026.","q":"Jusqu'à quand déposer pour le recrutement spécial de 2 527 enseignants ?","d":"2026-09-16","src":{"n":"allAfrica : recrutement spécial de 2 527 enseignants","u":"https://fr.allafrica.com/stories/202609130102.html"}},
+ {"r":"Plateforme ouverte du 17 août au 13 septembre 2026.","q":"Quand ouvre Campusen pour les bacheliers 2026 ?","d":"2026-08-17","src":{"n":"Senego : Campusen du 17 août au 13 septembre 2026","u":"https://senego.com/campusen-ouvre-du-17-aout-au-13-septembre-pour-les-bacheliers-2026_1995193.html"}},
+ {"r":"Les épreuves ont commencé le mardi 21 juillet 2026.","q":"Quand a lieu le BFEM 2026 ?","d":"2026-07-21","src":{"n":"Ndarinfo : BFEM 2026 fixé au 21 juillet","u":"https://www.ndarinfo.com/Examen-du-BFEM-2026-la-date-officielle-des-epreuves-fixee-au-mardi-21-juillet_a44732.html"}},
+ {"r":"Le 17 juin 2026, avec 306 485 candidats.","q":"Quand démarre le CFEE 2026 ?","d":"2026-06-17","src":{"n":"allAfrica : le CFEE 2026 démarre","u":"https://fr.allafrica.com/stories/202606170326.html"}},
 ];
 
-ATTENTES.push(
- {id:"joj-fin",q:"Quand se terminent les JOJ Dakar 2026 ?",d:"2026-11-13",c:"Sport",f:"haut",fd:"Confirmée par les organisateurs",note:"Après 14 jours de compétition.",src:["apa"],hist:[]},
- {id:"noel",q:"Quand est Noël ?",d:"2026-12-25",c:"Fête",f:"haut",fd:"Date fixe",note:"Jour férié.",src:["fixe"],hist:[]},
- {id:"nouvel-an",q:"Quand est le Nouvel An 2027 ?",d:"2027-01-01",c:"Fête",f:"haut",fd:"Date fixe",note:"Jour férié.",src:["fixe"],hist:[]},
- {id:"ensae-epreuve",q:"Quand a lieu l'épreuve du concours ENSAE ?",d:"2027-04-04",c:"Concours",f:"bas",fd:"Approximative, d'après 2026",note:"En 2026 : le 5 avril.",src:["concours"],hist:[]},
- {id:"ena-epreuves",q:"Quand commencent les épreuves de l'ENA ?",d:"2027-04-26",c:"Concours",f:"bas",fd:"Approximative, d'après 2026",note:"Autres cycles en juin et septembre.",src:["concours"],hist:[]},
- {id:"tamkharit",q:"Quand est la Tamkharit 2027 ?",d:"2027-06-16",c:"Religion",f:"moy",fd:"Estimée d'après le calendrier lunaire",note:"Achoura, 10 Muharram.",src:["lune"],hist:[]},
- {id:"ensept",q:"Quand a lieu le concours de l'ENSEPT ?",d:"2027-08-30",c:"Concours",f:"bas",fd:"Approximative : fin août - septembre",src:["concours"],hist:[]}
-);
 ATTENTES.sort((a,b)=>a.d.localeCompare(b.d));
 
 /* ===== Outils de la rubrique ===== */
@@ -574,7 +574,8 @@ const cdBox=x=>{const j=joursAvant(x.d);return `<div class="cd"><b>${j===0?"Auj.
 const fiabTag=x=>`<span class="fiab ${x.f}" title="${esc(x.fd)}"><i></i>${FLBL[x.f]} · ${esc(x.fd)}</span>`;
 const btnSuivre=x=>`<button type="button" class="suivre" data-k="${x.id}" aria-pressed="${estSuivi(x)}">${estSuivi(x)?"✓ Suivi":"+ Suivre"}</button>`;
 function dateRow(x,opts={}){return `<li><a class="rowlink" href="#att-${x.id}" aria-label="${esc(x.q)}"></a>${cdBox(x)}<div class="dt"><strong>${esc(x.q)}</strong><span>${fmt(x.d)}${x.note&&!opts.court?" · "+esc(x.note):""}</span>${fiabTag(x)}</div><div class="act"><span class="tag">${x.c}</span>${opts.court?"":btnSuivre(x)}</div></li>`}
-const srcLinks=keys=>keys.map(k=>SRC[k]).map(s=>s.u?`<li><a href="${s.u}" target="_blank" rel="noopener">${esc(s.n)}</a></li>`:`<li>${esc(s.n)}</li>`).join("");
+/* Une source est soit une clé de SRC, soit directement {n, u}. */
+const srcLinks=keys=>keys.map(k=>typeof k==="string"?SRC[k]:k).filter(Boolean).map(s=>s.u?`<li><a href="${esc(s.u)}" target="_blank" rel="noopener">${esc(s.n)}</a></li>`:`<li>${esc(s.n)}</li>`).join("");
 const articlesDe=id=>ARTICLES.filter(a=>a.att===id);
 
 /* Encadré de la page d'accueil */
@@ -625,7 +626,7 @@ function renderDates(){
     <p class="fine">Touchez une date pour voir ses sources et son historique. Les dates sont remplacées dès qu'une source officielle les confirme. Les alertes automatiques arriveront avec la version en ligne ; pour l'instant, vos attentes suivies sont gardées sur cet appareil.</p></section>
     ${lies.length?`<h2 class="h2">L'actualité des dates</h2><div class="majs">${lies.map(majCard).join("")}</div>`:""}
     <h2 class="h2">Résolues récemment</h2>
-    <ul class="resol">${RESOLUES.map(r=>`<li><span class="ok" aria-hidden="true">✓</span><div><strong>${esc(r.q)}</strong><p>${esc(r.r)}</p><a href="${SRC[r.src].u}" target="_blank" rel="noopener" class="srcl">Source : ${esc(SRC[r.src].n)}</a></div></li>`).join("")}</ul>
+    <ul class="resol">${RESOLUES.map(r=>`<li><span class="ok" aria-hidden="true">✓</span><div><strong>${esc(r.q)}</strong><p>${esc(r.r)}</p>${r.src&&r.src.u?`<a href="${esc(r.src.u)}" target="_blank" rel="noopener" class="srcl">Source : ${esc(r.src.n)}</a>`:r.src?`<span class="srcl">Source : ${esc(r.src.n)}</span>`:""}</div></li>`).join("")}</ul>
   </article>`;
   $("#back").onclick=()=>{location.hash="accueil"};
   majDates();
@@ -647,7 +648,7 @@ function renderAtt(x){
     </div>
     ${x.obs?`<p class="pobs"><b>Observation :</b> ${esc(x.obs)}</p>`:""}
     <section class="blk"><h2>Sources</h2><ul class="srcs">${srcLinks(x.src)}</ul></section>
-    ${x.hist.length?`<section class="blk"><h2>Historique</h2><ol class="hist">${x.hist.map(([d,t])=>`<li><span>${fmt(d)}</span>${esc(t)}</li>`).join("")}</ol></section>`:""}
+    ${(x.hist||[]).length?`<section class="blk"><h2>Historique</h2><ol class="hist">${x.hist.map(([d,t])=>`<li><span>${fmt(d)}</span>${esc(t)}</li>`).join("")}</ol></section>`:""}
     ${lies.length?`<section class="blk"><h2>Articles liés</h2><div class="majs">${lies.map(majCard).join("")}</div></section>`:""}
     ${shareBar({titre:x.q,id:"att-"+x.id})}
   </article>`;
@@ -720,27 +721,24 @@ const vfById=id=>VERIFS.find(v=>v.id===id);
 const stamp=v=>`<span class="stamp ${v.verdict}">${VERDICTS[v.verdict]}</span>`;
 function vfCard(v){return `<a class="vfc" href="#${v.id}">${stamp(v)}<div><span class="meta">${v.cat} · ${fmt(v.d)}</span><h4>${esc(v.claim)}</h4></div></a>`}
 /* ===== Partenaires =====
-   Pour ajouter un partenaire : copier un bloc. logo est facultatif (sinon, l'initiale s'affiche
-   sur la couleur indiquée). couleurNom : la couleur de la marque pour son nom.
+   Un partenaire par ligne, géré depuis admin/partenaires.html. logo est facultatif (sinon, l'initiale
+   s'affiche sur la couleur indiquée). couleurNom : la couleur de la marque pour son nom.
    lien remplace l'adresse affichée, pour un lien trop long.
    texte : une phrase, écrite ou validée par le partenaire. */
 const PARTENAIRES = [
- {nom:"Waqf Dolel Xamxam", url:"https://www.waqfdolelxamxam.sn/", logo:"images/partenaires/waqf-dolel-xamxam.png",
-  texte:"Finance les daaras et l'éducation gratuite, des petites classes jusqu'au doctorat."},
- {nom:"Barakasouq", url:"https://barakasouq.com/", logo:"images/partenaires/barakasouq.png", couleurNom:"#a19710",
-  texte:"Boutique en ligne : maison et électroménager, bébé, mode, beauté et high-tech, au même endroit."},
- {nom:"Taaral Boutique", url:"https://whatsapp.com/channel/0029VbDbk3x65yD4t29VJW3J", lien:"Chaîne WhatsApp", logo:"images/partenaires/taaral-boutique.png",
-  texte:"Mode féminine pudique : robes longues, hijabs, parfums et accessoires."},
- {nom:"Ndougalma", url:"https://whatsapp.com/channel/0029Vb9VDnQ1NCrVwZspDe0X", lien:"Chaîne WhatsApp", logo:"images/partenaires/ndougalma.png",
-  texte:"Fruits, légumes frais et produits du quotidien, à Dakar et Touba."},
+ {"nom":"Waqf Dolel Xamxam","url":"https://www.waqfdolelxamxam.sn/","logo":"images/partenaires/waqf-dolel-xamxam.png","texte":"Finance les daaras et l'éducation gratuite, des petites classes jusqu'au doctorat."},
+ {"nom":"Barakasouq","url":"https://barakasouq.com/","logo":"images/partenaires/barakasouq.png","couleurNom":"#a19710","texte":"Boutique en ligne : maison et électroménager, bébé, mode, beauté et high-tech, au même endroit."},
+ {"nom":"Taaral Boutique","url":"https://whatsapp.com/channel/0029VbDbk3x65yD4t29VJW3J","lien":"Chaîne WhatsApp","logo":"images/partenaires/taaral-boutique.png","texte":"Mode féminine pudique : robes longues, hijabs, parfums et accessoires."},
+ {"nom":"Ndougalma","url":"https://whatsapp.com/channel/0029Vb9VDnQ1NCrVwZspDe0X","lien":"Chaîne WhatsApp","logo":"images/partenaires/ndougalma.png","texte":"Fruits, légumes frais et produits du quotidien, à Dakar et Touba."},
 ];
-/* Coordonnées pour les annonceurs. Laissées vides, la page le dit sans afficher de numéro. */
-const CONTACT_PUB = {whatsapp:"", email:""};
+/* Coordonnées pour les annonceurs (modifiables depuis admin/partenaires.html). Laissées vides, la page le dit sans afficher de numéro. */
+const CONTACT_PUB = {"whatsapp":"","email":""};
 const hote = u => u.replace(/^https?:\/\/(www\.)?/,"").replace(/\/$/,"");
+const couleurOk = c => /^#[0-9a-f]{3,8}$/i.test(c||"");
 function partCard(p){
-  return `<a class="partc" href="${p.url}" target="_blank" rel="sponsored noopener">
-    <span class="lg"${!p.logo&&p.couleur?` style="background:${p.couleur};color:#fff"`:""}>${p.logo?`<img src="${p.logo}" alt="" loading="lazy">`:esc(p.nom.charAt(0))}</span>
-    <span><h4${p.couleurNom?` style="color:${p.couleurNom}"`:""}>${esc(p.nom)}</h4>${p.texte?`<p>${esc(p.texte)}</p>`:""}<span class="url">${esc(p.lien||hote(p.url))} ↗</span></span>
+  return `<a class="partc" href="${esc(p.url)}" target="_blank" rel="sponsored noopener">
+    <span class="lg"${!p.logo&&couleurOk(p.couleur)?` style="background:${p.couleur};color:#fff"`:""}>${p.logo?`<img src="${esc(p.logo)}" alt="" loading="lazy">`:esc(p.nom.charAt(0))}</span>
+    <span><h4${couleurOk(p.couleurNom)?` style="color:${p.couleurNom}"`:""}>${esc(p.nom)}</h4>${p.texte?`<p>${esc(p.texte)}</p>`:""}<span class="url">${esc(p.lien||hote(p.url))} ↗</span></span>
   </a>`;
 }
 function partBand(){

@@ -84,8 +84,8 @@ a.tuile:hover{border-color:var(--accent)}
   <div class="tuiles">
     <a class="tuile" href="articles.html"><h2>Articles</h2><p>Écrire, modifier ou retirer un article. Photo, vidéos, à la une, rappel du jour.</p><span class="chiffre" id="n-articles"></span></a>
     <a class="tuile" href="verifications.html"><h2>Vrai ou faux ?</h2><p>Publier, modifier ou retirer une vérification de rumeur (faux, trompeur, vrai).</p><span class="chiffre" id="n-verifs"></span></a>
-    <div class="tuile bientot"><h2>Partenaires</h2><p>Bientôt : ajouter ou retirer un partenaire et son logo.</p></div>
-    <div class="tuile bientot"><h2>Dates « Mais quand ? »</h2><p>Bientôt : suivre les dates attendues (examens, concours, fêtes…).</p></div>
+    <a class="tuile" href="dates.html"><h2>Dates « Mais quand ? »</h2><p>Suivre les dates attendues (examens, concours, fêtes…) : ajouter, modifier, marquer comme résolue.</p><span class="chiffre" id="n-dates"></span></a>
+    <a class="tuile" href="partenaires.html"><h2>Partenaires</h2><p>Ajouter ou retirer un partenaire et son logo, changer l'ordre, régler le contact annonceurs.</p><span class="chiffre" id="n-parts"></span></a>
   </div>
 </div>
 <script>
@@ -99,7 +99,9 @@ $("#deconnecter").onclick = () => { try { localStorage.removeItem(CLE_LOCALE); }
 fetch("../index.html", {cache: "no-store"}).then(r => r.ok ? r.text() : Promise.reject()).then(t => {
   const n = (t.match(/^ \{"id":/gm) || []).length, v = (t.match(/^ \{"verdict":/gm) || []).length;
   const pl = (k, mot) => `${k} ${mot}${k > 1 ? "s" : ""} en ligne`;
+  const dt = (t.match(/^ \{"q":/gm) || []).length, pa = (t.match(/^ \{"nom":/gm) || []).length;
   $("#n-articles").textContent = pl(n, "article"); $("#n-verifs").textContent = pl(v, "vérification");
+  $("#n-dates").textContent = `${dt} date${dt > 1 ? "s" : ""} suivie${dt > 1 ? "s" : ""}`; $("#n-parts").textContent = pl(pa, "partenaire");
 }).catch(() => {});
 </script>
 </body>

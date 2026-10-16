@@ -77,9 +77,9 @@ change pas, rechargez-la avec Ctrl + F5.
 --------------------------------------
 Tout se gère depuis l'espace d'administration :
 https://maisquand.com/admin/
-Il regroupe la page Articles (écrire et publier un article sans toucher
-au code), la page Vrai ou faux ? (les rumeurs vérifiées), et accueillera
-les prochains outils. Il n'est lié nulle part sur le site et Google ne
+Il regroupe les pages Articles (écrire et publier un article sans
+toucher au code), Vrai ou faux ? (les rumeurs vérifiées), Dates
+« Mais quand ? » et Partenaires. Il n'est lié nulle part sur le site et Google ne
 le référence pas. Les anciennes adresses (redaction.html,
 verifications.html) renvoient automatiquement vers les nouvelles.
 
@@ -146,6 +146,21 @@ faux ? » de l'administration). Même clé, même fonctionnement :
   premier ; les 3 premières s'affichent sur la page d'accueil.
   Décochée, elle se place juste après ces trois-là ;
 - « Toutes les vérifications » permet de les modifier ou de les retirer.
+
+Pour les dates de la rubrique « Mais quand ? » : page Dates de
+l'administration (https://maisquand.com/admin/dates.html).
+- la question (« Quand… ? »), la date attendue, la catégorie, la
+  fiabilité (élevée, moyenne, faible) et sa précision, les sources ;
+- « Nouvelle information » s'ajoute en haut de l'historique avec la
+  date du jour (ex. : « Date confirmée par le ministère ») ;
+- une date passée est signalée dans la liste : « Résolue » demande la
+  réponse finale et la range dans « Résolues récemment ».
+
+Pour les partenaires : page Partenaires de l'administration.
+- nom, adresse, phrase de présentation, logo (réduit automatiquement),
+  couleur du nom ; les flèches ↑ ↓ changent l'ordre d'affichage ;
+- en bas, « Contact pour les annonceurs » : le numéro WhatsApp et
+  l'e-mail affichés sur la page « Annoncer chez nous ».
 
 
 À VÉRIFIER AVANT D'ANNONCER LE SITE

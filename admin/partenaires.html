@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Partenaires · Mais quand ?</title>
+<link rel="icon" href="../favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Literata:opsz,wght@7..72,400;7..72,600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+:root{
+  --bg:#f6f7f9; --surface:#fff; --ink:#14212b; --muted:#5b6b78; --line:#dde3e8;
+  --accent:#0b6e8a; --accent-soft:#e1f0f4; --ok:#1f7a4d; --err:#c8372d; --sun:#e2a02b;
+  --display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --body:"Literata",Georgia,serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#0f171d; --surface:#16222a; --ink:#e8eef2; --muted:#9aabb8; --line:#26343d;
+  --accent:#5cc3df; --accent-soft:#16343f; --ok:#5fc48e; --err:#ff7a6e; color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:1rem/1.6 var(--body)}
+.wrap{max-width:760px;margin:0 auto;padding:24px 16px 64px}
+h1,h2,h3,label,button,.btn{font-family:var(--display)}
+h1{font-weight:800;font-size:1.9rem;margin:0}
+h1 em{font-style:normal;color:var(--sun)}
+.sous{color:var(--muted);margin:4px 0 24px}
+.carte{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px;display:grid;gap:16px;margin-bottom:20px}
+.carte h2{margin:0;font-size:1.2rem}
+label{display:grid;gap:6px;font-weight:600;font-size:.95rem}
+label small,.aide{font-family:var(--body);font-weight:400;color:var(--muted);font-size:.85rem}
+input,select,textarea{font:inherit;color:inherit;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px 12px;width:100%}
+textarea{min-height:120px;resize:vertical}
+textarea.long{min-height:260px}
+.deux{display:grid;gap:16px}
+@media (min-width:640px){.deux{grid-template-columns:1fr 1fr}}
+button,.btn{border:0;border-radius:999px;padding:10px 20px;font-weight:600;cursor:pointer;background:var(--accent);color:#fff;font-size:1rem;text-decoration:none;display:inline-block}
+button.second{background:transparent;color:var(--accent);border:1px solid var(--line)}
+button.danger{background:transparent;color:var(--err);border:1px solid var(--line);padding:6px 14px;font-size:.85rem}
+button:disabled{opacity:.5;cursor:wait}
+.actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.msg{padding:12px 14px;border-radius:10px;font-size:.95rem}
+.msg.ok{background:color-mix(in srgb,var(--ok) 15%,transparent);border:1px solid var(--ok)}
+.msg.err{background:color-mix(in srgb,var(--err) 12%,transparent);border:1px solid var(--err)}
+.msg.info{background:var(--accent-soft)}
+.compte{font-size:.8rem;color:var(--muted);font-family:var(--mono)}
+.apercu{border:1px dashed var(--line);border-radius:12px;padding:18px;display:grid;gap:10px}
+.apercu .cat{font-family:var(--mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--accent)}
+.apercu h3{font-weight:800;font-size:1.6rem;line-height:1.1;margin:0}
+.apercu .chapo{color:var(--muted);font-size:1.1rem;margin:0}
+.apercu img{width:100%;border-radius:10px;aspect-ratio:16/9;object-fit:cover}
+.apercu p{margin:0}
+.liste{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.liste li{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:10px}
+.liste a{color:var(--accent)}
+.badge{display:inline-block;font-family:var(--mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;padding:2px 8px;border-radius:999px;background:var(--accent-soft);color:var(--accent);margin-left:6px;vertical-align:middle}
+[hidden]{display:none!important}
+.verdicts{display:flex;flex-wrap:wrap;gap:8px}
+.verdicts label{display:flex;gap:6px;align-items:center;font-weight:600;border:1px solid var(--line);border-radius:999px;padding:6px 14px;cursor:pointer}
+.verdicts input{width:auto}
+.v-faux{color:#c8372d}.v-vrai{color:#2f9e5b}.v-trompeur{color:#d9622b}.v-nonverifie{color:var(--muted)}
+.tampon{display:inline-block;font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:.05em;border:2px solid currentColor;border-radius:6px;padding:2px 10px;font-size:.85rem}
+.nav-admin{display:flex;flex-wrap:wrap;gap:6px 18px;margin:-12px 0 20px;font-family:var(--display);font-weight:600}
+.nav-admin a{color:var(--accent)}
+.nav-admin [aria-current]{color:var(--ink);text-decoration:underline;text-decoration-color:var(--sun);text-decoration-thickness:3px;text-underline-offset:5px}
+.liste li.passee{border-color:var(--sun)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Mais quand <em>?</em> · Partenaires</h1>
+  <p class="sous">Ajouter, modifier, réordonner ou retirer un partenaire, et régler le contact pour les annonceurs. Cette page n'est pas référencée et ne fonctionne qu'avec votre clé.</p>
+  <nav class="nav-admin" aria-label="Administration"><a href="./">← Administration</a><a href="articles.html">Articles</a><a href="verifications.html">Vrai ou faux ?</a><a href="dates.html">Dates</a><span aria-current="page">Partenaires</span><a href="../" target="_blank" rel="noopener">Voir le site ↗</a></nav>
+
+  <section class="carte" id="v-connexion">
+    <h2>Se connecter</h2>
+    <p class="aide" style="margin:0">Collez votre clé GitHub (elle commence par <code>github_pat_</code>). C'est la même clé pour tout l'espace d'administration : si vous êtes déjà connecté sur cet appareil, rien à faire.</p>
+    <label>Clé GitHub<input id="cle" type="password" autocomplete="off" spellcheck="false"></label>
+    <div class="actions"><button id="connecter" type="button">Se connecter</button></div>
+    <div id="msg-connexion"></div>
+  </section>
+
+  <div id="v-redaction" hidden>
+    <form class="carte" id="form">
+      <h2 id="titre-form">Nouveau partenaire</h2>
+      <div class="msg info" id="bandeau-modif" hidden>Vous modifiez un partenaire. <button type="button" class="second" id="annuler-modif" style="margin-left:8px;padding:4px 12px;font-size:.85rem">Annuler la modification</button></div>
+      <div class="deux">
+        <label>Nom<input id="nom" required maxlength="60" placeholder="Ex. : Barakasouq"></label>
+        <label>Adresse du site ou de la chaîne<input id="url" required type="url" placeholder="https://…"></label>
+      </div>
+      <label>Texte du lien (facultatif)<input id="lien" maxlength="40" placeholder="Ex. : Chaîne WhatsApp"><small>Remplace l'adresse affichée sous le nom, si elle est trop longue.</small></label>
+      <label>Phrase de présentation<textarea id="texte" required maxlength="160" style="min-height:70px" placeholder="Une phrase, écrite ou validée par le partenaire."></textarea></label>
+      <div class="deux">
+        <label>Logo (facultatif)<input id="logo" type="file" accept="image/*"><small id="aide-logo">PNG ou JPG, réduit automatiquement. Sans logo, l'initiale s'affiche sur la couleur de fond.</small></label>
+        <div style="display:grid;gap:10px;align-content:start">
+          <label style="display:flex;gap:8px;align-items:center;font-weight:400"><input type="checkbox" id="avec-couleur-nom" style="width:auto"> Couleur du nom <input type="color" id="couleur-nom" value="#a19710" style="width:56px;padding:2px;height:32px"></label>
+          <label style="display:flex;gap:8px;align-items:center;font-weight:400">Fond de l'initiale (sans logo) <input type="color" id="couleur" value="#0b6e8a" style="width:56px;padding:2px;height:32px"></label>
+          <label id="l-retirer-logo" style="display:flex;gap:8px;align-items:center;font-weight:400" hidden><input type="checkbox" id="retirer-logo" style="width:auto"> Retirer le logo actuel</label>
+        </div>
+      </div>
+      <div class="actions">
+        <button type="button" class="second" id="voir">Aperçu</button>
+        <button type="submit" id="publier">Publier sur maisquand.com</button>
+      </div>
+      <div id="msg"></div>
+      <div class="apercu" id="apercu" hidden></div>
+    </form>
+
+    <section class="carte">
+      <h2>Tous les partenaires</h2>
+      <p class="aide" style="margin:0">Dans l'ordre d'affichage sur le site. Les flèches changent l'ordre.</p>
+      <ul class="liste" id="liste"><li class="aide">Chargement…</li></ul>
+    </section>
+
+    <form class="carte" id="form-contact">
+      <h2>Contact pour les annonceurs</h2>
+      <p class="aide" style="margin:0">Affiché sur la page « Annoncer chez nous ». Laissé vide, la page indique que les coordonnées arrivent bientôt.</p>
+      <div class="deux">
+        <label>WhatsApp<input id="whatsapp" type="tel" placeholder="Ex. : +221 77 000 00 00"><small>Avec l'indicatif +221.</small></label>
+        <label>E-mail<input id="email" type="email" placeholder="Ex. : pub@maisquand.com"></label>
+      </div>
+      <div class="actions"><button type="submit" id="enregistrer-contact">Enregistrer le contact</button></div>
+      <div id="msg-contact"></div>
+    </form>
+
+    <div class="actions"><button type="button" class="second" id="deconnecter">Se déconnecter de cet appareil</button></div>
+  </div>
+</div>
+<script src="commun.js"></script>
+<script>
+/* Les partenaires (PARTENAIRES) et le contact annonceurs (CONTACT_PUB) d'index.html. */
+const M_PART = "const PARTENAIRES = [", P_PART = ' {"nom":', M_CONTACT = "const CONTACT_PUB = ";
+let enCours = null, partenaires = [];
+const hote = u => u.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "");
+
+/* Réduit le logo à 400 px au plus, en PNG (la transparence est gardée). */
+function reduireLogo(fichier){
+  return new Promise((ok, ko) => {
+    const im = new Image(), url = URL.createObjectURL(fichier);
+    im.onload = () => {
+      const k = Math.min(1, 400 / Math.max(im.naturalWidth, im.naturalHeight)), c = document.createElement("canvas");
+      c.width = Math.round(im.naturalWidth * k); c.height = Math.round(im.naturalHeight * k);
+      c.getContext("2d").drawImage(im, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(url); ok(c.toDataURL("image/png"));
+    };
+    im.onerror = () => { URL.revokeObjectURL(url); ko(new Error("ce logo ne peut pas être lu. Essayez un fichier PNG ou JPG.")); };
+    im.src = url;
+  });
+}
+
+function lireFormulaire(){
+  const v = id => $("#"+id).value.trim();
+  const p = { nom: v("nom"), url: v("url") };
+  if (v("lien")) p.lien = v("lien");
+  p.couleur = $("#couleur").value;
+  if ($("#avec-couleur-nom").checked) p.couleurNom = $("#couleur-nom").value;
+  p.texte = v("texte");
+  return p;
+}
+function modeNouveau(){
+  enCours = null; $("#form").reset();
+  $("#titre-form").textContent = "Nouveau partenaire"; $("#publier").textContent = "Publier sur maisquand.com";
+  $("#bandeau-modif").hidden = true; $("#l-retirer-logo").hidden = true; $("#apercu").hidden = true;
+  $("#aide-logo").textContent = "PNG ou JPG, réduit automatiquement. Sans logo, l'initiale s'affiche sur la couleur de fond.";
+}
+function modeModification(p){
+  enCours = p; $("#form").reset();
+  $("#nom").value = p.nom; $("#url").value = p.url; $("#lien").value = p.lien || ""; $("#texte").value = p.texte || "";
+  $("#avec-couleur-nom").checked = !!p.couleurNom; if (p.couleurNom) $("#couleur-nom").value = p.couleurNom;
+  if (p.couleur) $("#couleur").value = p.couleur;
+  $("#l-retirer-logo").hidden = !p.logo;
+  $("#aide-logo").textContent = p.logo ? "Laissez vide pour garder le logo actuel." : "PNG ou JPG, réduit automatiquement.";
+  $("#titre-form").textContent = "Modifier le partenaire"; $("#publier").textContent = "Enregistrer les modifications";
+  $("#bandeau-modif").hidden = false; $("#apercu").hidden = true; message($("#msg"), "", "");
+  $("#form").scrollIntoView({behavior:"smooth"});
+}
+$("#annuler-modif").onclick = modeNouveau;
+
+/* Carte telle qu'elle s'affiche sur le site. */
+function carte(p, logo){
+  return `<div style="display:flex;gap:14px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:12px">
+    <span style="flex:none;width:56px;height:56px;border-radius:10px;display:grid;place-items:center;overflow:hidden;font-family:var(--display);font-weight:800;font-size:1.4rem;${logo ? "background:#fff" : `background:${esc(p.couleur || "#0b6e8a")};color:#fff`}">${logo ? `<img src="${esc(logo)}" alt="" style="max-width:100%;max-height:100%">` : esc(p.nom.charAt(0))}</span>
+    <span><strong style="font-family:var(--display);${p.couleurNom ? `color:${esc(p.couleurNom)}` : ""}">${esc(p.nom)}</strong><br><span class="aide">${esc(p.texte || "")}</span><br><span class="compte">${esc(p.lien || hote(p.url))} ↗</span></span></div>`;
+}
+$("#voir").onclick = () => {
+  const p = lireFormulaire(), f = $("#logo").files[0];
+  const logo = f ? URL.createObjectURL(f) : enCours && enCours.logo && !$("#retirer-logo").checked ? SITE + enCours.logo : "";
+  $("#apercu").hidden = false; $("#apercu").innerHTML = carte(p, logo);
+};
+
+$("#form").onsubmit = async e => {
+  e.preventDefault();
+  const m = $("#msg"), bouton = $("#publier"), p = lireFormulaire(), modif = !!enCours;
+  if (!/^https?:\/\/\S+$/.test(p.url)) return message(m, "err", "L'adresse doit commencer par https://");
+  bouton.disabled = true; message(m, "info", modif ? "Enregistrement en cours…" : "Publication en cours…");
+  try {
+    const f = $("#logo").files[0];
+    if (f) {
+      message(m, "info", "Envoi du logo…");
+      const data = await reduireLogo(f), chemin = `images/partenaires/${slug(p.nom) || "partenaire"}-${Date.now().toString(36)}.png`;
+      await ecrireFichier(chemin, data.split(",")[1], `Logo : ${p.nom}`);
+      p.logo = chemin;
+    } else if (modif && enCours.logo && !$("#retirer-logo").checked) p.logo = enCours.logo;
+    message(m, "info", modif ? "Mise à jour…" : "Ajout du partenaire…");
+    /* Ordre des champs : nom en premier (repère de la liste), puis les autres. */
+    const ordre = o => ({ nom: o.nom, url: o.url, ...(o.lien ? {lien: o.lien} : {}), ...(o.logo ? {logo: o.logo} : {}), couleur: o.couleur, ...(o.couleurNom ? {couleurNom: o.couleurNom} : {}), texte: o.texte });
+    await modifierIndex(lignesIdx => {
+      const items = elements(lignesIdx, M_PART, P_PART);
+      if (modif) {
+        const it = items.find(o => o.x.nom === enCours.nom && o.x.url === enCours.url);
+        if (!it) throw new Error("ce partenaire n'est plus sur le site (il a peut-être été retiré).");
+        lignesIdx[it.i] = ligneDe(ordre(p));
+      } else {
+        if (items.some(o => o.x.nom.toLowerCase() === p.nom.toLowerCase())) throw new Error("un partenaire porte déjà ce nom.");
+        lignesIdx.splice(zone(lignesIdx, M_PART).fin, 0, ligneDe(ordre(p)));
+      }
+    }, `${modif ? "Modifie le partenaire" : "Partenaire"} : ${p.nom}`);
+    message(m, "ok", `${modif ? "Modifications enregistrées" : "Publié"} ! Visible sur la page d'accueil dans une à deux minutes.<br><small>Si la page ne change pas, rechargez-la avec Ctrl + F5.</small>`);
+    const garde = m.innerHTML; modeNouveau(); m.innerHTML = garde;
+    charger();
+  } catch (err) {
+    message(m, "err", `${modif ? "L'enregistrement" : "La publication"} a échoué : ${esc(err.message)}`);
+  } finally { bouton.disabled = false; }
+};
+
+/* ===== Liste et ordre ===== */
+async function charger(){
+  try {
+    const { texte } = await lireIndex(), lignesIdx = texte.split("\n");
+    partenaires = elements(lignesIdx, M_PART, P_PART).map(o => o.x);
+    $("#liste").innerHTML = partenaires.length ? partenaires.map((p, k) => `<li><span style="flex:1">${carte(p, p.logo ? SITE + p.logo : "")}</span><span class="actions" style="flex-direction:column;align-items:stretch"><span style="display:flex;gap:6px"><button type="button" class="second" data-monter="${k}" ${k ? "" : "disabled"} aria-label="Monter" style="padding:6px 12px">↑</button><button type="button" class="second" data-descendre="${k}" ${k < partenaires.length - 1 ? "" : "disabled"} aria-label="Descendre" style="padding:6px 12px">↓</button></span><button type="button" class="second" data-modifier="${k}" style="padding:6px 14px;font-size:.85rem">Modifier</button><button type="button" class="danger" data-retirer="${k}">Retirer</button></span></li>`).join("")
+      : `<li class="aide">Aucun partenaire : le bandeau est masqué sur le site.</li>`;
+    /* Contact annonceurs */
+    const l = lignesIdx.find(x => x.startsWith(M_CONTACT));
+    if (l) { const c = JSON.parse(l.slice(M_CONTACT.length).replace(/;\s*$/, "")); $("#whatsapp").value = c.whatsapp || ""; $("#email").value = c.email || ""; }
+  } catch (e) { $("#liste").innerHTML = `<li class="aide">Liste indisponible : ${esc(e.message)}</li>`; }
+}
+const memePartenaire = (a, b) => a.nom === b.nom && a.url === b.url;
+$("#liste").onclick = async e => {
+  const b = e.target.closest("button"); if (!b) return;
+  const k = +(b.dataset.modifier ?? b.dataset.retirer ?? b.dataset.monter ?? b.dataset.descendre), p = partenaires[k];
+  if (!p) return;
+  if (b.dataset.modifier !== undefined) return modeModification(p);
+  let transformer, messageCommit;
+  if (b.dataset.retirer !== undefined) {
+    if (!confirm(`Retirer ${p.nom} des partenaires ?`)) return;
+    transformer = lignesIdx => { const it = elements(lignesIdx, M_PART, P_PART).find(o => memePartenaire(o.x, p)); if (!it) throw new Error("partenaire introuvable."); lignesIdx.splice(it.i, 1); };
+    messageCommit = `Retire le partenaire ${p.nom}`;
+  } else {
+    const sens = b.dataset.monter !== undefined ? -1 : 1;
+    transformer = lignesIdx => {
+      const items = elements(lignesIdx, M_PART, P_PART), j = items.findIndex(o => memePartenaire(o.x, p)), autre = items[j + sens];
+      if (j < 0 || !autre) throw new Error("ordre déjà modifié entre-temps : rechargez la page.");
+      [lignesIdx[items[j].i], lignesIdx[autre.i]] = [lignesIdx[autre.i], lignesIdx[items[j].i]];
+    };
+    messageCommit = `Ordre des partenaires : ${p.nom} ${sens < 0 ? "monte" : "descend"}`;
+  }
+  document.querySelectorAll("#liste button").forEach(x => x.disabled = true);
+  try {
+    await modifierIndex(transformer, messageCommit);
+    if (enCours && memePartenaire(enCours, p) && b.dataset.retirer !== undefined) modeNouveau();
+  } catch (err) { alert("L'opération a échoué : " + err.message); }
+  charger();
+};
+
+$("#form-contact").onsubmit = async e => {
+  e.preventDefault();
+  const m = $("#msg-contact"), bouton = $("#enregistrer-contact");
+  const c = { whatsapp: $("#whatsapp").value.trim(), email: $("#email").value.trim() };
+  if (c.whatsapp && c.whatsapp.replace(/[^0-9]/g, "").length < 9) return message(m, "err", "Ce numéro WhatsApp semble incomplet.");
+  bouton.disabled = true; message(m, "info", "Enregistrement…");
+  try {
+    await modifierIndex(lignesIdx => {
+      const i = lignesIdx.findIndex(x => x.startsWith(M_CONTACT));
+      if (i < 0) throw new Error("le contact annonceurs est introuvable dans index.html.");
+      lignesIdx[i] = M_CONTACT + JSON.stringify(c).replace(/</g, "\\u003c") + ";";
+    }, "Contact annonceurs");
+    message(m, "ok", `Enregistré ! Visible dans une à deux minutes sur <a href="${SITE}#annoncer" target="_blank" rel="noopener">la page « Annoncer chez nous »</a>.`);
+  } catch (err) { message(m, "err", `L'enregistrement a échoué : ${esc(err.message)}`); }
+  finally { bouton.disabled = false; }
+};
+
+initConnexion(charger);
+</script>
+</body>
+</html>
