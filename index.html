@@ -321,7 +321,7 @@ footer{border-top:1px solid var(--line);padding-block:24px;color:var(--muted);fo
 
 <div class="wrap"><main id="app"></main></div>
 
-<footer><div class="wrap">© 2026 Mais quand ? · L'info qui ne vous fait pas attendre · maisquand.com · Rubrique MaisQuand par KemanHicks · Dernière mise à jour : 14 octobre 2026<nav class="foot" aria-label="Informations"><a href="#regles">Nos règles</a><a href="#corrections">Corrections</a><a href="#dates">Mais quand ?</a><a href="#vrai-faux">Vrai ou faux ?</a><a href="#annoncer">Annoncer chez nous</a></nav></div></footer>
+<footer><div class="wrap">© 2026 Mais quand ? · L'info qui ne vous fait pas attendre · maisquand.com · Rubrique MaisQuand par KemanHicks · Dernière mise à jour : <span id="maj-site">14 octobre 2026</span><nav class="foot" aria-label="Informations"><a href="#regles">Nos règles</a><a href="#corrections">Corrections</a><a href="#dates">Mais quand ?</a><a href="#vrai-faux">Vrai ou faux ?</a><a href="#annoncer">Annoncer chez nous</a></nav></div></footer>
 
 <script>
 const ARTICLES = [
@@ -435,6 +435,8 @@ const ILLU = {
    <g transform="translate(530 275)"><rect x="-26" y="-4" width="52" height="40" fill="#2f6f8f"/><rect x="-22" y="-14" width="44" height="12" fill="#f6c443"/><rect x="-18" y="-24" width="36" height="12" fill="#e2602f"/></g>`),
 };
 const img = a => `<div class="img" style="background:${a.c[0]}">${a.photo?`<img src="${a.photo}" alt="${esc(a.titre)}" style="object-position:${a.pos||"center"}">`:(ILLU[a.id]||"")}${(a.video||a.videos)?`<b class="play" aria-label="Vidéo">▶</b>`:""}</div>`;
+/* Date « Dernière mise à jour » du pied de page : l'article le plus récent (ou sa modification) */
+{ const d = ARTICLES.flatMap(a=>[a.date,a.maj]).filter(Boolean).sort().pop(); if(d) $("#maj-site").textContent = fmt(d); }
 const meta = (a, maj) => `<span class="meta">${fmt(a.date)} · ${a.min} min de lecture${maj&&a.maj?` · mis à jour le ${fmt(a.maj)}`:""}</span>`;
 
 $("#today").textContent = new Date().toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"});
@@ -704,6 +706,41 @@ function renderCorrections(){
 /* ===== Vrai ou faux ? : vérification des rumeurs ===== */
 const VERDICTS={faux:"Faux",vrai:"Vrai",trompeur:"Trompeur",nonverifie:"Non vérifié"};
 const VERIFS=[
+ {id:"vf-rentree-19",verdict:"faux",cat:"Éducation",d:"2026-10-16",
+  claim:"« La rentrée scolaire est reportée au 19 octobre 2026 »",
+  circule:"Un communiqué présenté comme venant du ministère de l'Éducation nationale a circulé sur TikTok : il annonçait que la rentrée des classes était repoussée au lundi 19 octobre 2026.",
+  preuves:["Une recherche d'image inversée montre que le vrai communiqué du ministère date du 6 octobre 2026 : il fixait la rentrée au lundi 12 octobre, pas au 19.","La date a été modifiée sur la version qui circule.","Le ministère a confirmé à PesaCheck que la rentrée restait fixée au 12 octobre.","Les cours ont bien repris le lundi 12 octobre, même si certaines écoles inondées avaient besoin de 24 à 48 heures de plus pour ouvrir.","La fédération des parents d'élèves (FENAPES) avait demandé un report au 19 octobre, ce qui a pu rendre le faux crédible, mais cette demande n'a pas été retenue."],
+  conclusion:"Faux. Le communiqué a été trafiqué : la rentrée était fixée au 12 octobre et elle a eu lieu ce jour-là.",
+  reflexe:"Un communiqué officiel se vérifie sur les pages du ministère. Si la date d'un document ne correspond pas à ce que disent les médias, méfiez-vous.",
+  src:[{n:"PesaCheck : la rentrée scolaire au Sénégal n'a pas été reportée au 19 octobre 2026",u:"https://pesacheck.org/manipule-la-rentree-scolaire-au-senegal-na-pas-ete-reportee-au-19-octobre-2026/"},{n:"Œil d'Afrique : rentrée scolaire avec des écoles encore sous l'eau (12 octobre 2026)",u:"https://oeildafrique.com/2026/10/12/rentree-scolaire-senegal-ecoles-inondees/"}]},
+ {id:"vf-rentree-12",verdict:"vrai",cat:"Éducation",d:"2026-10-16",
+  claim:"« La rentrée a été repoussée au 12 octobre à cause des inondations »",
+  circule:"Début octobre, l'annonce d'un report de la rentrée scolaire, prévue le 7 octobre, a circulé sur les réseaux sociaux, au milieu de nombreux messages contradictoires.",
+  preuves:["Le ministère de l'Éducation nationale a publié un communiqué le mardi 6 octobre 2026 : la rentrée est repoussée au lundi 12 octobre, sur tout le territoire.","La raison donnée : les fortes pluies et les inondations, qui ont touché de nombreuses écoles.","Le report devait laisser le temps de nettoyer, désinfecter et réparer les bâtiments scolaires.","France 24, KOACI et d'autres médias ont relayé ce communiqué."],
+  conclusion:"Vrai. Le report de cinq jours, du 7 au 12 octobre, a bien été décidé par le ministère.",
+  reflexe:"Même une information vraie mérite d'être partagée avec sa source : citez le communiqué officiel plutôt qu'une capture d'écran.",
+  src:[{n:"France 24 : le Sénégal reporte la rentrée scolaire à cause d'inondations et fortes pluies (6 octobre 2026)",u:"https://www.france24.com/fr/info-en-continu/20261006-le-s%C3%A9n%C3%A9gal-reporte-la-rentr%C3%A9e-scolaire-%C3%A0-cause-d-inondations-et-fortes-pluies"},{n:"KOACI : la rentrée scolaire reportée de cinq jours dans tout le pays (7 octobre 2026)",u:"https://www.koaci.com/article/2026/10/07/senegal/societe/senegal-la-rentree-scolaire-reportee-de-cinq-jours-dans-tout-le-pays-a-cause-des-inondations_201386.html"}]},
+ {id:"vf-tas-can",verdict:"faux",cat:"Sport",d:"2026-10-16",
+  claim:"« Le TAS donne raison au Sénégal : les Lions sont champions d'Afrique »",
+  circule:"Depuis le 14 octobre 2026, un document portant le logo, un tampon et une signature du Tribunal arbitral du sport (TAS) circule sur les réseaux sociaux. Il annonce que le recours du Sénégal sur la finale Sénégal-Maroc a été accepté.",
+  preuves:["Le TAS n'a publié aucune décision. L'audience a eu lieu le 8 octobre à Lausanne et le dossier est en délibéré.","Aucune date officielle n'a été annoncée pour la décision.","Le document parle de « CAN 2026 », alors que le litige porte sur la finale de la CAN 2025.","Il ne cite pas précisément la décision de la CAF qui est contestée.","Ce n'est pas la première fois : en juillet 2026, le TAS avait déjà démenti officiellement un faux verdict du même genre."],
+  conclusion:"Faux. Le document n'émane pas du TAS. La décision n'est pas encore connue.",
+  reflexe:"Une décision du TAS est publiée sur son site officiel et reprise aussitôt par les grands médias sportifs. Sans cela, ne partagez pas.",
+  src:[{n:"Afrikmag : CAN 2025, attention au faux verdict du TAS (octobre 2026)",u:"https://afrikmag.com/can-2025-faux-verdict-tas-senegal-maroc-octobre-2026"},{n:"France 24 : le Sénégal vainqueur de la CAN ? Attention à ce faux communiqué (13 juillet 2026)",u:"https://www.france24.com/fr/afrique/20260713-s%C3%A9n%C3%A9gal-vainqueur-de-la-can-attention-faux-communiqu%C3%A9"}]},
+ {id:"vf-cedeao",verdict:"faux",cat:"Société",d:"2026-10-16",
+  claim:"Une vidéo montre le président Diomaye Faye annoncer la sortie du Sénégal de la CEDEAO",
+  circule:"Le 24 septembre 2026, une vidéo publiée sur TikTok montrait le président Bassirou Diomaye Faye annonçant le retrait du Sénégal de la CEDEAO.",
+  preuves:["Les images sont réelles mais anciennes : elles viennent d'un discours du président le 23 septembre 2024 à New York, au Sommet de l'Avenir des Nations unies.","Dans ce discours, il parlait surtout du « cycle infernal de la dette », pas de la CEDEAO.","Selon l'outil d'analyse DeepFake-O-Meter, la voix de la vidéo a été générée à 99,9 % par l'intelligence artificielle.","Les mouvements des lèvres ne correspondent pas aux paroles.","Le Sénégal n'a annoncé aucun retrait de la CEDEAO."],
+  conclusion:"Faux. C'est un montage : de vieilles images du président avec une fausse voix fabriquée par l'IA.",
+  reflexe:"Une annonce aussi importante serait reprise par tous les médias. Si vous ne la trouvez que sur TikTok, c'est mauvais signe.",
+  src:[{n:"PesaCheck : cette vidéo ne montre pas Bassirou Diomaye Faye annonçant le retrait du Sénégal de la CEDEAO",u:"https://pesacheck.org/manipule-cette-video-ne-montre-pas-bassirou-diomaye-faye-annoncant-le-retrait-du-senegal-de-la-cedeao/"}]},
+ {id:"vf-seisme",verdict:"faux",cat:"Société",d:"2026-10-16",
+  claim:"Une vidéo montre un tremblement de terre au Sénégal",
+  circule:"Le 3 septembre 2026, une vidéo a été publiée sur TikTok avec le texte « Tremblement de terre au Sénégal ». On y voit un immeuble s'effondrer.",
+  preuves:["Selon l'outil d'analyse Sight Engine, la vidéo a été générée à 98 % par l'intelligence artificielle.","Le décor ressemble aux Parcelles Assainies (rond-point Case Bi), mais aucun séisme n'y a été signalé.","Les incohérences sont visibles : l'immeuble tombe sans causer de dégâts autour, et les passants continuent leurs activités sans paniquer.","Aucun média ni aucune autorité n'a rapporté de tremblement de terre au Sénégal."],
+  conclusion:"Faux. La vidéo a été fabriquée avec l'intelligence artificielle.",
+  reflexe:"Regardez les détails : réactions des gens, dégâts, ombres. Les vidéos fabriquées par l'IA ont souvent des scènes qui ne tiennent pas debout.",
+  src:[{n:"PesaCheck : cette vidéo ne montre pas un tremblement de terre au Sénégal",u:"https://pesacheck.org/faux-cette-video-ne-montre-pas-un-tremblement-de-terre-au-senegal/"}]},
  {id:"vf-bfem",verdict:"faux",cat:"Éducation",d:"2026-10-11",att:"bfem",
   claim:"Des visuels annoncent les dates du BFEM et des examens 2026",
   circule:"Au printemps 2026, des images présentées comme le calendrier officiel des examens (dont le BFEM) ont circulé sur les réseaux sociaux.",
