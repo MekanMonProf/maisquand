@@ -1,4 +1,5 @@
 User-agent: *
 Disallow: /redaction.html
+Disallow: /verifications.html
 Allow: /
 Sitemap: https://maisquand.com/sitemap.xml
