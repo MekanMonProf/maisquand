@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Administration · Mais quand ?</title>
+<link rel="icon" href="../favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Literata:opsz,wght@7..72,400;7..72,600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+:root{
+  --bg:#f6f7f9; --surface:#fff; --ink:#14212b; --muted:#5b6b78; --line:#dde3e8;
+  --accent:#0b6e8a; --accent-soft:#e1f0f4; --ok:#1f7a4d; --err:#c8372d; --sun:#e2a02b;
+  --display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --body:"Literata",Georgia,serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#0f171d; --surface:#16222a; --ink:#e8eef2; --muted:#9aabb8; --line:#26343d;
+  --accent:#5cc3df; --accent-soft:#16343f; --ok:#5fc48e; --err:#ff7a6e; color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:1rem/1.6 var(--body)}
+.wrap{max-width:760px;margin:0 auto;padding:24px 16px 64px}
+h1,h2,h3,label,button,.btn{font-family:var(--display)}
+h1{font-weight:800;font-size:1.9rem;margin:0}
+h1 em{font-style:normal;color:var(--sun)}
+.sous{color:var(--muted);margin:4px 0 24px}
+.carte{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px;display:grid;gap:16px;margin-bottom:20px}
+.carte h2{margin:0;font-size:1.2rem}
+label{display:grid;gap:6px;font-weight:600;font-size:.95rem}
+label small,.aide{font-family:var(--body);font-weight:400;color:var(--muted);font-size:.85rem}
+input,select,textarea{font:inherit;color:inherit;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px 12px;width:100%}
+textarea{min-height:120px;resize:vertical}
+textarea.long{min-height:260px}
+.deux{display:grid;gap:16px}
+@media (min-width:640px){.deux{grid-template-columns:1fr 1fr}}
+button,.btn{border:0;border-radius:999px;padding:10px 20px;font-weight:600;cursor:pointer;background:var(--accent);color:#fff;font-size:1rem;text-decoration:none;display:inline-block}
+button.second{background:transparent;color:var(--accent);border:1px solid var(--line)}
+button.danger{background:transparent;color:var(--err);border:1px solid var(--line);padding:6px 14px;font-size:.85rem}
+button:disabled{opacity:.5;cursor:wait}
+.actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.msg{padding:12px 14px;border-radius:10px;font-size:.95rem}
+.msg.ok{background:color-mix(in srgb,var(--ok) 15%,transparent);border:1px solid var(--ok)}
+.msg.err{background:color-mix(in srgb,var(--err) 12%,transparent);border:1px solid var(--err)}
+.msg.info{background:var(--accent-soft)}
+.compte{font-size:.8rem;color:var(--muted);font-family:var(--mono)}
+.apercu{border:1px dashed var(--line);border-radius:12px;padding:18px;display:grid;gap:10px}
+.apercu .cat{font-family:var(--mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--accent)}
+.apercu h3{font-weight:800;font-size:1.6rem;line-height:1.1;margin:0}
+.apercu .chapo{color:var(--muted);font-size:1.1rem;margin:0}
+.apercu img{width:100%;border-radius:10px;aspect-ratio:16/9;object-fit:cover}
+.apercu p{margin:0}
+.liste{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.liste li{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:10px}
+.liste a{color:var(--accent)}
+.badge{display:inline-block;font-family:var(--mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;padding:2px 8px;border-radius:999px;background:var(--accent-soft);color:var(--accent);margin-left:6px;vertical-align:middle}
+[hidden]{display:none!important}
+.nav-admin{display:flex;flex-wrap:wrap;gap:6px 18px;margin:-12px 0 20px;font-family:var(--display);font-weight:600}
+.nav-admin a{color:var(--accent)}
+.nav-admin [aria-current]{color:var(--ink);text-decoration:underline;text-decoration-color:var(--sun);text-decoration-thickness:3px;text-underline-offset:5px}
+.tuiles{display:grid;gap:14px}
+@media (min-width:640px){.tuiles{grid-template-columns:1fr 1fr}}
+.tuile{display:grid;gap:6px;align-content:start;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 20px;text-decoration:none;color:inherit}
+a.tuile:hover{border-color:var(--accent)}
+.tuile h2{margin:0;font-size:1.2rem;color:var(--accent)}
+.tuile p{margin:0;color:var(--muted);font-size:.95rem}
+.tuile .chiffre{font-family:var(--mono);font-size:.8rem;color:var(--ink)}
+.tuile.bientot{border-style:dashed;opacity:.7}
+.tuile.bientot h2{color:var(--muted)}
+.etat{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:20px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Mais quand <em>?</em> · Administration</h1>
+  <p class="sous">Tout ce qu'il faut pour faire vivre maisquand.com, au même endroit. Cet espace n'est pas référencé et ne fonctionne qu'avec votre clé.</p>
+
+  <div class="carte etat" style="display:flex">
+    <span id="etat" class="aide" style="font-size:.95rem"></span>
+    <span class="actions"><a class="btn" href="../" target="_blank" rel="noopener">Voir le site ↗</a><button type="button" class="second" id="deconnecter" hidden>Se déconnecter de cet appareil</button></span>
+  </div>
+
+  <div class="tuiles">
+    <a class="tuile" href="articles.html"><h2>Articles</h2><p>Écrire, modifier ou retirer un article. Photo, vidéos, à la une, rappel du jour.</p><span class="chiffre" id="n-articles"></span></a>
+    <a class="tuile" href="verifications.html"><h2>Vrai ou faux ?</h2><p>Publier, modifier ou retirer une vérification de rumeur (faux, trompeur, vrai).</p><span class="chiffre" id="n-verifs"></span></a>
+    <div class="tuile bientot"><h2>Partenaires</h2><p>Bientôt : ajouter ou retirer un partenaire et son logo.</p></div>
+    <div class="tuile bientot"><h2>Dates « Mais quand ? »</h2><p>Bientôt : suivre les dates attendues (examens, concours, fêtes…).</p></div>
+  </div>
+</div>
+<script>
+const CLE_LOCALE = "mq-redaction-cle";   // même clé pour tout l'espace d'administration
+const $ = s => document.querySelector(s);
+let cle = null; try { cle = localStorage.getItem(CLE_LOCALE); } catch (e) {}
+$("#etat").textContent = cle ? "✓ Connecté sur cet appareil." : "Pas encore connecté sur cet appareil : ouvrez une page ci-dessous, elle vous demandera votre clé GitHub.";
+$("#deconnecter").hidden = !cle;
+$("#deconnecter").onclick = () => { try { localStorage.removeItem(CLE_LOCALE); } catch (e) {} location.reload(); };
+/* Quelques chiffres, lus sur le site en ligne (aucune clé nécessaire). */
+fetch("../index.html", {cache: "no-store"}).then(r => r.ok ? r.text() : Promise.reject()).then(t => {
+  const n = (t.match(/^ \{"id":/gm) || []).length, v = (t.match(/^ \{"verdict":/gm) || []).length;
+  const pl = (k, mot) => `${k} ${mot}${k > 1 ? "s" : ""} en ligne`;
+  $("#n-articles").textContent = pl(n, "article"); $("#n-verifs").textContent = pl(v, "vérification");
+}).catch(() => {});
+</script>
+</body>
+</html>

@@ -75,9 +75,13 @@ change pas, rechargez-la avec Ctrl + F5.
 
 ÉTAPE 4 · Publier un article vous-même
 --------------------------------------
-La page https://maisquand.com/redaction.html permet d'écrire et de
-publier un article sans toucher au code. Elle n'est liée nulle part sur
-le site et Google ne la référence pas.
+Tout se gère depuis l'espace d'administration :
+https://maisquand.com/admin/
+Il regroupe la page Articles (écrire et publier un article sans toucher
+au code), la page Vrai ou faux ? (les rumeurs vérifiées), et accueillera
+les prochains outils. Il n'est lié nulle part sur le site et Google ne
+le référence pas. Les anciennes adresses (redaction.html,
+verifications.html) renvoient automatiquement vers les nouvelles.
 
 Une seule fois, créez votre clé GitHub (5 minutes) :
 1. Connecté à GitHub, ouvrez
@@ -91,7 +95,7 @@ Une seule fois, créez votre clé GitHub (5 minutes) :
    « Read and write ». Ne cochez rien d'autre.
 5. « Generate token », puis copiez la clé (elle commence par
    github_pat_). GitHub ne la montre qu'une fois.
-6. Sur redaction.html, collez-la et cliquez sur « Se connecter ».
+6. Sur la page Articles de l'espace d'administration, collez-la et cliquez sur « Se connecter ».
    La clé reste enregistrée sur cet appareil ; « Se déconnecter »
    l'efface.
 
@@ -132,8 +136,8 @@ Pour publier :
   « Retirer » enlève un article du site en cas d'erreur.
 
 Pour les rumeurs (rubrique « Vrai ou faux ? ») : ouvrez
-https://maisquand.com/verifications.html (ou le lien « Vrai ou faux ? »
-en haut de la page Rédaction). Même clé, même fonctionnement :
+https://maisquand.com/admin/verifications.html (ou la tuile « Vrai ou
+faux ? » de l'administration). Même clé, même fonctionnement :
 - écrivez la rumeur telle qu'elle circule, choisissez le verdict (Faux,
   Trompeur, Vrai, Non vérifié), puis remplissez « Ce qui circule »,
   les preuves (une par ligne), la conclusion, le bon réflexe et les
