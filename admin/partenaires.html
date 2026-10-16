@@ -11,14 +11,14 @@
 <style>
 :root{
   --bg:#f6f7f9; --surface:#fff; --ink:#14212b; --muted:#5b6b78; --line:#dde3e8;
-  --accent:#0b6e8a; --accent-soft:#e1f0f4; --ok:#1f7a4d; --err:#c8372d; --sun:#e2a02b;
+  --accent:#1f6b3a; --accent-soft:#e3f1e7; --ok:#1f7a4d; --err:#c8372d; --sun:#e2a02b;
   --display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
   --body:"Literata",Georgia,serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
   color-scheme:light;
 }
 @media (prefers-color-scheme:dark){:root{
   --bg:#0f171d; --surface:#16222a; --ink:#e8eef2; --muted:#9aabb8; --line:#26343d;
-  --accent:#5cc3df; --accent-soft:#16343f; --ok:#5fc48e; --err:#ff7a6e; color-scheme:dark}}
+  --accent:#6fcf94; --accent-soft:#173a28; --ok:#5fc48e; --err:#ff7a6e; color-scheme:dark}}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:1rem/1.6 var(--body)}
 .wrap{max-width:760px;margin:0 auto;padding:24px 16px 64px}
@@ -39,6 +39,7 @@ button,.btn{border:0;border-radius:999px;padding:10px 20px;font-weight:600;curso
 button.second{background:transparent;color:var(--accent);border:1px solid var(--line)}
 button.danger{background:transparent;color:var(--err);border:1px solid var(--line);padding:6px 14px;font-size:.85rem}
 button:disabled{opacity:.5;cursor:wait}
+@media (prefers-color-scheme:dark){button:not(.second):not(.danger),.btn{color:#0f171d}}
 .actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
 .msg{padding:12px 14px;border-radius:10px;font-size:.95rem}
 .msg.ok{background:color-mix(in srgb,var(--ok) 15%,transparent);border:1px solid var(--ok)}
@@ -95,7 +96,7 @@ button:disabled{opacity:.5;cursor:wait}
         <label>Logo (facultatif)<input id="logo" type="file" accept="image/*"><small id="aide-logo">PNG ou JPG, réduit automatiquement. Sans logo, l'initiale s'affiche sur la couleur de fond.</small></label>
         <div style="display:grid;gap:10px;align-content:start">
           <label style="display:flex;gap:8px;align-items:center;font-weight:400"><input type="checkbox" id="avec-couleur-nom" style="width:auto"> Couleur du nom <input type="color" id="couleur-nom" value="#a19710" style="width:56px;padding:2px;height:32px"></label>
-          <label style="display:flex;gap:8px;align-items:center;font-weight:400">Fond de l'initiale (sans logo) <input type="color" id="couleur" value="#0b6e8a" style="width:56px;padding:2px;height:32px"></label>
+          <label style="display:flex;gap:8px;align-items:center;font-weight:400">Fond de l'initiale (sans logo) <input type="color" id="couleur" value="#1f6b3a" style="width:56px;padding:2px;height:32px"></label>
           <label id="l-retirer-logo" style="display:flex;gap:8px;align-items:center;font-weight:400" hidden><input type="checkbox" id="retirer-logo" style="width:auto"> Retirer le logo actuel</label>
         </div>
       </div>
@@ -180,7 +181,7 @@ $("#annuler-modif").onclick = modeNouveau;
 /* Carte telle qu'elle s'affiche sur le site. */
 function carte(p, logo){
   return `<div style="display:flex;gap:14px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:12px">
-    <span style="flex:none;width:56px;height:56px;border-radius:10px;display:grid;place-items:center;overflow:hidden;font-family:var(--display);font-weight:800;font-size:1.4rem;${logo ? "background:#fff" : `background:${esc(p.couleur || "#0b6e8a")};color:#fff`}">${logo ? `<img src="${esc(logo)}" alt="" style="max-width:100%;max-height:100%">` : esc(p.nom.charAt(0))}</span>
+    <span style="flex:none;width:56px;height:56px;border-radius:10px;display:grid;place-items:center;overflow:hidden;font-family:var(--display);font-weight:800;font-size:1.4rem;${logo ? "background:#fff" : `background:${esc(p.couleur || "#1f6b3a")};color:#fff`}">${logo ? `<img src="${esc(logo)}" alt="" style="max-width:100%;max-height:100%">` : esc(p.nom.charAt(0))}</span>
     <span><strong style="font-family:var(--display);${p.couleurNom ? `color:${esc(p.couleurNom)}` : ""}">${esc(p.nom)}</strong><br><span class="aide">${esc(p.texte || "")}</span><br><span class="compte">${esc(p.lien || hote(p.url))} ↗</span></span></div>`;
 }
 $("#voir").onclick = () => {

@@ -27,17 +27,17 @@
 /* Layout : en-tête collant, une grande « à la une » puis une grille d'articles ; vue article dans la même page */
 :root{
   --bg:#f6f7f9; --surface:#ffffff; --ink:#14212b; --muted:#5b6b78; --line:#dde3e8;
-  --accent:#0b6e8a; --accent-soft:#e1f0f4; --sun:#e2a02b;
+  --accent:#1f6b3a; --accent-soft:#e3f1e7; --sun:#e2a02b;
   --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
   --body:"Literata", Georgia, "Times New Roman", serif;
   --mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#0f171d; --surface:#16222a; --ink:#e6edf2; --muted:#93a4b1; --line:#253540;
-  --accent:#5cc3df; --accent-soft:#16343f; --sun:#f0b84f; color-scheme:dark }}
+  --accent:#6fcf94; --accent-soft:#173a28; --sun:#f0b84f; color-scheme:dark }}
 :root[data-theme="dark"]{
   --bg:#0f171d; --surface:#16222a; --ink:#e6edf2; --muted:#93a4b1; --line:#253540;
-  --accent:#5cc3df; --accent-soft:#16343f; --sun:#f0b84f; color-scheme:dark }
+  --accent:#6fcf94; --accent-soft:#173a28; --sun:#f0b84f; color-scheme:dark }
 
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:1rem;line-height:1.6}
@@ -296,7 +296,7 @@ footer .foot a{color:var(--accent);font-family:var(--display);font-weight:600}
 .pp{margin:0}
 .preuves{margin:0;padding-left:18px;display:grid;gap:6px}
 nav .vfbtn{border-color:#c8372d}
-.cta{justify-self:start;display:inline-block;background:var(--accent);color:#fff;font-family:var(--display);font-weight:600;padding:12px 18px;border-radius:10px;text-decoration:none}
+.cta{justify-self:start;display:inline-block;background:var(--accent);color:var(--surface);font-family:var(--display);font-weight:600;padding:12px 18px;border-radius:10px;text-decoration:none}
 .cta:hover{filter:brightness(1.1)}
 .conseils{list-style:none;counter-reset:c;margin:0;padding:0;display:grid;gap:14px}
 .conseils li{counter-increment:c;display:grid;grid-template-columns:44px 1fr;gap:4px 14px;padding:14px 16px;background:var(--surface);border:1px solid var(--line);border-radius:12px}
