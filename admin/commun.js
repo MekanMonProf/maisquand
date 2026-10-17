@@ -2,7 +2,6 @@
    Connexion avec la clé GitHub, lecture et écriture d'index.html, petites aides. */
 const DEPOT = "MekanMonProf/maisquand", BRANCHE = "main", SITE = "https://maisquand.com/";
 const API = `https://api.github.com/repos/${DEPOT}`;
-const CLE_LOCALE = "mq-redaction-cle";   // même clé pour tout l'espace d'administration
 
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -22,7 +21,7 @@ function lireSource(l){
 const ecrireSource = s => s.u ? `${s.n} ${s.u}` : s.n;
 
 let cle = null;
-try { cle = localStorage.getItem(CLE_LOCALE); } catch (e) {}
+cle = lireCle();   // clé déchiffrée par le code d'accès (verrou.js), ou null
 
 /* ===== Accès à GitHub ===== */
 async function gh(chemin, options = {}){
@@ -84,7 +83,7 @@ function initConnexion(quandConnecte){
     try {
       const d = await gh("");
       if (!d.permissions || !d.permissions.push) throw Object.assign(new Error("Cette clé ne permet pas d'écrire dans le dépôt."), {status:403});
-      try { localStorage.setItem(CLE_LOCALE, cle); } catch (e) {}
+      await garderCle(cle);   // chiffrée avec le code d'accès (verrou.js)
       $("#v-connexion").hidden = true; $("#v-redaction").hidden = false;
       quandConnecte();
     } catch (e) {
@@ -95,6 +94,6 @@ function initConnexion(quandConnecte){
     }
   }
   $("#connecter").onclick = () => { const v = $("#cle").value.trim(); if (v) connecter(v); };
-  $("#deconnecter").onclick = () => { try { localStorage.removeItem(CLE_LOCALE); } catch (e) {} location.reload(); };
+  $("#deconnecter").onclick = () => { oublierCle(); location.reload(); };
   if (cle) connecter(cle);
 }

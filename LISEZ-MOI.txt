@@ -100,7 +100,15 @@ Sur téléphone, l'administration s'installe comme une application
   « Installer l'application » ou « Ajouter à l'écran d'accueil » ;
 - iPhone (Safari) : ouvrez la même adresse, bouton Partager,
   « Sur l'écran d'accueil ».
-Collez votre clé une fois dans l'application : elle y reste enregistrée.
+Collez votre clé une fois dans l'application, puis choisissez un code
+d'accès (6 caractères au moins, différent du code du téléphone).
+La clé est enregistrée chiffrée avec ce code : sans lui, personne ne
+peut publier depuis votre téléphone. L'application demande le code à
+chaque ouverture et se verrouille après 10 minutes sans action (bouton
+« 🔒 Verrouiller » sur l'accueil de l'administration pour le faire tout
+de suite). Après 10 codes faux, la clé est effacée de l'appareil.
+Code oublié : « Code oublié ? » efface la clé ; recollez-la depuis GitHub
+et choisissez un nouveau code.
 
 Une seule fois, créez votre clé GitHub (5 minutes) :
 1. Connecté à GitHub, ouvrez
