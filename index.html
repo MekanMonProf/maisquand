@@ -89,7 +89,9 @@ article{max-width:68ch;margin:0 auto;display:grid;gap:14px}
 article h1{font-family:var(--display);font-weight:800;font-size:clamp(1.9rem,5vw,2.8rem);line-height:1.08;margin:0;text-wrap:balance}
 article .chapo{font-size:1.15rem;color:var(--muted);margin:0}
 article .img{aspect-ratio:16/9}
-article .txt p{margin:0 0 1em}
+article .txt p{margin:0 0 1em;-webkit-hyphens:auto;hyphens:auto}
+/* Texte justifié sur les écrans assez larges ; sur téléphone, les lignes sont trop courtes et il ferait des trous. */
+@media (min-width:600px){article .txt p{text-align:justify}}
 .back{justify-self:start;border:none;background:none;color:var(--accent);cursor:pointer;font-family:var(--display);font-weight:600;padding:0}
 
 /* Rappel du jour : bandeau vert et or, même rendu en clair et en sombre */
@@ -441,6 +443,9 @@ const ILLU = {
 const img = a => `<div class="img" style="background:${a.c[0]}">${a.photo?`<img src="${a.photo}" alt="${esc(a.titre)}" style="object-position:${a.pos||"center"}">`:(ILLU[a.id]||"")}${(a.video||a.videos)?`<b class="play" aria-label="Vidéo">▶</b>`:""}</div>`;
 /* Date « Dernière mise à jour » du pied de page : l'article le plus récent (ou sa modification) */
 { const d = ARTICLES.flatMap(a=>[a.date,a.maj]).filter(Boolean).sort().pop(); if(d) $("#maj-site").textContent = fmt(d); }
+/* Typographie française : espace insécable avant ! ? ; : » et après «, pour qu'aucun signe
+   ne se retrouve seul en début de ligne (surtout avec le texte justifié). */
+const typo = t => t.replace(/ ([!?;:»])/g, "\u00a0$1").replace(/« /g, "«\u00a0");
 const meta = (a, maj) => `<span class="meta">${fmt(a.date)} · ${a.min} min de lecture${maj&&a.maj?` · mis à jour le ${fmt(a.maj)}`:""}</span>`;
 
 $("#today").textContent = new Date().toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"});
@@ -901,9 +906,9 @@ function renderArticle(a){
     <button class="back" type="button" id="back">← Retour aux actualités</button>
     <span class="cat">${a.cat}</span><h1>${esc(a.titre)}</h1><p class="chapo">${esc(a.chapo)}</p>${meta(a,true)}
     ${saitBox(a)}
-    ${a.video?`<figure class="vid"><video controls playsinline preload="metadata" poster="${a.photo}" src="${a.video}"></video><figcaption>Vidéo · ${fmt(a.date)}</figcaption></figure>`:img(a)}<div class="txt">${a.texte.map(p=>`<p>${esc(p)}</p>`).join("")}</div>
+    ${a.video?`<figure class="vid"><video controls playsinline preload="metadata" poster="${a.photo}" src="${a.video}"></video><figcaption>Vidéo · ${fmt(a.date)}</figcaption></figure>`:img(a)}<div class="txt">${a.texte.map(p=>`<p>${typo(esc(p))}</p>`).join("")}</div>
     ${a.videos?`<div class="vids">${a.videos.map((v,i)=>`<figure class="vid"><video controls playsinline preload="metadata" src="${v}"></video><figcaption>Vidéo ${a.videos.length>1?i+1+" ":""}· ${fmt(a.date)}</figcaption></figure>`).join("")}</div>`:""}
-    ${a.conseils?`<ol class="conseils">${a.conseils.map(([t,d])=>`<li><strong>${esc(t)}</strong><p>${esc(d)}</p></li>`).join("")}</ol>`:""}${a.apres?`<div class="txt">${a.apres.map(p=>`<p>${esc(p)}</p>`).join("")}</div>`:""}
+    ${a.conseils?`<ol class="conseils">${a.conseils.map(([t,d])=>`<li><strong>${esc(t)}</strong><p>${esc(d)}</p></li>`).join("")}</ol>`:""}${a.apres?`<div class="txt">${a.apres.map(p=>`<p>${typo(esc(p))}</p>`).join("")}</div>`:""}
     ${a.cta?`<a class="cta" href="${a.cta.u}" target="_blank" rel="noopener">${esc(a.cta.t)} →</a>`:""}
     ${a.att&&attById(a.att)?(x=>`<a class="attcard" href="#att-${x.id}">${cdBox(x)}<div><span class="meta">Mais quand ? · date suivie</span><strong>${esc(x.q)}</strong>${fiabTag(x)}</div></a>`)(attById(a.att)):""}
     ${(a.src||a.srcTxt)?`<section class="blk"><h2>Sources</h2><ul class="srcs">${a.src?srcLinks(a.src):""}${(a.srcTxt||[]).map(t=>`<li>${esc(t)}</li>`).join("")}</ul></section>`:""}
