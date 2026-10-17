@@ -87,11 +87,11 @@ h3.sec{font-family:var(--display);font-weight:600;font-size:1.1rem;margin:0;padd
 
 article{max-width:68ch;margin:0 auto;display:grid;gap:14px}
 article h1{font-family:var(--display);font-weight:800;font-size:clamp(1.9rem,5vw,2.8rem);line-height:1.08;margin:0;text-wrap:balance}
-article .chapo{font-size:1.15rem;color:var(--muted);margin:0}
+article .chapo{font-size:1.15rem;color:var(--muted);margin:0;-webkit-hyphens:auto;hyphens:auto}
 article .img{aspect-ratio:16/9}
 article .txt p{margin:0 0 1em;-webkit-hyphens:auto;hyphens:auto}
 /* Texte justifié sur les écrans assez larges ; sur téléphone, les lignes sont trop courtes et il ferait des trous. */
-@media (min-width:600px){article .txt p{text-align:justify}}
+@media (min-width:600px){article .txt p,article .chapo{text-align:justify}}
 .back{justify-self:start;border:none;background:none;color:var(--accent);cursor:pointer;font-family:var(--display);font-weight:600;padding:0}
 
 /* Rappel du jour : bandeau vert et or, même rendu en clair et en sombre */
@@ -888,7 +888,7 @@ function renderArticle(a){
   if(a.rappel){
     $("#app").innerHTML = `<article>
       <button class="back" type="button" id="back">← Retour aux actualités</button>
-      <span class="cat">${a.cat} · Le rappel du jour</span><h1>${esc(a.titre)}</h1><p class="chapo">${esc(a.chapo)}</p>
+      <span class="cat">${a.cat} · Le rappel du jour</span><h1>${esc(a.titre)}</h1><p class="chapo">${typo(esc(a.chapo))}</p>
       <span class="meta">${fmt(a.date)} · ${a.hijri}</span>
       <div class="rp">
         <section><h2>Le hadith</h2><p style="margin:0">Le Messager d'Allah ﷺ a dit :</p><blockquote>« ${esc(a.hadith.texte)} »</blockquote><div class="ar" lang="ar" style="font-size:1.5rem">${a.hadith.ar}</div><span class="src">${a.hadith.source}</span></section>
@@ -904,7 +904,7 @@ function renderArticle(a){
   }
   $("#app").innerHTML = `<article>
     <button class="back" type="button" id="back">← Retour aux actualités</button>
-    <span class="cat">${a.cat}</span><h1>${esc(a.titre)}</h1><p class="chapo">${esc(a.chapo)}</p>${meta(a,true)}
+    <span class="cat">${a.cat}</span><h1>${esc(a.titre)}</h1><p class="chapo">${typo(esc(a.chapo))}</p>${meta(a,true)}
     ${saitBox(a)}
     ${a.video?`<figure class="vid"><video controls playsinline preload="metadata" poster="${a.photo}" src="${a.video}"></video><figcaption>Vidéo · ${fmt(a.date)}</figcaption></figure>`:img(a)}<div class="txt">${a.texte.map(p=>`<p>${typo(esc(p))}</p>`).join("")}</div>
     ${a.videos?`<div class="vids">${a.videos.map((v,i)=>`<figure class="vid"><video controls playsinline preload="metadata" src="${v}"></video><figcaption>Vidéo ${a.videos.length>1?i+1+" ":""}· ${fmt(a.date)}</figcaption></figure>`).join("")}</div>`:""}
