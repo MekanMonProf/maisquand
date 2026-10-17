@@ -12,6 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="MQ Admin">
+<script src="verrou.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Literata:opsz,wght@7..72,400;7..72,600&family=IBM+Plex+Mono:wght@500&display=swap">
 <style>
@@ -85,7 +86,7 @@ a.tuile:hover{border-color:var(--accent)}
 
   <div class="carte etat" style="display:flex">
     <span id="etat" class="aide" style="font-size:.95rem"></span>
-    <span class="actions"><a class="btn" href="../" target="_blank" rel="noopener">Voir le site ↗</a><button type="button" class="second" id="deconnecter" hidden>Se déconnecter de cet appareil</button></span>
+    <span class="actions"><a class="btn" href="../" target="_blank" rel="noopener">Voir le site ↗</a><button type="button" class="second" id="verrouiller" hidden>🔒 Verrouiller</button><button type="button" class="second" id="deconnecter" hidden>Se déconnecter de cet appareil</button></span>
   </div>
 
   <div class="tuiles">
@@ -96,12 +97,12 @@ a.tuile:hover{border-color:var(--accent)}
   </div>
 </div>
 <script>
-const CLE_LOCALE = "mq-redaction-cle";   // même clé pour tout l'espace d'administration
 const $ = s => document.querySelector(s);
-let cle = null; try { cle = localStorage.getItem(CLE_LOCALE); } catch (e) {}
-$("#etat").textContent = cle ? "✓ Connecté sur cet appareil." : "Pas encore connecté sur cet appareil : ouvrez une page ci-dessous, elle vous demandera votre clé GitHub.";
-$("#deconnecter").hidden = !cle;
-$("#deconnecter").onclick = () => { try { localStorage.removeItem(CLE_LOCALE); } catch (e) {} location.reload(); };
+const cle = aCle();   // clé enregistrée (chiffrée) sur cet appareil
+$("#etat").textContent = cle ? "✓ Connecté. Votre clé est protégée par votre code d'accès ; l'application se verrouille après 10 minutes sans action." : "Pas encore connecté sur cet appareil : ouvrez une page ci-dessous, elle vous demandera votre clé GitHub puis un code d'accès.";
+$("#deconnecter").hidden = !cle; $("#verrouiller").hidden = !cle;
+$("#verrouiller").onclick = verrouillerMaintenant;
+$("#deconnecter").onclick = () => { oublierCle(); location.reload(); };
 /* Quelques chiffres, lus sur le site en ligne (aucune clé nécessaire). */
 fetch("../index.html", {cache: "no-store"}).then(r => r.ok ? r.text() : Promise.reject()).then(t => {
   const n = (t.match(/^ \{"id":/gm) || []).length, v = (t.match(/^ \{"verdict":/gm) || []).length;

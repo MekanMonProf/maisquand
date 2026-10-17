@@ -12,6 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="MQ Admin">
+<script src="verrou.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Literata:opsz,wght@7..72,400;7..72,600&family=IBM+Plex+Mono:wght@500&display=swap">
 <style>
@@ -136,7 +137,6 @@ button:disabled{opacity:.5;cursor:wait}
 /* ===== Réglages ===== */
 const DEPOT = "MekanMonProf/maisquand", BRANCHE = "main", SITE = "https://maisquand.com/";
 const API = `https://api.github.com/repos/${DEPOT}`;
-const CLE_LOCALE = "mq-redaction-cle";   // même clé pour tout l'espace d'administration
 const MARQUE = "const VERIFS=[";
 const RUBRIQUES = ["Éducation","Société","Spiritualité","Emploi","Sport","Monde & Tech"];
 const VERDICTS = {faux:"Faux", trompeur:"Trompeur", vrai:"Vrai", nonverifie:"Non vérifié"};
@@ -145,7 +145,7 @@ const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 let cle = null;
 let enCours = null; // vérification en cours de modification, ou null pour une nouvelle
-try { cle = localStorage.getItem(CLE_LOCALE); } catch (e) {}
+cle = lireCle();   // clé déchiffrée par le code d'accès (verrou.js), ou null
 
 function message(el, type, html){ el.innerHTML = html ? `<div class="msg ${type}">${html}</div>` : ""; }
 
@@ -203,7 +203,7 @@ async function connecter(nouvelle){
   try {
     const d = await gh("");
     if (!d.permissions || !d.permissions.push) throw Object.assign(new Error("Cette clé ne permet pas d'écrire dans le dépôt."), {status:403});
-    try { localStorage.setItem(CLE_LOCALE, cle); } catch (e) {}
+    await garderCle(cle);   // chiffrée avec le code d'accès (verrou.js)
     $("#v-connexion").hidden = true; $("#v-redaction").hidden = false;
     chargerListe();
   } catch (e) {
@@ -214,7 +214,7 @@ async function connecter(nouvelle){
   }
 }
 $("#connecter").onclick = () => { const v = $("#cle").value.trim(); if (v) connecter(v); };
-$("#deconnecter").onclick = () => { try { localStorage.removeItem(CLE_LOCALE); } catch (e) {} location.reload(); };
+$("#deconnecter").onclick = () => { oublierCle(); location.reload(); };
 
 /* ===== Formulaire ===== */
 $("#cat").innerHTML = RUBRIQUES.map(c => `<option>${c}</option>`).join("");
