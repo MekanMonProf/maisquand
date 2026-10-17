@@ -94,6 +94,14 @@ toucher au code), Vrai ou faux ? (les rumeurs vérifiées), Dates
 le référence pas. Les anciennes adresses (redaction.html,
 verifications.html) renvoient automatiquement vers les nouvelles.
 
+Sur téléphone, l'administration s'installe comme une application
+(icône verte « MQ Admin » sur l'écran d'accueil) :
+- Android (Chrome) : ouvrez https://maisquand.com/admin/, menu ⋮,
+  « Installer l'application » ou « Ajouter à l'écran d'accueil » ;
+- iPhone (Safari) : ouvrez la même adresse, bouton Partager,
+  « Sur l'écran d'accueil ».
+Collez votre clé une fois dans l'application : elle y reste enregistrée.
+
 Une seule fois, créez votre clé GitHub (5 minutes) :
 1. Connecté à GitHub, ouvrez
    https://github.com/settings/personal-access-tokens/new
