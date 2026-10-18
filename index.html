@@ -944,6 +944,14 @@ function route(){
   const a = ARTICLES.find(x=>"#"+x.id===k);
   titre(a&&a.titre); a ? renderArticle(a) : renderHome();
 }
+/* Le logo ramène toujours à l'accueil complet : toutes les rubriques, sans recherche, en haut de page. */
+$("#logo").addEventListener("click",e=>{
+  e.preventDefault();
+  if(cheminCle){ location.href="/"; return; }          // depuis une page /a/…, /v/…, /d/…
+  cat="Toutes"; q=""; const r=$("#q"); if(r) r.value="";
+  if(location.hash!=="#accueil") history.pushState(null,"","#accueil");
+  route(); window.scrollTo(0,0);
+});
 window.addEventListener("hashchange",route);
 renderCats(); route();
 </script>
