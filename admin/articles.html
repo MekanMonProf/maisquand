@@ -115,6 +115,14 @@ button:disabled{opacity:.5;cursor:wait}
           <p class="aide" style="margin:0">S'affiche dans un encadré vert « Le rappel » à la fin de l'article, séparé des faits. Seulement quand le lien avec l'article est évident, et toujours avec la référence exacte.</p>
           <label>Texte du hadith ou du verset<textarea id="rappel-texte" style="min-height:80px" placeholder="Ex. : « Allah vient en aide au serviteur tant que le serviteur vient en aide à son frère. »"></textarea></label>
           <label>Référence<input id="rappel-ref" placeholder="Ex. : Hadith rapporté par Muslim (n° 2699)"></label>
+          <label>Degré d'authenticité<select id="rappel-degre">
+            <option value="">(non précisé)</option>
+            <option>Verset du Coran</option>
+            <option>Hadith authentique (sahîh)</option>
+            <option>Hadith bon (hasan)</option>
+            <option>Hadith faible (da'îf)</option>
+          </select><small>Un hadith faible ne doit pas être présenté comme une parole certaine du Prophète ﷺ : préférez un hadith authentique ou bon.</small></label>
+          <label>Ce qu'il nous enseigne (facultatif)<textarea id="rappel-sens" style="min-height:70px" placeholder="En une ou deux phrases : le sens du hadith et son lien avec l'article."></textarea></label>
         </div>
       </details>
       <div style="display:flex;gap:8px 12px;align-items:center;flex-wrap:wrap">
@@ -272,7 +280,11 @@ function lireFormulaire(){
   if (saitPas.length) a.saitPas = saitPas;
   const credit = v("credit");
   if (src.length || credit) a.srcTxt = [...(credit ? [credit] : []), ...src];
-  if (v("rappel-texte")) a.rappelEncadre = { texte: v("rappel-texte"), ref: v("rappel-ref") };
+  if (v("rappel-texte")) {
+    a.rappelEncadre = { texte: v("rappel-texte"), ref: v("rappel-ref") };
+    if (v("rappel-degre")) a.rappelEncadre.degre = v("rappel-degre");
+    if (v("rappel-sens")) a.rappelEncadre.sens = v("rappel-sens");
+  }
   return a;
 }
 
@@ -303,6 +315,9 @@ function modeModification(a){
   $("#sources").value = (a.srcTxt || []).join("\n");
   if (a.sait || a.saitPas || a.srcTxt) $("details").open = true;
   $("#rappel-texte").value = a.rappelEncadre ? a.rappelEncadre.texte : ""; $("#rappel-ref").value = a.rappelEncadre ? (a.rappelEncadre.ref || "") : "";
+  const r = a.rappelEncadre || {};
+  if (r.degre && ![...$("#rappel-degre").options].some(o => o.value === r.degre)) $("#rappel-degre").insertAdjacentHTML("beforeend", `<option>${esc(r.degre)}</option>`);
+  $("#rappel-degre").value = r.degre || ""; $("#rappel-sens").value = r.sens || "";
   $("#det-rappel").open = !!a.rappelEncadre;
   $("#titre-form").textContent = "Modifier l'article"; $("#publier").textContent = "Enregistrer les modifications";
   $("#rappel-coche").checked = !!a.rappelDu; $("#rappel-date").value = a.rappelDu || "";
@@ -326,7 +341,7 @@ $("#voir").onclick = async () => {
   ap.hidden = false;
   ap.innerHTML = `<span class="cat">${esc(a.cat)} · aperçu</span><h3>${esc(a.titre||"(titre)")}</h3><p class="chapo">${esc(a.chapo||"(chapô)")}</p>
     ${photo?`<img src="${photo}" alt="">`:""}${a.texte.map(p=>`<p>${esc(p)}</p>`).join("")}
-    ${a.rappelEncadre?`<div style="background:#0f4a35;color:#f7f1e1;border-radius:12px;padding:14px 16px"><small style="color:#d9b45a;text-transform:uppercase;letter-spacing:.08em">Le rappel</small><p style="margin:6px 0;font-style:italic">${esc(a.rappelEncadre.texte)}</p><small>${esc(a.rappelEncadre.ref)}</small></div>`:""}
+    ${a.rappelEncadre?`<div style="background:#0f4a35;color:#f7f1e1;border-radius:12px;padding:14px 16px"><small style="color:#d9b45a;text-transform:uppercase;letter-spacing:.08em">Le rappel</small><p style="margin:6px 0;font-style:italic">${esc(a.rappelEncadre.texte)}</p><small>${esc([a.rappelEncadre.ref, a.rappelEncadre.degre].filter(Boolean).join(" · "))}</small>${a.rappelEncadre.sens?`<p style="margin:8px 0 0"><b style="color:#d9b45a">Ce qu'il nous enseigne :</b> ${esc(a.rappelEncadre.sens)}</p>`:""}</div>`:""}
     ${[...(enCours && enCours.videos && !$("#retirer-videos").checked ? enCours.videos.map(v => SITE + v) : []), ...[...$("#videos").files].map(f => URL.createObjectURL(f))]
       .map(u => `<video controls playsinline preload="metadata" src="${u}" style="width:100%;max-width:320px;border-radius:10px;background:#000"></video>`).join("")}`;
   ap.scrollIntoView({behavior:"smooth"});
