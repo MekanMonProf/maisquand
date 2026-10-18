@@ -109,6 +109,14 @@ button:disabled{opacity:.5;cursor:wait}
           <label>Sources<textarea id="sources" placeholder="Une source par ligne. Ex. : Communiqué du ministère de l'Éducation, 14 octobre 2026"></textarea><small>Règle n° 1 : nous citons toujours nos sources.</small></label>
         </div>
       </details>
+      <details id="det-rappel">
+        <summary style="cursor:pointer;font-family:var(--display);font-weight:600">Le rappel : hadith ou verset (facultatif)</summary>
+        <div style="display:grid;gap:16px;margin-top:14px">
+          <p class="aide" style="margin:0">S'affiche dans un encadré vert « Le rappel » à la fin de l'article, séparé des faits. Seulement quand le lien avec l'article est évident, et toujours avec la référence exacte.</p>
+          <label>Texte du hadith ou du verset<textarea id="rappel-texte" style="min-height:80px" placeholder="Ex. : « Allah vient en aide au serviteur tant que le serviteur vient en aide à son frère. »"></textarea></label>
+          <label>Référence<input id="rappel-ref" placeholder="Ex. : Hadith rapporté par Muslim (n° 2699)"></label>
+        </div>
+      </details>
       <div style="display:flex;gap:8px 12px;align-items:center;flex-wrap:wrap">
         <label style="display:flex;gap:8px;align-items:center;font-weight:400"><input type="checkbox" id="rappel-coche" style="width:auto"> Rappel du jour le</label>
         <input type="date" id="rappel-date" style="width:auto" aria-label="Date du rappel du jour">
@@ -264,6 +272,7 @@ function lireFormulaire(){
   if (saitPas.length) a.saitPas = saitPas;
   const credit = v("credit");
   if (src.length || credit) a.srcTxt = [...(credit ? [credit] : []), ...src];
+  if (v("rappel-texte")) a.rappelEncadre = { texte: v("rappel-texte"), ref: v("rappel-ref") };
   return a;
 }
 
@@ -293,6 +302,8 @@ function modeModification(a){
   $("#sait").value = (a.sait || []).join("\n"); $("#saitPas").value = (a.saitPas || []).join("\n");
   $("#sources").value = (a.srcTxt || []).join("\n");
   if (a.sait || a.saitPas || a.srcTxt) $("details").open = true;
+  $("#rappel-texte").value = a.rappelEncadre ? a.rappelEncadre.texte : ""; $("#rappel-ref").value = a.rappelEncadre ? (a.rappelEncadre.ref || "") : "";
+  $("#det-rappel").open = !!a.rappelEncadre;
   $("#titre-form").textContent = "Modifier l'article"; $("#publier").textContent = "Enregistrer les modifications";
   $("#rappel-coche").checked = !!a.rappelDu; $("#rappel-date").value = a.rappelDu || "";
   $("#une").checked = false; $("#libelle-une").innerHTML = "Remettre cet article à la une <small>(sinon, il garde sa place)</small>";
@@ -315,6 +326,7 @@ $("#voir").onclick = async () => {
   ap.hidden = false;
   ap.innerHTML = `<span class="cat">${esc(a.cat)} · aperçu</span><h3>${esc(a.titre||"(titre)")}</h3><p class="chapo">${esc(a.chapo||"(chapô)")}</p>
     ${photo?`<img src="${photo}" alt="">`:""}${a.texte.map(p=>`<p>${esc(p)}</p>`).join("")}
+    ${a.rappelEncadre?`<div style="background:#0f4a35;color:#f7f1e1;border-radius:12px;padding:14px 16px"><small style="color:#d9b45a;text-transform:uppercase;letter-spacing:.08em">Le rappel</small><p style="margin:6px 0;font-style:italic">${esc(a.rappelEncadre.texte)}</p><small>${esc(a.rappelEncadre.ref)}</small></div>`:""}
     ${[...(enCours && enCours.videos && !$("#retirer-videos").checked ? enCours.videos.map(v => SITE + v) : []), ...[...$("#videos").files].map(f => URL.createObjectURL(f))]
       .map(u => `<video controls playsinline preload="metadata" src="${u}" style="width:100%;max-width:320px;border-radius:10px;background:#000"></video>`).join("")}`;
   ap.scrollIntoView({behavior:"smooth"});
@@ -412,7 +424,7 @@ async function enregistrerModification(a){
   /* On part de l'article tel qu'il est en ligne, pour garder ce que le formulaire ne gère pas,
      puis on applique le formulaire. Un champ vidé dans le formulaire disparaît. */
   const m = $("#msg"), id = enCours.id, article = { ...enCours, ...a, id };
-  for (const k of ["sait", "saitPas", "srcTxt"]) if (!a[k]) delete article[k];
+  for (const k of ["sait", "saitPas", "srcTxt", "rappelEncadre"]) if (!a[k]) delete article[k];
   if (enCours.cat === a.cat && enCours.c) article.c = enCours.c;
   if (JSON.stringify(enCours.texte) === JSON.stringify(a.texte)) article.min = enCours.min;
   delete article.videos; delete article.maj;
