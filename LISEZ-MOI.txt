@@ -139,6 +139,10 @@ Pour publier :
   chacune (une vidéo envoyée par WhatsApp est déjà compressée et
   convient). Elles s'affichent sous le texte. En modification, les
   vidéos déjà en ligne sont gardées et les nouvelles s'ajoutent ;
+- « Le rappel : hadith ou verset » (facultatif) : texte et référence
+  exacte ; ils s'affichent dans un encadré vert « Le rappel » à la fin
+  de l'article, séparé des faits. À réserver aux articles où le lien
+  est évident (solidarité, deuil, éducation…) ;
 - « Aperçu » montre l'article avant publication ;
 - « Publier » le met en ligne une à deux minutes plus tard. La case
   « Mettre à la une » (cochée par défaut) le place en grand en haut de

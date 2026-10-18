@@ -307,6 +307,11 @@ nav .vfbtn{border-color:#c8372d}
 .conseils p{margin:0;line-height:1.5}
 footer{border-top:1px solid var(--line);padding-block:24px;color:var(--muted);font-size:.85rem}
 @media (prefers-reduced-motion:no-preference){.card .img,.une .img{transition:transform .3s}.card:hover .img,.une:hover .img{transform:scale(1.02)}}
+/* Encadré « Le rappel » (hadith ou verset en lien avec l'article), séparé du récit des faits */
+.encadre-rappel{display:grid;gap:8px;margin:8px 0;padding:18px 20px;border-radius:14px;background:#0f4a35;color:#f7f1e1;border:1px solid #0f4a35}
+.encadre-rappel .er-t{font-family:var(--mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:#d9b45a}
+.encadre-rappel blockquote{margin:0;font-size:1.08rem;line-height:1.55;font-style:italic}
+.encadre-rappel cite{font-style:normal;font-family:var(--mono);font-size:.78rem;color:#d8cfb4}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 </style>
 </head>
@@ -912,6 +917,7 @@ function renderArticle(a){
     ${a.videos?`<div class="vids">${a.videos.map((v,i)=>`<figure class="vid"><video controls playsinline preload="metadata" src="${v}"></video><figcaption>Vidéo ${a.videos.length>1?i+1+" ":""}· ${fmt(a.date)}</figcaption></figure>`).join("")}</div>`:""}
     ${a.conseils?`<ol class="conseils">${a.conseils.map(([t,d])=>`<li><strong>${esc(t)}</strong><p>${esc(d)}</p></li>`).join("")}</ol>`:""}${a.apres?`<div class="txt">${a.apres.map(p=>`<p>${typo(esc(p))}</p>`).join("")}</div>`:""}
     ${a.cta?`<a class="cta" href="${a.cta.u}" target="_blank" rel="noopener">${esc(a.cta.t)} →</a>`:""}
+    ${a.rappelEncadre?`<aside class="encadre-rappel" aria-label="Le rappel"><span class="er-t">Le rappel</span><blockquote>${typo(esc(a.rappelEncadre.texte))}</blockquote>${a.rappelEncadre.ref?`<cite>${esc(a.rappelEncadre.ref)}</cite>`:""}</aside>`:""}
     ${a.att&&attById(a.att)?(x=>`<a class="attcard" href="#att-${x.id}">${cdBox(x)}<div><span class="meta">Mais quand ? · date suivie</span><strong>${esc(x.q)}</strong>${fiabTag(x)}</div></a>`)(attById(a.att)):""}
     ${(a.src||a.srcTxt)?`<section class="blk"><h2>Sources</h2><ul class="srcs">${a.src?srcLinks(a.src):""}${(a.srcTxt||[]).map(t=>`<li>${esc(t)}</li>`).join("")}</ul></section>`:""}
     <p class="regle-lien">Comment nous travaillons : <a href="#regles">nos règles</a> · <a href="#corrections">corrections</a></p>
