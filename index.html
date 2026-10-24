@@ -912,11 +912,11 @@ function renderArticle(a){
   $("#app").innerHTML = `<article>
     <button class="back" type="button" id="back">← Retour aux actualités</button>
     <span class="cat">${a.cat}</span><h1>${esc(a.titre)}</h1><p class="chapo">${typo(esc(a.chapo))}</p>${meta(a,true)}
-    ${saitBox(a)}
     ${a.video?`<figure class="vid"><video controls playsinline preload="metadata" poster="${a.photo}" src="${a.video}"></video><figcaption>Vidéo · ${fmt(a.date)}</figcaption></figure>`:img(a)}<div class="txt">${a.texte.map(p=>`<p>${typo(esc(p))}</p>`).join("")}</div>
     ${a.videos?`<div class="vids">${a.videos.map((v,i)=>`<figure class="vid"><video controls playsinline preload="metadata" src="${v}"></video><figcaption>Vidéo ${a.videos.length>1?i+1+" ":""}· ${fmt(a.date)}</figcaption></figure>`).join("")}</div>`:""}
     ${a.conseils?`<ol class="conseils">${a.conseils.map(([t,d])=>`<li><strong>${esc(t)}</strong><p>${esc(d)}</p></li>`).join("")}</ol>`:""}${a.apres?`<div class="txt">${a.apres.map(p=>`<p>${typo(esc(p))}</p>`).join("")}</div>`:""}
     ${a.cta?`<a class="cta" href="${a.cta.u}" target="_blank" rel="noopener">${esc(a.cta.t)} →</a>`:""}
+    ${saitBox(a)}
     ${a.rappelEncadre?(r=>`<aside class="encadre-rappel" aria-label="Le rappel"><span class="er-t">Le rappel</span><blockquote>${typo(esc(r.texte))}</blockquote>${r.ref||r.degre?`<cite>${esc([r.ref,r.degre].filter(Boolean).join(" · "))}</cite>`:""}${r.sens?`<p class="er-sens"><b>Ce qu'il nous enseigne :</b> ${typo(esc(r.sens))}</p>`:""}</aside>`)(a.rappelEncadre):""}
     ${a.att&&attById(a.att)?(x=>`<a class="attcard" href="#att-${x.id}">${cdBox(x)}<div><span class="meta">Mais quand ? · date suivie</span><strong>${esc(x.q)}</strong>${fiabTag(x)}</div></a>`)(attById(a.att)):""}
     ${(a.src||a.srcTxt)?`<section class="blk"><h2>Sources</h2><ul class="srcs">${a.src?srcLinks(a.src):""}${(a.srcTxt||[]).map(t=>`<li>${esc(t)}</li>`).join("")}</ul></section>`:""}
