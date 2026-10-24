@@ -194,6 +194,17 @@ Pour les partenaires : page Partenaires de l'administration.
   l'e-mail affichés sur la page « Annoncer chez nous ».
 
 
+MESURE D'AUDIENCE (GoatCounter)
+-------------------------------
+Le site compte ses visites avec GoatCounter : sans cookie, sans suivi
+d'un site à l'autre, aucune donnée revendue. Chaque article, vérification
+et date est compté sous sa propre adresse (/a/…, /v/…, /d/…).
+L'administration n'est pas comptée.
+Tableau de bord : https://maisquand.goatcounter.com (compte créé une fois
+sur https://www.goatcounter.com avec le code « maisquand »).
+Astuce : dans Settings, « Ignore IPs », ajoutez votre propre adresse pour
+ne pas compter vos visites.
+
 À VÉRIFIER AVANT D'ANNONCER LE SITE
 -----------------------------------
 - Le rappel du jour est daté du vendredi 9 octobre : pensez à le mettre
