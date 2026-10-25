@@ -9,6 +9,8 @@
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="canonical" href="https://maisquand.com/">
+<!-- Mesure d'audience GoatCounter : sans cookie, sans suivi entre sites. Les pages sont comptées par route() ci-dessous. -->
+<script data-goatcounter="https://maisquand.goatcounter.com/count" data-goatcounter-settings='{"no_onload":true}' async src="https://gc.zgo.at/count.js"></script>
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Mais quand ?">
 <meta property="og:locale" content="fr_FR">
@@ -958,10 +960,18 @@ function renderArticle(a){
 /* Page demandée : l'ancre (#…) si elle existe, sinon l'adresse /a/…, /v/… ou /d/… */
 const cheminCle=(()=>{const m=location.pathname.match(/^\/(a|v|d)\/([a-z0-9-]+)\/?$/);return m?(m[1]==="d"?"#att-":"#")+m[2]:""})();
 const cleRoute=()=>location.hash.length>1?location.hash:cheminCle;
+/* Mesure d'audience : chaque page affichée est comptée sous sa vraie adresse (/a/…, /v/…, /d/…). */
+const cheminMesure=k=>!k||k==="#accueil"?"/":k.startsWith("#att-")?"/d/"+k.slice(5)+"/":k.startsWith("#vf-")?"/v/"+k.slice(1)+"/":ARTICLES.some(x=>"#"+x.id===k)?"/a/"+k.slice(1)+"/":"/"+k.slice(1);
+let dernierChemin="";
+function mesurer(chemin){
+  if(chemin===dernierChemin) return; dernierChemin=chemin;
+  const envoyer=()=>{ try{ if(window.goatcounter&&window.goatcounter.count) window.goatcounter.count({path:chemin,title:document.title}); }catch(e){} };
+  if(window.goatcounter&&window.goatcounter.count) envoyer(); else window.addEventListener("load",()=>setTimeout(envoyer,300),{once:true});
+}
 const TITRE_SITE="Mais quand ? · L'info qui ne vous fait pas attendre";
 function route(){
   renderCats();
-  const k=cleRoute(), titre=t=>{document.title=t?t+" · Mais quand ?":TITRE_SITE};
+  const k=cleRoute(), titre=t=>{document.title=t?t+" · Mais quand ?":TITRE_SITE; mesurer(cheminMesure(k));};
   if(k==="#dates"){ titre("Les dates à retenir"); return renderDates(); }
   if(k==="#regles"){ titre("Nos règles"); return renderRegles(); }
   if(k==="#apropos"){ titre("Qui sommes-nous ?"); return renderApropos(); }
