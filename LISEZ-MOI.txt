@@ -154,6 +154,15 @@ Pour publier :
   vert « Le rappel du jour », puis il revient dans la liste. Une seule
   date par article ; si un autre article était déjà prévu ce jour-là,
   il est libéré.
+- « Masquer l'article » : l'article est enregistré mais n'apparaît
+  nulle part sur le site (accueil, rubriques, recherche, plan du site),
+  par exemple en attendant un accord ou une photo. Dans « Tous les
+  articles », le bouton « Masquer » / « Afficher » fait la même chose
+  sans ouvrir le formulaire ; l'article garde sa place et son adresse.
+  Pour relire un article masqué : maisquand.com/?apercu#identifiant
+  (le lien du titre dans la liste y mène directement).
+  Attention : masqué ne veut pas dire secret. Le texte reste lisible
+  dans le code du site et sur GitHub ; n'y mettez rien de confidentiel.
 - « Tous les articles » liste tous les articles du site, dans l'ordre
   de l'accueil, avec une recherche. Le rappel du jour ne peut qu'être
   retiré. Les éléments que le formulaire n'affiche pas (liens de
