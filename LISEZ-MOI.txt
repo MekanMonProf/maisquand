@@ -214,6 +214,20 @@ sur https://www.goatcounter.com avec le code « maisquand »).
 Astuce : dans Settings, « Ignore IPs », ajoutez votre propre adresse pour
 ne pas compter vos visites.
 
+AVIS DES LECTEURS
+-----------------
+Pas de commentaires publics : rien ne s'affiche sur le site sans vous.
+- Sous chaque article et vérification : « Cet article vous a-t-il été
+  utile ? Oui / Non ». Chaque réponse est comptée dans GoatCounter, sans
+  cookie, sous le nom utile-oui/a/<article>/ ou utile-non/a/<article>/
+  (utile-oui/v/… pour une vérification). Le tableau de bord les classe
+  dans « Events » (Événements).
+- Juste en dessous : « Une erreur, une précision, une info à nous
+  transmettre ? Écrivez-nous par WhatsApp ou par e-mail », avec le titre
+  et le lien de l'article déjà écrits dans le message. Le numéro et
+  l'e-mail se règlent dans MQ Admin → Partenaires → « Contact de la
+  rédaction » ; tant qu'ils sont vides, cette phrase n'apparaît pas.
+
 À VÉRIFIER AVANT D'ANNONCER LE SITE
 -----------------------------------
 - Le rappel du jour est daté du vendredi 9 octobre : pensez à le mettre

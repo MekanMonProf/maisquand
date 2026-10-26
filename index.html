@@ -254,6 +254,13 @@ a.back{text-decoration:none}
 .sait .oui li::marker{content:"✓  ";color:#2f9e5b}
 .sait .non li::marker{content:"?  ";color:var(--sun);font-weight:700}
 .regle-lien{margin:0;font-size:.85rem;color:var(--muted)}
+.utile{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+.utile>span{font-family:var(--display);font-weight:600;font-size:.95rem;margin-right:auto}
+.utile button{font-family:var(--display);font-weight:600;font-size:.9rem;padding:6px 16px;border-radius:999px;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer}
+.utile button:hover{border-color:var(--accent);color:var(--accent)}
+.utile .merci{margin:0;color:var(--accent);font-family:var(--display);font-weight:600;font-size:.95rem}
+.signaler{margin:0;font-size:.9rem;color:var(--muted)}
+.signaler a{color:var(--accent);font-weight:600}
 .regle-lien a{color:var(--accent)}
 .regles7{margin:0;padding-left:22px;display:grid;gap:14px;line-height:1.55}
 .regles7 b{font-family:var(--display);font-weight:600}
@@ -857,6 +864,7 @@ function renderVFOne(v){
     <p class="pobs"><b>Le bon réflexe :</b> ${esc(v.reflexe)}</p>
     ${x?`<a class="attcard" href="#att-${x.id}">${cdBox(x)}<div><span class="meta">Mais quand ? · date suivie</span><strong>${esc(x.q)}</strong>${fiabTag(x)}</div></a>`:""}
     <section class="blk"><h2>Sources</h2><ul class="srcs">${v.src.map(s=>`<li>${s.u?`<a href="${esc(s.u)}" target="_blank" rel="noopener">${esc(s.n)}</a>`:esc(s.n)}</li>`).join("")}</ul></section>
+    ${retourLecteur({titre:VERDICTS[v.verdict]+" : "+v.claim,id:v.id},"Cette vérification vous a-t-elle été utile ?")}
     <p class="regle-lien">Comment nous travaillons : <a href="#regles">nos règles</a> · <a href="#corrections">corrections</a></p>
     ${shareBar({titre:VERDICTS[v.verdict]+" : "+v.claim,id:v.id})}
   </article>`;
@@ -874,6 +882,25 @@ function shareBar(a){
     <a class="fb" href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}" target="_blank" rel="noopener">Facebook</a>
     <button type="button" class="cp" data-url="${url}">Copier le lien</button></div>`;
 }
+/* Retour des lecteurs, sans commentaires publics (rien n'est publié sans la rédaction) :
+   - « Utile ? Oui / Non », compté de façon anonyme dans GoatCounter (utile-oui/a/… ou utile-non/a/…) ;
+   - « Signaler une erreur ou proposer une info », vers le WhatsApp ou l'e-mail de la rédaction
+     (CONTACT_PUB, réglé dans MQ Admin → Partenaires). Sans contact, ce lien ne s'affiche pas. */
+const dejaVote=c=>{try{return localStorage.getItem("mq-utile:"+c)}catch(e){return null}};
+function retourLecteur(a,quoi="Cet article vous a-t-il été utile ?"){
+  const chemin=lienArticle(a).replace("https://maisquand.com",""), url=lienArticle(a);
+  const c=CONTACT_PUB, wa=(c.whatsapp||"").replace(/[^0-9]/g,"");
+  const msg=`Bonjour Mais quand ?, à propos de « ${a.titre} » (${url}) : `;
+  const liens=[wa?`<a href="https://wa.me/${wa}?text=${encodeURIComponent(msg)}" target="_blank" rel="noopener">par WhatsApp</a>`:"",
+    c.email?`<a href="mailto:${esc(c.email)}?subject=${encodeURIComponent("À propos de : "+a.titre)}&body=${encodeURIComponent(msg)}">par e-mail</a>`:""].filter(Boolean);
+  return `<div class="utile" data-chemin="${esc(chemin)}">${dejaVote(chemin)?`<p class="merci">Merci pour votre avis !</p>`:`<span>${quoi}</span><button type="button" data-u="oui">Oui</button><button type="button" data-u="non">Non</button>`}</div>
+    ${liens.length?`<p class="signaler">Une erreur, une précision, une info à nous transmettre ? Écrivez-nous ${liens.join(" ou ")}.</p>`:""}`;
+}
+document.addEventListener("click",e=>{const b=e.target.closest(".utile button"); if(!b) return;
+  const box=b.closest(".utile"), chemin=box.dataset.chemin;
+  try{ if(window.goatcounter&&window.goatcounter.count) window.goatcounter.count({path:"utile-"+b.dataset.u+chemin,title:document.title,event:true}); }catch(_){}
+  try{localStorage.setItem("mq-utile:"+chemin,b.dataset.u)}catch(_){}
+  box.innerHTML=`<p class="merci">Merci pour votre avis !</p>`;});
 document.addEventListener("click",e=>{const b=e.target.closest(".cp"); if(!b) return;
   const done=()=>{b.textContent="Lien copié"; setTimeout(()=>b.textContent="Copier le lien",2000)};
   try{navigator.clipboard.writeText(b.dataset.url).then(done,()=>{prompt0(b)})}catch(_){prompt0(b)}});
@@ -963,6 +990,7 @@ function renderArticle(a){
     ${a.rappelEncadre?(r=>`<aside class="encadre-rappel" aria-label="Le rappel"><span class="er-t">Le rappel</span><blockquote>${typo(esc(r.texte))}</blockquote>${r.ref||r.degre?`<cite>${esc([r.ref,r.degre].filter(Boolean).join(" · "))}</cite>`:""}${r.sens?`<p class="er-sens"><b>Ce qu'il nous enseigne :</b> ${typo(esc(r.sens))}</p>`:""}</aside>`)(a.rappelEncadre):""}
     ${a.att&&attById(a.att)?(x=>`<a class="attcard" href="#att-${x.id}">${cdBox(x)}<div><span class="meta">Mais quand ? · date suivie</span><strong>${esc(x.q)}</strong>${fiabTag(x)}</div></a>`)(attById(a.att)):""}
     ${(a.src||a.srcTxt)?`<section class="blk"><h2>Sources</h2><ul class="srcs">${a.src?srcLinks(a.src):""}${(a.srcTxt||[]).map(t=>`<li>${esc(t)}</li>`).join("")}</ul></section>`:""}
+    ${a.masque?"":retourLecteur(a)}
     <p class="regle-lien">Comment nous travaillons : <a href="#regles">nos règles</a> · <a href="#corrections">corrections</a></p>
     ${shareBar(a)}
   </article>`;
