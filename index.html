@@ -316,6 +316,7 @@ footer{border-top:1px solid var(--line);padding-block:24px;color:var(--muted);fo
 .encadre-rappel cite{font-style:normal;font-family:var(--mono);font-size:.78rem;color:#d8cfb4}
 .encadre-rappel .er-sens{margin:4px 0 0;padding-top:10px;border-top:1px solid rgba(217,180,90,.35);font-size:.98rem;line-height:1.55}
 .encadre-rappel .er-sens b{color:#d9b45a;font-weight:600}
+.masque-note{margin:0 0 12px;padding:10px 14px;border-radius:10px;background:#fff4d6;color:#6b4a00;font-family:var(--display);font-size:.9rem;font-weight:600}
 .promesse{margin:0;font-size:.92rem;color:var(--muted)}.promesse a{color:var(--accent);font-weight:600;white-space:nowrap}
 /* Visuel de secours pour un article sans photo ni illustration : le « ? » du logo et la rubrique. */
 .img-fb{position:absolute;inset:0;display:grid;place-content:center;justify-items:center;gap:6px;color:#fff;background:linear-gradient(135deg,rgba(0,0,0,.05),rgba(0,0,0,.35))}
@@ -370,6 +371,10 @@ const ARTICLES = [
  {"id":"m-police","photo":"images/police.jpg","pos":"center 30%","srcTxt":["Photo d'illustration transmise à la rédaction"],"sait":["Le dépôt des dossiers a lieu en général fin juin.","Le calendrier indicatif place les commissaires fin août, les sous-officiers fin septembre et les agents mi-novembre."],"saitPas":["La date exacte du concours des agents en 2026.","La liste des centres d'examen."],"att":"police-agents","src":["police"],"cat":"Emploi","titre":"Concours de police : les agents attendus vers la mi-novembre","chapo":"Le calendrier indicatif place l'épreuve des agents vers la mi-novembre.","date":"2026-10-11","min":2,"c":["#1d2f5c","#5a78b8"],"texte":["Pour les concours de la police, le dépôt des dossiers a lieu en général fin juin. Les épreuves suivent : commissaires (Master 2) fin août, sous-officiers (Bac) fin septembre, agents (BFEM) mi-novembre.","Ce calendrier reste indicatif. Les candidats doivent vérifier leur convocation et les communiqués sur fonctionpublique.gouv.sn ou au Journal officiel."]},
  {"id":"a7","rappel":true,"cat":"Spiritualité","titre":"Le rappel du jour : les six droits du musulman sur son frère","chapo":"Un hadith, un verset et une invocation pour vivre la fraternité au quotidien.","date":"2026-10-13","hijri":"Début de Joumâda al-Oûlâ 1448 H","min":2,"c":["#0f4a35","#d8b45a"],"hadith":{"texte":"Les droits du musulman sur son frère musulman sont au nombre de six : lorsque tu le rencontres, salue-le ; lorsqu'il t'invite, réponds à son invitation ; lorsqu'il te demande conseil, conseille-le ; lorsqu'il éternue et loue Allah, invoque pour lui ; lorsqu'il tombe malade, rends-lui visite ; et lorsqu'il meurt, accompagne-le.","ar":"حَقُّ الْمُسْلِمِ عَلَى الْمُسْلِمِ سِتٌّ: إِذَا لَقِيتَهُ فَسَلِّمْ عَلَيْهِ، وَإِذَا دَعَاكَ فَأَجِبْهُ، وَإِذَا اسْتَنْصَحَكَ فَانْصَحْ لَهُ، وَإِذَا عَطَسَ فَحَمِدَ اللَّهَ فَشَمِّتْهُ، وَإِذَا مَرِضَ فَعُدْهُ، وَإِذَا مَاتَ فَاتَّبِعْهُ","source":"Sahih Muslim (2162)"},"rap":{"titre":"La fraternité se vit en actes.","texte":"Saluer, répondre à une invitation, donner un conseil sincère, invoquer pour celui qui éternue, visiter le malade, accompagner le défunt : six gestes simples qui tissent les liens entre les gens."},"verset":{"ar":"وَذَكِّرْ فَإِنَّ الذِّكْرَىٰ تَنفَعُ الْمُؤْمِنِينَ","fr":"Et rappelle ; car le rappel profite aux croyants.","ref":"Sourate Adh-Dhâriyât, 51:55"},"retenir":"Aujourd'hui, choisis l'un de ces six droits et accomplis-le : un salut, une visite, un conseil.","doua":{"ar":"اللَّهُمَّ أَلِّفْ بَيْنَ قُلُوبِنَا، وَأَصْلِحْ ذَاتَ بَيْنِنَا","fr":"Ô Allah, unis nos cœurs et répare ce qui est entre nous."},"texte":[]},
 ];
+/* Article masqué (en attente d'un accord, d'une photo…) : absent du site, des listes et de la recherche.
+   La rédaction peut le relire en ajoutant ?apercu à l'adresse : maisquand.com/?apercu#identifiant */
+const APERCU=/[?&]apercu\b/.test(location.search);
+if(!APERCU) for(let i=ARTICLES.length-1;i>=0;i--) if(ARTICLES[i].masque) ARTICLES.splice(i,1);
 /* Les rubriques du menu, dans l'ordre. Un article garde sa catégorie (Santé, Météo…),
    affichée sur sa carte ; RANGE dit dans quelle rubrique il se classe.
    Une catégorie absente de RANGE ne crée pas de rubrique : l'article n'apparaît que dans « Toutes ». */
@@ -948,6 +953,7 @@ function renderArticle(a){
   }
   $("#app").innerHTML = `<article>
     <button class="back" type="button" id="back">← Retour aux actualités</button>
+    ${a.masque?`<p class="masque-note">Article masqué : visible seulement en aperçu, pas encore sur le site.</p>`:""}
     <span class="cat">${a.cat}</span><h1>${esc(a.titre)}</h1><p class="chapo">${typo(esc(a.chapo))}</p>${meta(a,true)}
     ${a.video?`<figure class="vid"><video controls playsinline preload="metadata" poster="${a.photo}" src="${a.video}"></video><figcaption>Vidéo · ${fmt(a.date)}</figcaption></figure>`:img(a)}<div class="txt">${a.texte.map(p=>`<p>${typo(esc(p))}</p>`).join("")}</div>
     ${a.videos?`<div class="vids">${a.videos.map((v,i)=>`<figure class="vid"><video controls playsinline preload="metadata" src="${v}"></video><figcaption>Vidéo ${a.videos.length>1?i+1+" ":""}· ${fmt(a.date)}</figcaption></figure>`).join("")}</div>`:""}

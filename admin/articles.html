@@ -131,6 +131,7 @@ button:disabled{opacity:.5;cursor:wait}
         <small class="aide">Ce jour-là, l'article s'affiche dans le grand bandeau vert « Le rappel du jour », puis il revient dans la liste.</small>
       </div>
       <label style="display:flex;gap:8px;align-items:center;font-weight:400"><input type="checkbox" id="une" checked style="width:auto"> <span id="libelle-une">Mettre à la une <small>(décochée : l'article est publié juste en dessous, la une actuelle ne bouge pas)</small></span></label>
+      <label style="display:flex;gap:8px;align-items:center;font-weight:400"><input type="checkbox" id="masque" style="width:auto"> <span>Masquer l'article <small>(enregistré mais invisible sur le site : en attente d'un accord, d'une photo…)</small></span></label>
       <div id="options-modif" hidden style="display:grid;gap:8px">
         <label style="display:flex;gap:8px;align-items:center;font-weight:400"><input type="checkbox" id="garder-photo-non" style="width:auto"> Retirer la photo actuelle</label>
         <label style="display:flex;gap:8px;align-items:center;font-weight:400"><input type="checkbox" id="retirer-videos" style="width:auto"> Retirer les vidéos actuelles</label>
@@ -322,6 +323,7 @@ function modeModification(a){
   $("#det-rappel").open = !!a.rappelEncadre;
   $("#titre-form").textContent = "Modifier l'article"; $("#publier").textContent = "Enregistrer les modifications";
   $("#rappel-coche").checked = !!a.rappelDu; $("#rappel-date").value = a.rappelDu || "";
+  $("#masque").checked = !!a.masque;
   $("#une").checked = false; $("#libelle-une").innerHTML = "Remettre cet article à la une <small>(sinon, il garde sa place)</small>";
   $("#bandeau-modif").hidden = false; $("#options-modif").hidden = false;
   $("#garder-photo-non").parentElement.hidden = !a.photo;
@@ -349,7 +351,7 @@ $("#voir").onclick = async () => {
 };
 
 /* ===== Place dans la liste =====
-   La une est le premier article de ARTICLES qui n'est pas le rappel du jour. Les articles
+   La une est le premier article de ARTICLES qui n'est ni le rappel du jour ni masqué. Les articles
    commencent par une ligne « {…» et s'arrêtent avant le suivant ou avant « ]; ». */
 function blocsArticles(lignesIdx){
   const i0 = lignesIdx.findIndex(l => l.includes(MARQUE));
@@ -361,7 +363,7 @@ function blocsArticles(lignesIdx){
 function positionInsertion(lignesIdx, aLaUne){
   const { i0, blocs } = blocsArticles(lignesIdx);
   if (aLaUne) return i0 + 1;
-  const une = blocs.find(b => !/\brappel"?\s*:\s*true/.test(lignesIdx.slice(b.debut, b.fin).join("\n")));
+  const une = blocs.find(b => !/\b(rappel|masque)"?\s*:\s*true/.test(lignesIdx.slice(b.debut, b.fin).join("\n")));
   return une ? une.fin : i0 + 1;
 }
 
@@ -399,6 +401,7 @@ $("#form").onsubmit = async e => {
     const article = { id, ...a };
     const vids = videosChoisies(), rd = rappelChoisi();
     if (rd) article.rappelDu = rd;
+    if ($("#masque").checked) article.masque = true;
 
     const f = $("#photo").files[0];
     if (f) {
@@ -425,7 +428,8 @@ $("#form").onsubmit = async e => {
         ({ sha, texte } = await lireIndex());
       }
     }
-    message(m, "ok", `Publié ! L'article sera en ligne dans une à deux minutes, ${aLaUne ? "à la une" : "juste sous la une"}${rd ? `, et sera le rappel du jour le ${dateLisible(rd)}` : ""} :<br><a href="${SITE}#${id}" target="_blank" rel="noopener">${SITE}#${id}</a><br><small>Si la page ne change pas, rechargez-la avec Ctrl + F5.</small>`);
+    if (article.masque) message(m, "ok", `Enregistré, masqué : l'article n'apparaît pas sur le site. Pour le relire :<br><a href="${apercu(id)}" target="_blank" rel="noopener">${apercu(id)}</a><br><small>Pour le publier : bouton « Afficher » dans la liste ci-dessous.</small>`);
+    else message(m, "ok", `Publié ! L'article sera en ligne dans une à deux minutes, ${aLaUne ? "à la une" : "juste sous la une"}${rd ? `, et sera le rappel du jour le ${dateLisible(rd)}` : ""} :<br><a href="${SITE}#${id}" target="_blank" rel="noopener">${SITE}#${id}</a><br><small>Si la page ne change pas, rechargez-la avec Ctrl + F5.</small>`);
     modeNouveau();
     chargerListe();
   } catch (err) {
@@ -448,6 +452,7 @@ async function enregistrerModification(a){
   const gardees = enCours.videos && !$("#retirer-videos").checked ? enCours.videos : [];
   const vids = videosChoisies(gardees.length), rd = rappelChoisi();
   if (rd) article.rappelDu = rd; else delete article.rappelDu;
+  if ($("#masque").checked) article.masque = true; else delete article.masque;
   if ($("#signaler-maj").checked) article.maj = new Date().toLocaleDateString("sv-SE");
   else if (enCours.maj) article.maj = enCours.maj;
   const f = $("#photo").files[0];
@@ -472,7 +477,8 @@ async function enregistrerModification(a){
     try { await ecrireFichier("index.html", texteVersB64(lignesIdx.join("\n")), `Modifie l'article : ${a.titre}`, sha); break; }
     catch (err) { if (err.status !== 409 || essai >= 2) throw err; }
   }
-  message(m, "ok", `Modifications enregistrées ! Elles seront en ligne dans une à deux minutes :<br><a href="${SITE}#${id}" target="_blank" rel="noopener">${SITE}#${id}</a><br><small>Si la page ne change pas, rechargez-la avec Ctrl + F5.</small>`);
+  if (article.masque) message(m, "ok", `Modifications enregistrées. L'article reste masqué ; pour le relire :<br><a href="${apercu(id)}" target="_blank" rel="noopener">${apercu(id)}</a>`);
+  else message(m, "ok", `Modifications enregistrées ! Elles seront en ligne dans une à deux minutes :<br><a href="${SITE}#${id}" target="_blank" rel="noopener">${SITE}#${id}</a><br><small>Si la page ne change pas, rechargez-la avec Ctrl + F5.</small>`);
   const garde = m.innerHTML; modeNouveau(); m.innerHTML = garde;
   chargerListe();
 }
@@ -480,13 +486,15 @@ async function enregistrerModification(a){
 /* ===== Tous les articles ===== */
 const RE_LIGNE = /^ (\{"id":"([^"]+)".*\}),$/gm;
 let publications = {};
+/* Adresse de relecture d'un article masqué. */
+const apercu = id => `${SITE}?apercu#${id}`;
 async function chargerListe(){
   const ul = $("#liste");
   try {
     const { texte } = await lireIndex(), items = []; publications = {};
     for (const r of texte.matchAll(RE_LIGNE)) { try { const x = JSON.parse(r[1]); items.push(x); publications[x.id] = x; } catch (e) {} }
-    const une = items.find(x => !x.rappel);
-    ul.innerHTML = items.length ? items.map(x => `<li data-cherche="${esc((x.titre + " " + x.cat + " " + x.date).toLowerCase())}"><span><a href="${SITE}#${esc(x.id)}" target="_blank" rel="noopener">${esc(x.titre)}</a>${x === une ? `<span class="badge">À la une</span>` : ""}${x.rappel ? `<span class="badge">Rappel du jour</span>` : ""}${x.rappelDu ? `<span class="badge">Rappel du ${esc(dateLisible(x.rappelDu))}</span>` : ""}<br><span class="compte">${esc(x.date)} · ${esc(x.cat)}</span></span><span class="actions">${x.rappel ? "" : `<button type="button" class="second" data-modifier="${esc(x.id)}" style="padding:6px 14px;font-size:.85rem">Modifier</button>`}<button type="button" class="danger" data-id="${esc(x.id)}">Retirer</button></span></li>`).join("")
+    const une = items.find(x => !x.rappel && !x.masque);
+    ul.innerHTML = items.length ? items.map(x => `<li data-cherche="${esc((x.titre + " " + x.cat + " " + x.date).toLowerCase())}"><span><a href="${x.masque ? apercu(esc(x.id)) : SITE + "#" + esc(x.id)}" target="_blank" rel="noopener">${esc(x.titre)}</a>${x === une ? `<span class="badge">À la une</span>` : ""}${x.masque ? `<span class="badge" style="background:#fff4d6;color:#6b4a00">Masqué</span>` : ""}${x.rappel ? `<span class="badge">Rappel du jour</span>` : ""}${x.rappelDu ? `<span class="badge">Rappel du ${esc(dateLisible(x.rappelDu))}</span>` : ""}<br><span class="compte">${esc(x.date)} · ${esc(x.cat)}</span></span><span class="actions">${x.rappel ? "" : `<button type="button" class="second" data-modifier="${esc(x.id)}" style="padding:6px 14px;font-size:.85rem">Modifier</button>`}${x.rappel ? "" : `<button type="button" class="second" data-basculer="${esc(x.id)}" style="padding:6px 14px;font-size:.85rem">${x.masque ? "Afficher" : "Masquer"}</button>`}<button type="button" class="danger" data-id="${esc(x.id)}">Retirer</button></span></li>`).join("")
       : `<li class="aide">Aucun article.</li>`;
     filtrer();
   } catch (e) { ul.innerHTML = `<li class="aide">Liste indisponible : ${esc(e.message)}</li>`; }
@@ -499,6 +507,8 @@ $("#recherche").oninput = filtrer;
 $("#liste").onclick = async e => {
   const mb = e.target.closest("button[data-modifier]");
   if (mb) { const x = publications[mb.dataset.modifier]; if (x) modeModification(x); return; }
+  const bb = e.target.closest("button[data-basculer]");
+  if (bb) return basculer(bb);
   const b = e.target.closest("button[data-id]"); if (!b) return;
   const id = b.dataset.id;
   if (!confirm("Retirer cet article du site ?")) return;
@@ -512,6 +522,27 @@ $("#liste").onclick = async e => {
     chargerListe();
   } catch (err) { alert("Le retrait a échoué : " + err.message); b.disabled = false; }
 };
+
+/* Masquer / afficher : seule la mention « masque » change, l'article garde sa place et son adresse. */
+async function basculer(b){
+  const id = b.dataset.basculer, x = publications[id]; if (!x) return;
+  if (!confirm(x.masque ? "Afficher cet article sur le site ?" : "Masquer cet article ? Il restera enregistré et pourra être réaffiché.")) return;
+  b.disabled = true;
+  try {
+    for (let essai = 0; ; essai++) {
+      const { sha, texte } = await lireIndex();
+      const lignesIdx = texte.split("\n"), i = lignesIdx.findIndex(l => l.startsWith(` {"id":"${id}"`));
+      if (i < 0) throw new Error("article introuvable.");
+      const a = JSON.parse(lignesIdx[i].slice(1, -1));
+      if (x.masque) delete a.masque; else a.masque = true;
+      lignesIdx[i] = " " + JSON.stringify(a).replace(/</g, "\\u003c") + ",";
+      try { await ecrireFichier("index.html", texteVersB64(lignesIdx.join("\n")), `${x.masque ? "Affiche" : "Masque"} l'article : ${a.titre}`, sha); break; }
+      catch (err) { if (err.status !== 409 || essai >= 2) throw err; }
+    }
+    if (enCours && enCours.id === id) modeNouveau();
+    chargerListe();
+  } catch (err) { alert("L'opération a échoué : " + err.message); b.disabled = false; }
+}
 
 if (cle) connecter(cle);
 </script>

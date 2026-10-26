@@ -23,7 +23,8 @@ function liste(marque){
   const debut = modele.indexOf("[", i), fin = modele.indexOf("\n];", debut);
   return vm.runInNewContext("(" + modele.slice(debut, fin + 2) + ")");
 }
-const ARTICLES = liste("const ARTICLES = [");
+/* Un article masqué n'a ni page ni place dans le plan du site. */
+const ARTICLES = liste("const ARTICLES = [").filter(a => !a.masque);
 const VERIFS = liste("const VERIFS=[");
 const ATTENTES = liste("const ATTENTES=[");
 const VERDICTS = { faux: "Faux", vrai: "Vrai", trompeur: "Trompeur", nonverifie: "Non vérifié" };
