@@ -214,6 +214,18 @@ sur https://www.goatcounter.com avec le code « maisquand »).
 Astuce : dans Settings, « Ignore IPs », ajoutez votre propre adresse pour
 ne pas compter vos visites.
 
+ÉCOUTER LES ARTICLES
+--------------------
+- Sous le titre de chaque article et de chaque fiche Vrai ou faux, le
+  bouton « ▶ Écouter l'article » fait lire le texte par la voix française
+  du téléphone ou de l'ordinateur du lecteur (gratuit, aucun fichier).
+  Il n'apparaît pas si l'appareil n'a pas de voix française.
+- Pour un article lu par la rédaction (en français, en wolof…) : MQ Admin
+  → Articles → « Audio : votre lecture de l'article ». MP3, M4A, OGG,
+  15 Mo maximum ; choisissez la langue. Le lecteur audio remplace alors
+  la voix automatique. Les formats AMR et 3GP de certains téléphones ne
+  sont pas lus par les navigateurs : ils sont refusés.
+
 AVIS DES LECTEURS
 -----------------
 Pas de commentaires publics : rien ne s'affiche sur le site sans vous.
