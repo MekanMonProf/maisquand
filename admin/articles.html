@@ -101,6 +101,10 @@ button:disabled{opacity:.5;cursor:wait}
         <label>Crédit ou légende de la photo<input id="credit" placeholder="Ex. : Photo d'illustration"></label>
       </div>
       <label>Vidéos (facultatives)<input id="videos" type="file" accept="video/mp4,video/webm" multiple><small id="aide-videos">Jusqu'à 3 vidéos MP4, 25 Mo maximum chacune. Elles s'affichent sous le texte.</small></label>
+      <div class="deux">
+        <label>Audio : votre lecture de l'article (facultatif)<input id="audio" type="file" accept="audio/*"><small id="aide-audio">Enregistrement fait au téléphone (MP3, M4A, OGG, note vocale WhatsApp…), 15 Mo maximum. Il remplace la voix automatique du téléphone.</small></label>
+        <label>Langue de l'enregistrement<select id="audio-langue"><option>Français</option><option>Wolof</option><option>Pulaar</option><option>Sérère</option></select></label>
+      </div>
       <details>
         <summary style="cursor:pointer;font-family:var(--display);font-weight:600">Encadrés et sources (facultatif)</summary>
         <div style="display:grid;gap:16px;margin-top:14px">
@@ -135,6 +139,7 @@ button:disabled{opacity:.5;cursor:wait}
       <div id="options-modif" hidden style="display:grid;gap:8px">
         <label style="display:flex;gap:8px;align-items:center;font-weight:400"><input type="checkbox" id="garder-photo-non" style="width:auto"> Retirer la photo actuelle</label>
         <label style="display:flex;gap:8px;align-items:center;font-weight:400"><input type="checkbox" id="retirer-videos" style="width:auto"> Retirer les vidéos actuelles</label>
+        <label style="display:flex;gap:8px;align-items:center;font-weight:400"><input type="checkbox" id="retirer-audio" style="width:auto"> Retirer l'enregistrement audio actuel</label>
         <label style="display:flex;gap:8px;align-items:center;font-weight:400"><input type="checkbox" id="signaler-maj" checked style="width:auto"> Afficher « mis à jour le … » sous l'article <small>(décochez pour une simple faute de frappe)</small></label>
       </div>
       <div class="actions">
@@ -272,6 +277,25 @@ async function envoyerVideos(fichiers, id, titre, m){
   return chemins;
 }
 
+/* Enregistrement audio lu par la rédaction. Les formats AMR et 3GP de certains téléphones
+   ne sont pas lus par les navigateurs : on les refuse avec une explication. */
+const AUDIO_MO_MAX = 15;
+const EXT_AUDIO = { "audio/mpeg": "mp3", "audio/mp3": "mp3", "audio/mp4": "m4a", "audio/x-m4a": "m4a", "audio/aac": "aac",
+  "audio/ogg": "ogg", "audio/opus": "opus", "audio/webm": "webm", "audio/wav": "wav", "audio/x-wav": "wav" };
+function audioChoisi(){
+  const f = $("#audio").files[0]; if (!f) return null;
+  const ext = EXT_AUDIO[f.type] || (f.name.match(/\.(mp3|m4a|aac|ogg|opus|webm|wav)$/i) || [])[1];
+  if (!ext) throw new Error(`« ${f.name} » n'est pas un format audio lisible sur le site (AMR, 3GP…). Enregistrez plutôt en MP3 ou M4A (réglage de l'application d'enregistrement du téléphone).`);
+  if (f.size > AUDIO_MO_MAX * 1024 * 1024) throw new Error(`« ${f.name} » fait ${Math.round(f.size/1048576)} Mo : ${AUDIO_MO_MAX} Mo au maximum.`);
+  return { f, ext: ext.toLowerCase() };
+}
+async function envoyerAudio(choix, id, titre, m){
+  const chemin = `audios/${id}-${Date.now().toString(36)}.${choix.ext}`;
+  message(m, "info", `Envoi de l'enregistrement audio (${Math.max(1, Math.round(choix.f.size/1048576))} Mo)…`);
+  await ecrireFichier(chemin, octetsVersB64(new Uint8Array(await choix.f.arrayBuffer())), `Audio : ${titre}`);
+  return chemin;
+}
+
 function lireFormulaire(){
   const v = id => $("#"+id).value.trim();
   const texte = paragraphes($("#texte").value);
@@ -299,6 +323,7 @@ function modeNouveau(){
   $("#bandeau-modif").hidden = true; $("#options-modif").hidden = true;
   $("#aide-photo").textContent = "Réduite automatiquement avant l'envoi.";
   $("#aide-videos").textContent = "Jusqu'à 3 vidéos MP4, 25 Mo maximum chacune. Elles s'affichent sous le texte.";
+  $("#aide-audio").textContent = "Enregistrement fait au téléphone (MP3, M4A, OGG, note vocale WhatsApp…), 15 Mo maximum. Il remplace la voix automatique du téléphone.";
   $("#apercu").hidden = true; $("#compte").textContent = "";
 }
 /* Éléments d'anciens articles que le formulaire n'affiche pas : ils sont conservés tels quels. */
@@ -330,6 +355,9 @@ function modeModification(a){
   $("#aide-photo").textContent = a.photo ? "Laissez vide pour garder la photo actuelle." : "Réduite automatiquement avant l'envoi.";
   const nv = (a.videos || []).length;
   $("#retirer-videos").parentElement.hidden = !nv;
+  $("#retirer-audio").parentElement.hidden = !a.audio;
+  $("#audio-langue").value = a.audioLangue || "Français";
+  $("#aide-audio").textContent = a.audio ? "Un enregistrement est déjà en ligne : laissez vide pour le garder, ou choisissez un fichier pour le remplacer." : "Enregistrement fait au téléphone (MP3, M4A, OGG, note vocale WhatsApp…), 15 Mo maximum. Il remplace la voix automatique du téléphone.";
   $("#aide-videos").textContent = nv ? `${nv} vidéo${nv>1?"s":""} déjà en ligne, gardée${nv>1?"s":""}. Les nouvelles s'ajoutent à la suite (${VIDEOS_MAX} au total, 25 Mo maximum chacune).` : "Jusqu'à 3 vidéos MP4, 25 Mo maximum chacune. Elles s'affichent sous le texte.";
   $("#apercu").hidden = true; message($("#msg"), "", "");
   $("#form").scrollIntoView({behavior:"smooth"});
@@ -399,7 +427,7 @@ $("#form").onsubmit = async e => {
     let id = slug(a.titre), n = 2;
     while (texte.includes(`id:"${id}"`) || texte.includes(`"id":"${id}"`)) id = `${slug(a.titre)}-${n++}`;
     const article = { id, ...a };
-    const vids = videosChoisies(), rd = rappelChoisi();
+    const vids = videosChoisies(), rd = rappelChoisi(), aud = audioChoisi();
     if (rd) article.rappelDu = rd;
     if ($("#masque").checked) article.masque = true;
 
@@ -411,6 +439,7 @@ $("#form").onsubmit = async e => {
       article.photo = chemin;
     }
     if (vids.length) article.videos = await envoyerVideos(vids, id, a.titre, m);
+    if (aud) { article.audio = await envoyerAudio(aud, id, a.titre, m); article.audioLangue = $("#audio-langue").value; }
 
     message(m, "info", "Ajout de l'article…");
     /* Une ligne par article publié d'ici : facile à retrouver pour le retirer.
@@ -450,7 +479,8 @@ async function enregistrerModification(a){
   delete article.videos; delete article.maj;
   if ($("#garder-photo-non").checked) { delete article.photo; delete article.pos; }
   const gardees = enCours.videos && !$("#retirer-videos").checked ? enCours.videos : [];
-  const vids = videosChoisies(gardees.length), rd = rappelChoisi();
+  const vids = videosChoisies(gardees.length), rd = rappelChoisi(), aud = audioChoisi();
+  if ($("#retirer-audio").checked) { delete article.audio; delete article.audioLangue; }
   if (rd) article.rappelDu = rd; else delete article.rappelDu;
   if ($("#masque").checked) article.masque = true; else delete article.masque;
   if ($("#signaler-maj").checked) article.maj = new Date().toLocaleDateString("sv-SE");
@@ -465,6 +495,8 @@ async function enregistrerModification(a){
   }
   const nouvelles = vids.length ? await envoyerVideos(vids, id, a.titre, m) : [];
   if (gardees.length || nouvelles.length) article.videos = [...gardees, ...nouvelles];
+  if (aud) article.audio = await envoyerAudio(aud, id, a.titre, m);
+  if (article.audio) article.audioLangue = $("#audio-langue").value;
   message(m, "info", "Mise à jour de l'article…");
   const nouvelle = " " + JSON.stringify(article).replace(/</g, "\\u003c") + ",";
   for (let essai = 0; ; essai++) {

@@ -254,6 +254,14 @@ a.back{text-decoration:none}
 .sait .oui li::marker{content:"✓  ";color:#2f9e5b}
 .sait .non li::marker{content:"?  ";color:var(--sun);font-weight:700}
 .regle-lien{margin:0;font-size:.85rem;color:var(--muted)}
+.ecoute{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.ecoute[hidden]{display:none}
+.ecoute button{font-family:var(--display);font-weight:600;font-size:.9rem;padding:7px 16px;border-radius:999px;border:1px solid var(--accent);background:var(--surface);color:var(--accent);cursor:pointer}
+.ecoute button.on{background:var(--accent);color:#fff}
+.ecoute small{color:var(--muted);font-size:.8rem}
+.audio{margin:0;display:grid;gap:6px}
+.audio audio{width:100%}
+.audio figcaption{font-family:var(--mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
 .utile{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
 .utile>span{font-family:var(--display);font-weight:600;font-size:.95rem;margin-right:auto}
 .utile button{font-family:var(--display);font-weight:600;font-size:.9rem;padding:6px 16px;border-radius:999px;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer}
@@ -864,6 +872,7 @@ function renderVFOne(v){
     <h1>${esc(v.claim)}</h1>
     <div class="verdict ${v.verdict}"><span class="stamp ${v.verdict} big">${VERDICTS[v.verdict]}</span><p>${esc(v.conclusion)}</p></div>
     <span class="meta">Vérification publiée le ${fmt(v.d)}</span>
+    ${ecoute(v,[v.claim,VERDICTS[v.verdict]+".",v.conclusion,"Ce qui circule.",v.circule,"Ce que nous avons vérifié.",...v.preuves,v.reflexe?"Le bon réflexe : "+v.reflexe:""])}
     <section class="blk"><h2>Ce qui circule</h2><p class="pp">${esc(v.circule)}</p></section>
     <section class="blk"><h2>Ce que nous avons vérifié</h2><ul class="preuves">${v.preuves.map(t=>`<li>${esc(t)}</li>`).join("")}</ul></section>
     <p class="pobs"><b>Le bon réflexe :</b> ${esc(v.reflexe)}</p>
@@ -873,6 +882,7 @@ function renderVFOne(v){
     <p class="regle-lien">Comment nous travaillons : <a href="#regles">nos règles</a> · <a href="#corrections">corrections</a></p>
     ${shareBar({titre:VERDICTS[v.verdict]+" : "+v.claim,id:v.id})}
   </article>`;
+  preparerEcoute();
   window.scrollTo(0,0);
 }
 
@@ -887,6 +897,38 @@ function shareBar(a){
     <a class="fb" href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}" target="_blank" rel="noopener">Facebook</a>
     <button type="button" class="cp" data-url="${url}">Copier le lien</button></div>`;
 }
+/* Écoute : un enregistrement de la rédaction (a.audio) s'il existe, sinon la voix française
+   du téléphone ou de l'ordinateur (synthèse vocale du navigateur, gratuite, sans fichier).
+   Le bouton n'apparaît que si une voix française est disponible. */
+let lecture=[];
+const syntheseOk=()=>"speechSynthesis" in window&&"SpeechSynthesisUtterance" in window;
+const voixFr=()=>syntheseOk()?speechSynthesis.getVoices().find(v=>/^fr(-|_|$)/i.test(v.lang)):null;
+function ecoute(a,textes){
+  if(a.audio) return `<figure class="audio"><audio controls preload="none" src="${esc(a.audio)}"></audio><figcaption>Écouter l'article · lu par la rédaction${a.audioLangue?" · en "+esc(a.audioLangue.toLowerCase()):""}</figcaption></figure>`;
+  if(!syntheseOk()) return "";
+  lecture=textes.filter(Boolean);
+  return `<div class="ecoute" id="ecoute" hidden><button type="button" id="ecoute-go">▶ Écouter l'article</button><button type="button" id="ecoute-stop" hidden>■ Arrêter</button><small>Voix de votre appareil</small></div>`;
+}
+function arreterLecture(){ if(syntheseOk()) speechSynthesis.cancel(); }
+function preparerEcoute(){
+  const box=$("#ecoute"); if(!box) return;
+  const montrer=()=>{ if(voixFr()) box.hidden=false; };
+  montrer(); if(box.hidden) speechSynthesis.addEventListener("voiceschanged",montrer,{once:true});
+  const go=$("#ecoute-go"), stop=$("#ecoute-stop");
+  const etat=t=>{ go.textContent=t; go.classList.toggle("on",t.startsWith("⏸")); stop.hidden=t.startsWith("▶ Écouter"); };
+  go.onclick=()=>{
+    if(speechSynthesis.speaking&&!speechSynthesis.paused){ speechSynthesis.pause(); etat("▶ Reprendre"); return; }
+    if(speechSynthesis.paused){ speechSynthesis.resume(); etat("⏸ Pause"); return; }
+    speechSynthesis.cancel();
+    const v=voixFr();
+    /* Un paragraphe à la fois : un texte trop long coupe la voix sur certains téléphones. */
+    lecture.forEach((t,i)=>{ const u=new SpeechSynthesisUtterance(t); u.lang="fr-FR"; if(v) u.voice=v; u.rate=1;
+      if(i===lecture.length-1) u.onend=()=>etat("▶ Écouter l'article"); speechSynthesis.speak(u); });
+    etat("⏸ Pause");
+  };
+  stop.onclick=()=>{ speechSynthesis.cancel(); etat("▶ Écouter l'article"); };
+}
+
 /* Retour des lecteurs, sans commentaires publics (rien n'est publié sans la rédaction) :
    - « Utile ? Oui / Non », compté de façon anonyme dans GoatCounter (utile-oui/a/… ou utile-non/a/…) ;
    - « Signaler une erreur ou proposer une info », vers le WhatsApp ou l'e-mail de la rédaction
@@ -987,6 +1029,7 @@ function renderArticle(a){
     <button class="back" type="button" id="back">← Retour aux actualités</button>
     ${a.masque?`<p class="masque-note">Article masqué : visible seulement en aperçu, pas encore sur le site.</p>`:""}
     <span class="cat">${a.cat}</span><h1>${esc(a.titre)}</h1><p class="chapo">${typo(esc(a.chapo))}</p>${meta(a,true)}
+    ${ecoute(a,[a.titre,a.chapo,...a.texte,...(a.sait?["Ce que l'on sait.",...a.sait]:[]),...(a.saitPas?["Ce que l'on ne sait pas.",...a.saitPas]:[])])}
     ${a.video?`<figure class="vid"><video controls playsinline preload="metadata" poster="${a.photo}" src="${a.video}"></video><figcaption>Vidéo · ${fmt(a.date)}</figcaption></figure>`:img(a)}<div class="txt">${a.texte.map(p=>`<p>${typo(esc(p))}</p>`).join("")}</div>
     ${a.videos?`<div class="vids">${a.videos.map((v,i)=>`<figure class="vid"><video controls playsinline preload="metadata" src="${v}"></video><figcaption>Vidéo ${a.videos.length>1?i+1+" ":""}· ${fmt(a.date)}</figcaption></figure>`).join("")}</div>`:""}
     ${a.conseils?`<ol class="conseils">${a.conseils.map(([t,d])=>`<li><strong>${esc(t)}</strong><p>${esc(d)}</p></li>`).join("")}</ol>`:""}${a.apres?`<div class="txt">${a.apres.map(p=>`<p>${typo(esc(p))}</p>`).join("")}</div>`:""}
@@ -1000,6 +1043,7 @@ function renderArticle(a){
     ${shareBar(a)}
   </article>`;
   $("#back").onclick=()=>{location.hash="accueil"};
+  preparerEcoute();
   window.scrollTo(0,0);
 }
 
@@ -1016,6 +1060,7 @@ function mesurer(chemin){
 }
 const TITRE_SITE="Mais quand ? · L'info qui ne vous fait pas attendre";
 function route(){
+  arreterLecture();
   renderCats();
   const k=cleRoute(), titre=t=>{document.title=t?t+" · Mais quand ?":TITRE_SITE; mesurer(cheminMesure(k));};
   if(k==="#dates"){ titre("Les dates à retenir"); return renderDates(); }
