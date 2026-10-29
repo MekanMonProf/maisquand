@@ -90,7 +90,7 @@ for (const a of ARTICLES) {
   const description = court(a.chapo || texte[0] || a.titre);
   ecrire(`a/${a.id}/index.html`, page({
     url, titre: a.titre, description, img,
-    contenu: `<article><span class="cat">${esc(a.cat || "")}</span><h1>${esc(a.titre)}</h1>${a.chapo ? `<p class="chapo">${esc(a.chapo)}</p>` : ""}<p class="meta">${esc(dateFr(a.date))}</p>${img ? `<img src="${esc(img)}" alt="">` : ""}${texte.map(p => `<p>${esc(p)}</p>`).join("")}${a.rappelEncadre ? `<aside><strong>Le rappel</strong><blockquote>${esc(a.rappelEncadre.texte)}</blockquote><cite>${esc([a.rappelEncadre.ref, a.rappelEncadre.degre].filter(Boolean).join(" · "))}</cite>${a.rappelEncadre.sens ? `<p>${esc(a.rappelEncadre.sens)}</p>` : ""}</aside>` : ""}</article>`,
+    contenu: `<article><span class="cat">${esc(a.cat || "")}</span><h1>${esc(a.titre)}</h1>${a.chapo ? `<p class="chapo">${esc(a.chapo)}</p>` : ""}<p class="meta">${esc(dateFr(a.date))}</p>${img ? `<img src="${esc(img)}" alt="">` : ""}${texte.map(p => `<p>${esc(p).replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")}</p>`).join("")}${a.rappelEncadre ? `<aside><strong>Le rappel</strong><blockquote>${esc(a.rappelEncadre.texte)}</blockquote><cite>${esc([a.rappelEncadre.ref, a.rappelEncadre.degre].filter(Boolean).join(" · "))}</cite>${a.rappelEncadre.sens ? `<p>${esc(a.rappelEncadre.sens)}</p>` : ""}</aside>` : ""}</article>`,
     jsonld: { "@context": "https://schema.org", "@type": "NewsArticle", headline: court(a.titre, 110), description,
       datePublished: a.date, dateModified: a.maj || a.date, inLanguage: "fr", mainEntityOfPage: url,
       ...(img ? { image: [img] } : {}), articleSection: a.cat,
