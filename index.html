@@ -93,7 +93,8 @@ article .chapo{font-size:1.15rem;color:var(--muted);margin:0;-webkit-hyphens:aut
 article .img{aspect-ratio:16/9}
 article .txt p{margin:0 0 1em;-webkit-hyphens:auto;hyphens:auto}
 /* Texte justifié sur les écrans assez larges ; sur téléphone, les lignes sont trop courtes et il ferait des trous. */
-@media (min-width:600px){article .txt p,article .chapo{text-align:justify}}
+/* Texte justifié partout (aussi sur téléphone), avec césure pour éviter les grands blancs. */
+article .txt p,article .chapo,.sait li,.conseils p,.srcs li,.encadre-rappel blockquote,.encadre-rappel .er-sens,.verdict p,.pp,.preuves li,.pobs,.apropos p{text-align:justify;-webkit-hyphens:auto;hyphens:auto}
 .back{justify-self:start;border:none;background:none;color:var(--accent);cursor:pointer;font-family:var(--display);font-weight:600;padding:0}
 
 /* Rappel du jour : bandeau vert et or, même rendu en clair et en sombre */
