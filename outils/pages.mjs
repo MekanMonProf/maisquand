@@ -103,7 +103,7 @@ for (const a of ARTICLES) {
 for (const v of VERIFS) {
   const url = `${SITE}/v/${v.id}/`, verdict = VERDICTS[v.verdict] || v.verdict;
   ecrire(`v/${v.id}/index.html`, page({
-    url, titre: `${verdict} : ${v.claim}`, description: court(v.conclusion),
+    url, titre: `${verdict} : ${v.claim}`, description: court(v.conclusion), img: image(v.photo),
     contenu: `<article><span class="cat">Vrai ou faux ? · ${esc(v.cat)}</span><h1>${esc(v.claim)}</h1><p><strong>${esc(verdict)}.</strong> ${esc(v.conclusion)}</p><h2>Ce qui circule</h2><p>${esc(v.circule)}</p><h2>Ce que nous avons vérifié</h2><ul>${(v.preuves || []).map(p => `<li>${esc(p)}</li>`).join("")}</ul></article>`,
     jsonld: { "@context": "https://schema.org", "@type": "ClaimReview", url, datePublished: v.d, inLanguage: "fr",
       claimReviewed: v.claim, author: { "@type": "Organization", name: "Mais quand ?", url: `${SITE}/` },
