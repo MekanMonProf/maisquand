@@ -278,6 +278,9 @@ $("#form-contact").onsubmit = async e => {
   const m = $("#msg-contact"), bouton = $("#enregistrer-contact");
   const c = { whatsapp: $("#whatsapp").value.trim(), email: $("#email").value.trim() };
   if (c.whatsapp && c.whatsapp.replace(/[^0-9]/g, "").length < 9) return message(m, "err", "Ce numéro WhatsApp semble incomplet.");
+  /* Numéro sénégalais sans indicatif : on ajoute +221, sinon le lien WhatsApp mène au mauvais numéro. */
+  const chiffres = c.whatsapp.replace(/[^0-9]/g, "");
+  if (chiffres.length === 9 && /^[37]/.test(chiffres)) c.whatsapp = "+221 " + chiffres.replace(/^(\d{2})(\d{3})(\d{2})(\d{2})$/, "$1 $2 $3 $4");
   bouton.disabled = true; message(m, "info", "Enregistrement…");
   try {
     await modifierIndex(lignesIdx => {

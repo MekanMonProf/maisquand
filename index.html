@@ -822,7 +822,7 @@ const PARTENAIRES = [
  {"nom":"Ndougalma","url":"https://whatsapp.com/channel/0029Vb9VDnQ1NCrVwZspDe0X","lien":"Chaîne WhatsApp","logo":"images/partenaires/ndougalma.png","texte":"Fruits, légumes frais et produits du quotidien, à Dakar et Touba."},
 ];
 /* Coordonnées pour les annonceurs (modifiables depuis admin/partenaires.html). Laissées vides, la page le dit sans afficher de numéro. */
-const CONTACT_PUB = {"whatsapp":"761519494","email":"pub@maisquand.com"};
+const CONTACT_PUB = {"whatsapp":"+221 76 151 94 94","email":"pub@maisquand.com"};
 const hote = u => u.replace(/^https?:\/\/(www\.)?/,"").replace(/\/$/,"");
 const couleurOk = c => /^#[0-9a-f]{3,8}$/i.test(c||"");
 function partCard(p){
@@ -838,8 +838,11 @@ function partBand(){
     <div class="partgrid">${PARTENAIRES.map(partCard).join("")}</div>
   </aside>`;
 }
+/* Numéro WhatsApp au format international pour wa.me : un numéro sénégalais saisi sans
+   indicatif (9 chiffres commençant par 7 ou 3) reçoit le 221 ; « 00 » devant est retiré. */
+const numWa=n=>{let d=String(n||"").replace(/[^0-9]/g,"");if(d.startsWith("00"))d=d.slice(2);return d.length===9&&/^[37]/.test(d)?"221"+d:d};
 function renderAnnoncer(){
-  const c=CONTACT_PUB, wa=c.whatsapp.replace(/[^0-9]/g,"");
+  const c=CONTACT_PUB, wa=numWa(c.whatsapp);
   const contact = wa||c.email
     ? `<p>${wa?`WhatsApp : <a href="https://wa.me/${wa}">${esc(c.whatsapp)}</a>`:""}${wa&&c.email?" · ":""}${c.email?`E-mail : <a href="mailto:${esc(c.email)}">${esc(c.email)}</a>`:""}</p>`
     : `<p class="empty">Les coordonnées pour les annonceurs seront bientôt indiquées ici.</p>`;
@@ -948,7 +951,7 @@ function preparerEcoute(){
 const dejaVote=c=>{try{return localStorage.getItem("mq-utile:"+c)}catch(e){return null}};
 function retourLecteur(a,quoi="Cet article vous a-t-il été utile ?"){
   const chemin=lienArticle(a).replace("https://maisquand.com",""), url=lienArticle(a);
-  const c=CONTACT_PUB, wa=(c.whatsapp||"").replace(/[^0-9]/g,"");
+  const c=CONTACT_PUB, wa=numWa(c.whatsapp);
   const msg=`Bonjour Mais quand ?, à propos de « ${a.titre} » (${url}) : `;
   const liens=[wa?`<a href="https://wa.me/${wa}?text=${encodeURIComponent(msg)}" target="_blank" rel="noopener">par WhatsApp</a>`:"",
     c.email?`<a href="mailto:${esc(c.email)}?subject=${encodeURIComponent("À propos de : "+a.titre)}&body=${encodeURIComponent(msg)}">par e-mail</a>`:""].filter(Boolean);
