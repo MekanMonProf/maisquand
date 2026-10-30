@@ -110,6 +110,7 @@ button:disabled{opacity:.5;cursor:wait}
         <div style="display:grid;gap:16px;margin-top:14px">
           <label>Ce qu'on sait<textarea id="sait" placeholder="Un point par ligne."></textarea></label>
           <label>Ce qu'on ne sait pas encore<textarea id="saitPas" placeholder="Un point par ligne."></textarea></label>
+          <label>Chronologie (facultatif)<textarea id="chrono" placeholder="Une étape par ligne : JJ/MM/AAAA : ce qui s'est passé&#10;Ex. : 27/10/2026 : le texte est renvoyé en commission"></textarea><small>Pour les sujets qui durent : chaque nouvelle étape s'ajoute en bas. Les lignes sont classées par date.</small></label>
           <label>Sources<textarea id="sources" placeholder="Une source par ligne. Ex. : Communiqué du ministère de l'Éducation, 14 octobre 2026"></textarea><small>Règle n° 1 : nous citons toujours nos sources.</small></label>
         </div>
       </details>
@@ -296,6 +297,17 @@ async function envoyerAudio(choix, id, titre, m){
   return chemin;
 }
 
+/* Chronologie : « JJ/MM/AAAA : texte » (ou AAAA-MM-JJ) par ligne → [["AAAA-MM-JJ", "texte"], …], triée par date. */
+function lireChrono(t){
+  return lignes(t).map(l => {
+    const m = l.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})\s*[:–—-]\s*(.+)$/) || l.match(/^(\d{4})-(\d{2})-(\d{2})\s*[:–—-]\s*(.+)$/);
+    if (!m) throw new Error(`chronologie : « ${l} » doit commencer par une date au format JJ/MM/AAAA, suivie de « : ».`);
+    const iso = m[1].length === 4 ? `${m[1]}-${m[2]}-${m[3]}` : `${m[3]}-${m[2].padStart(2, "0")}-${m[1].padStart(2, "0")}`;
+    return [iso, m[4].trim()];
+  }).sort((x, y) => x[0].localeCompare(y[0]));
+}
+const ecrireChrono = c => (c || []).map(([d, t]) => `${d.slice(8)}/${d.slice(5, 7)}/${d.slice(0, 4)} : ${t}`).join("\n");
+
 function lireFormulaire(){
   const v = id => $("#"+id).value.trim();
   const texte = paragraphes($("#texte").value);
@@ -304,6 +316,8 @@ function lireFormulaire(){
   const sait = lignes($("#sait").value), saitPas = lignes($("#saitPas").value), src = lignes($("#sources").value);
   if (sait.length) a.sait = sait;
   if (saitPas.length) a.saitPas = saitPas;
+  const chrono = lireChrono($("#chrono").value);
+  if (chrono.length) a.chrono = chrono;
   const credit = v("credit");
   if (src.length || credit) a.srcTxt = [...(credit ? [credit] : []), ...src];
   if (v("rappel-texte")) {
@@ -339,8 +353,9 @@ function modeModification(a){
   $("#cat").value = a.cat; $("#date").value = a.date;
   $("#texte").value = (a.texte || []).join("\n\n"); $("#texte").oninput();
   $("#sait").value = (a.sait || []).join("\n"); $("#saitPas").value = (a.saitPas || []).join("\n");
+  $("#chrono").value = ecrireChrono(a.chrono);
   $("#sources").value = (a.srcTxt || []).join("\n");
-  if (a.sait || a.saitPas || a.srcTxt) $("details").open = true;
+  if (a.sait || a.saitPas || a.srcTxt || a.chrono) $("details").open = true;
   $("#rappel-texte").value = a.rappelEncadre ? a.rappelEncadre.texte : ""; $("#rappel-ref").value = a.rappelEncadre ? (a.rappelEncadre.ref || "") : "";
   const r = a.rappelEncadre || {};
   if (r.degre && ![...$("#rappel-degre").options].some(o => o.value === r.degre)) $("#rappel-degre").insertAdjacentHTML("beforeend", `<option>${esc(r.degre)}</option>`);
@@ -366,7 +381,8 @@ $("#annuler-modif").onclick = modeNouveau;
 $("#rappel-date").onchange = () => { if ($("#rappel-date").value) $("#rappel-coche").checked = true; };
 
 $("#voir").onclick = async () => {
-  const a = lireFormulaire(), f = $("#photo").files[0], ap = $("#apercu");
+  let a; try { a = lireFormulaire(); } catch (err) { return message($("#msg"), "err", esc(err.message)); }
+  const f = $("#photo").files[0], ap = $("#apercu");
   let photo = ""; if (f) photo = URL.createObjectURL(f);
   else if (enCours && enCours.photo && !$("#garder-photo-non").checked) photo = SITE + enCours.photo;
   ap.hidden = false;
@@ -415,7 +431,8 @@ const dateLisible = d => new Date(d + "T12:00:00").toLocaleDateString("fr-FR", {
 /* ===== Publication ===== */
 $("#form").onsubmit = async e => {
   e.preventDefault();
-  const m = $("#msg"), bouton = $("#publier"), a = lireFormulaire();
+  const m = $("#msg"), bouton = $("#publier");
+  let a; try { a = lireFormulaire(); } catch (err) { return message(m, "err", esc(err.message)); }
   if (!a.texte.length) return message(m, "err", "Le texte de l'article est vide.");
   bouton.disabled = true; message(m, "info", enCours ? "Enregistrement en cours…" : "Publication en cours…");
   if (enCours) { try { await enregistrerModification(a); } catch (err) { message(m, "err", `L'enregistrement a échoué : ${esc(err.message)}`); } finally { bouton.disabled = false; } return; }
@@ -473,7 +490,7 @@ async function enregistrerModification(a){
   /* On part de l'article tel qu'il est en ligne, pour garder ce que le formulaire ne gère pas,
      puis on applique le formulaire. Un champ vidé dans le formulaire disparaît. */
   const m = $("#msg"), id = enCours.id, article = { ...enCours, ...a, id };
-  for (const k of ["sait", "saitPas", "srcTxt", "rappelEncadre"]) if (!a[k]) delete article[k];
+  for (const k of ["sait", "saitPas", "srcTxt", "rappelEncadre", "chrono"]) if (!a[k]) delete article[k];
   if (enCours.cat === a.cat && enCours.c) article.c = enCours.c;
   if (JSON.stringify(enCours.texte) === JSON.stringify(a.texte)) article.min = enCours.min;
   delete article.videos; delete article.maj;
