@@ -363,7 +363,7 @@ footer{border-top:1px solid var(--line);padding-block:24px;color:var(--muted);fo
 
 <div class="wrap"><main id="app"></main></div>
 
-<footer><div class="wrap">© 2026 Mais quand ? · L'info qui ne vous fait pas attendre · maisquand.com · Rubrique MaisQuand par KemanHicks · Dernière mise à jour : <span id="maj-site">14 octobre 2026</span><nav class="foot" aria-label="Informations"><a href="#apropos">Qui sommes-nous ?</a><a href="#regles">Nos règles</a><a href="#corrections">Corrections</a><a href="#dates">Mais quand ?</a><a href="#vrai-faux">Vrai ou faux ?</a><a href="#annoncer">Annoncer chez nous</a></nav></div></footer>
+<footer><div class="wrap">© 2026 Mais quand ? · L'info qui ne vous fait pas attendre · maisquand.com · Rubrique MaisQuand par KemanHicks · Dernière mise à jour : <span id="maj-site">14 octobre 2026</span><nav class="foot" aria-label="Informations"><a href="#apropos">Qui sommes-nous ?</a><a href="#regles">Nos règles</a><a href="#corrections">Corrections</a><a href="#dates">Mais quand ?</a><a href="#vrai-faux">Vrai ou faux ?</a><a href="#annoncer">Annoncer chez nous</a><a href="#mentions">Mentions légales</a></nav></div></footer>
 
 <script>
 const ARTICLES = [
@@ -743,6 +743,32 @@ function saitBox(a){
 const CORRECTIONS=[
  {d:"2026-10-17", article:"fann-point-e-amitie-apres-les-pluies-le", txt:"Les agents venus aider au nettoyage du lycée appartiennent à l'UCG, et non à Promoville comme indiqué par erreur dans la première version."},
 ]; /* {d:"2026-10-12", article:"id", txt:"Ce qui a été corrigé"} */
+function renderMentions(){
+  const c=CONTACT_PUB, wa=numWa(c.whatsapp);
+  const contact=[c.email?`E-mail : <a href="mailto:${esc(c.email)}">${esc(c.email)}</a>`:"",wa?`WhatsApp : <a href="https://wa.me/${wa}">${esc(c.whatsapp)}</a>`:""].filter(Boolean).join(" · ");
+  $("#app").innerHTML=`<article>
+    <button class="back" type="button" id="back">← Retour aux actualités</button>
+    <span class="cat">Mais quand ?</span><h1>Mentions légales</h1>
+    <section class="blk"><h2>Éditeur</h2><p class="pp">Le site maisquand.com est édité par <b>M&amp;C Concept</b>, Dakar (Sénégal).</p></section>
+    <section class="blk"><h2>Directeur de la publication</h2><p class="pp">Keman Hicks.</p></section>
+    <section class="blk"><h2>Contact</h2><p class="pp">${contact||"Les coordonnées seront bientôt indiquées ici."}</p></section>
+    <section class="blk"><h2>Hébergement</h2><p class="pp">GitHub Pages, service de GitHub Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.</p></section>
+    <section class="blk"><h2>Mesure d'audience et données personnelles</h2><ul class="preuves">
+      <li>Le site ne demande aucune inscription et ne dépose aucun cookie publicitaire.</li>
+      <li>L'audience est mesurée avec GoatCounter, de façon anonyme et sans cookie : nous savons combien de fois une page est lue, pas qui la lit. Les réponses « Cet article vous a-t-il été utile ? » sont comptées de la même façon.</li>
+      <li>Les dates que vous suivez et vos réponses sont gardées uniquement sur votre appareil, dans votre navigateur.</li>
+      <li>Les messages que vous nous envoyez par WhatsApp ou par e-mail ne servent qu'à vous répondre et à vérifier l'information.</li>
+    </ul></section>
+    <section class="blk"><h2>Contenus et reproduction</h2><ul class="preuves">
+      <li>Les textes et visuels de Mais quand ? sont la propriété de l'éditeur, sauf mention contraire. Les tribunes sont publiées avec l'accord de leur auteur et n'engagent que lui ; les photos transmises par des tiers sont créditées.</li>
+      <li>Pour reprendre un contenu, merci de citer Mais quand ? et de mettre un lien vers l'article.</li>
+      <li>Les contenus de nos partenaires sont toujours signalés comme tels et ne relèvent pas de la rédaction.</li>
+    </ul></section>
+    <section class="blk"><h2>Corrections et droit de réponse</h2><p class="pp">Une erreur, une précision ou une demande de droit de réponse ? Écrivez-nous aux coordonnées ci-dessus. Les corrections sont publiées sur la page <a href="#corrections">Corrections</a>.</p></section>
+    <p class="regle-lien">Comment nous travaillons : <a href="#regles">nos règles</a> · <a href="#apropos">qui sommes-nous ?</a></p>
+  </article>`;
+  $("#back").onclick=()=>{location.hash="accueil"}; window.scrollTo(0,0);
+}
 function renderApropos(){
   $("#app").innerHTML=`<article>
     <button class="back" type="button" id="back">← Retour aux actualités</button>
@@ -1089,6 +1115,7 @@ function route(){
   if(k==="#dates"){ titre("Les dates à retenir"); return renderDates(); }
   if(k==="#regles"){ titre("Nos règles"); return renderRegles(); }
   if(k==="#apropos"){ titre("Qui sommes-nous ?"); return renderApropos(); }
+  if(k==="#mentions"){ titre("Mentions légales"); return renderMentions(); }
   if(k==="#annoncer"){ titre("Annoncer chez nous"); return renderAnnoncer(); }
   if(k==="#vrai-faux"){ titre("Vrai ou faux ?"); return renderVF(); }
   if(k.startsWith("#vf-")){ const v=vfById(k.slice(1)); if(v){ titre(VERDICTS[v.verdict]+" : "+v.claim); return renderVFOne(v); } }
