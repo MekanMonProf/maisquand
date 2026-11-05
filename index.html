@@ -770,6 +770,8 @@ function saitBox(a){
 const CORRECTIONS=[
  {d:"2026-10-17", article:"fann-point-e-amitie-apres-les-pluies-le", txt:"Les agents venus aider au nettoyage du lycée appartiennent à l'UCG, et non à Promoville comme indiqué par erreur dans la première version."},
 ]; /* {d:"2026-10-12", article:"id", txt:"Ce qui a été corrigé"} */
+/* Section « Hébergement » masquée à la demande de l'éditeur. Pour la remettre :
+   <section class="blk"><h2>Hébergement</h2><p class="pp">GitHub Pages, service de GitHub Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.</p></section> */
 function renderMentions(){
   const c=CONTACT_PUB, wa=numWa(c.whatsapp);
   const contact=[c.email?`E-mail : <a href="mailto:${esc(c.email)}">${esc(c.email)}</a>`:"",wa?`WhatsApp : <a href="https://wa.me/${wa}">${esc(c.whatsapp)}</a>`:""].filter(Boolean).join(" · ");
@@ -779,7 +781,6 @@ function renderMentions(){
     <section class="blk"><h2>Éditeur</h2><p class="pp">Le site maisquand.com est édité par <b>M&amp;C Concept</b>, Dakar (Sénégal).</p></section>
     <section class="blk"><h2>Directeur de la publication</h2><p class="pp">Keman Hicks.</p></section>
     <section class="blk"><h2>Contact</h2><p class="pp">${contact||"Les coordonnées seront bientôt indiquées ici."}</p></section>
-    <section class="blk"><h2>Hébergement</h2><p class="pp">GitHub Pages, service de GitHub Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.</p></section>
     <section class="blk"><h2>Mesure d'audience et données personnelles</h2><ul class="preuves">
       <li>Le site ne demande aucune inscription et ne dépose aucun cookie publicitaire.</li>
       <li>L'audience est mesurée avec GoatCounter, de façon anonyme et sans cookie : nous savons combien de fois une page est lue, pas qui la lit. Les réponses « Cet article vous a-t-il été utile ? » sont comptées de la même façon.</li>
