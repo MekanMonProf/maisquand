@@ -1078,7 +1078,9 @@ function renderHome(){
   const rap = list.find(a=>a.rappel && a.date===auj) || list.find(a=>a.rappelDu===auj);
   const others = list.filter(a=>a!==rap);
   const [first,...rest0]=others;
-  const rest=[...rest0].sort((x,y)=>y.date.localeCompare(x.date));
+  /* Un article mis à jour remonte dans la liste, à la date de sa dernière mise à jour. */
+  const recent=a=>(a.maj&&a.maj>a.date)?a.maj:a.date;
+  const rest=[...rest0].sort((x,y)=>recent(y).localeCompare(recent(x)));
   $("#app").innerHTML = `<h1 class="sr-only">Mais quand ? L'actualité du Sénégal et les dates à retenir</h1>
     ${cat==="Toutes"&&!q?`<p class="promesse">L'info utile et vérifiée du Sénégal : les dates qui comptent, les rumeurs démêlées, la vie de nos quartiers. <a href="#apropos">Qui sommes-nous ?</a></p>`:""}
     ${first?`<a class="une" href="#${first.id}">
@@ -1090,7 +1092,7 @@ function renderHome(){
     ${cat==="Toutes"&&!q?vfBand():""}
     ${cat==="Toutes"&&!q?partBand():""}
     ${rest.length?`<h3 class="sec">${cat==="Toutes"?"Dernières actualités":cat}</h3>
-    <div class="grid">${rest.map(a=>`<a class="card" href="#${a.id}">${img(a)}<span class="cat">${a.cat}</span><h4>${esc(a.titre)}</h4>${meta(a)}</a>`).join("")}</div>`:""}`;
+    <div class="grid">${rest.map(a=>`<a class="card" href="#${a.id}">${img(a)}<span class="cat">${a.cat}</span><h4>${esc(a.titre)}</h4>${meta(a, a.maj&&a.maj>a.date)}</a>`).join("")}</div>`:""}`;
 }
 
 function renderArticle(a){
