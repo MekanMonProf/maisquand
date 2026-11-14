@@ -56,6 +56,7 @@ header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var
 .logo em{font-style:normal;color:var(--sun);display:inline-block;transform:rotate(8deg) translateY(-1px);margin-left:1px}
 .logo .slogan{font-family:var(--mono);font-weight:500;font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-top:6px}
 .date{font-family:var(--mono);font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.date .hijri{display:block;margin-top:3px;text-transform:none;letter-spacing:.02em}
 .search{flex:1 1 220px;max-width:320px}
 .search input{width:100%;padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg)}
 nav{display:flex;gap:6px;overflow-x:auto;padding-bottom:12px;scrollbar-width:none}
@@ -546,7 +547,11 @@ const gras = t => t.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
 const typo = t => t.replace(/ ([!?;:»])/g, "\u00a0$1").replace(/« /g, "«\u00a0");
 const meta = (a, maj) => `<span class="meta">${fmt(a.date)} · ${a.min} min de lecture${maj&&a.maj?` · mis à jour le ${fmt(a.maj)}`:""}</span>`;
 
-$("#today").textContent = new Date().toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"});
+// Date du jour + date hégirienne (calendrier Umm al-Qura ; HIJRI_DECALAGE permet d'ajuster d'un jour selon l'annonce de la lune au Sénégal)
+const HIJRI_DECALAGE=0;
+const MOIS_HIJRI=["Mouharram","Safar","Rabî' al-Awwal","Rabî' ath-Thânî","Joumâda al-Oûlâ","Joumâda ath-Thâniya","Rajab","Cha'bâne","Ramadan","Chawwâl","Dhou al-Qi'da","Dhou al-Hijja"];
+const dateHijri=d=>{try{const x=new Date(d.getTime()+HIJRI_DECALAGE*864e5);const p={};new Intl.DateTimeFormat("fr-FR-u-ca-islamic-umalqura",{day:"numeric",month:"numeric",year:"numeric",timeZone:"Africa/Dakar"}).formatToParts(x).forEach(o=>p[o.type]=o.value);const j=+p.day,m=+p.month;if(!j||!m||!MOIS_HIJRI[m-1])return"";return (j===1?"1er":j)+" "+MOIS_HIJRI[m-1]+" "+p.year+" H"}catch(e){return""}};
+{const n=new Date(),h=dateHijri(n);$("#today").innerHTML=esc(n.toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long",timeZone:"Africa/Dakar"}))+(h?`<span class="hijri">${esc(h)}</span>`:"")}
 
 /* Calcul des heures de prière (méthode Ligue islamique mondiale : Fajr 18°, Icha 17°, Asr chaféite). */
 function prayerTimes(date, lat, lng, tz){
@@ -694,12 +699,13 @@ function dateRow(x,opts={}){return `<li><a class="rowlink" href="#att-${x.id}" a
 const srcLinks=keys=>keys.map(k=>typeof k==="string"?SRC[k]:k).filter(Boolean).map(s=>s.u?`<li><a href="${esc(s.u)}" target="_blank" rel="noopener">${esc(s.n)}</a></li>`:`<li>${esc(s.n)}</li>`).join("");
 const articlesDe=id=>ARTICLES.filter(a=>a.att===id);
 
-/* Encadré de la page d'accueil */
+/* Encadré de la page d'accueil : les 4 prochaines dates, plus toujours le prochain Ramadan (demande de l'utilisateur) */
+function prochainesAccueil(){const l=aVenir().slice(0,4);const r=aVenir().find(x=>x.id==="ramadan"||/ramadan/i.test(x.q));if(r&&!l.includes(r))l.push(r);return l}
 function datesPanel(){
   return `<section class="panel dates" aria-labelledby="mq-t">
     <div class="ph"><h3 id="mq-t">Mais quand <em>?</em></h3><a href="#dates" class="lnk">Toutes les dates →</a></div>
     <p class="sub">Les prochaines dates à retenir</p>
-    <ul>${aVenir().slice(0,4).map(x=>dateRow(x,{court:true})).join("")}</ul>
+    <ul>${prochainesAccueil().map(x=>dateRow(x,{court:true})).join("")}</ul>
   </section>`;
 }
 
